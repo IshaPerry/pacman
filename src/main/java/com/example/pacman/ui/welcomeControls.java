@@ -42,21 +42,11 @@ public class welcomeControls {
 
         //exitButton
         exit.setOnAction(e -> {
-            stage.close();
+            System.exit(0);
         });
 
         //imageView
        ImageView image = new ImageView("/Pac-Man-Ghosts.jpeg");
-        /*
-        InputStream stream = new FileInputStream("/Users/ishaperry/Library/CloudStorage/OneDrive-GeorgiaInstituteofTechnology/pacman_2340/Pac-Man-Ghosts.jpeg");
-        Image image = new Image(stream);
-        farmImageView.setImage(image);
-        farmImageView.setX(10);
-        farmImageView.setY(10);
-        farmImageView.setFitWidth(575);
-        farmImageView.setPreserveRatio(true);
-         */
-
 
     }
 
@@ -74,7 +64,7 @@ public class welcomeControls {
             this.stage.setScene(newScene);
             throw new IOException();
         } catch (IOException e) {
-            System.out.println("");
+            System.out.println("IO Error");
         }
     }
 }
