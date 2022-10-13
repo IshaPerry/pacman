@@ -39,24 +39,31 @@ public class configurationControls {
     @FXML
     private Button continueOn;
 
+    private int events = 0;
+
 
     @FXML
     private void hitSubmit(ActionEvent event) throws IOException {  //we need to change this bc u can't have 2 fxml files to once controller
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/goBack.fxml"));
-        Scene startGame = new Scene(fxmlLoader.load(), 300, 500);
-        Stage popUp = new Stage();
-        popUp.setScene(startGame);
         name = enterName.getText();
         level = levelSelector.getSelectionModel().getSelectedItem();
-        //userLabel.setText("");
-        if (isSetUpValid()){
-            userLabel2.setText(name + " is ready to play level " + level + " with character: X!" );
-           // Label.setTitle("You're good to go!");
-            setLevelParams(level);
-        } else {
-            userLabel2.setText(error);
-            //popUp.setTitle("Error");
-            //continueOn.setOnAction(); ///code to open game screen)
+        if (events == 0) {
+            if (isSetUpValid()) {
+                userLabel2.setText(name + " is ready to play level " + level + " with character: X!");
+                // Label.setTitle("You're good to go!");
+                setLevelParams(level);
+                submitButton.setText("Continue");
+                events += 1;
+            } else {
+                userLabel2.setText(error);
+                //popUp.setTitle("Error");
+                //continueOn.setOnAction(); ///code to open game screen)
+            }
+        }
+        else {
+            Stage stage = (Stage) submitButton.getScene().getWindow();
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mazeScreen.fxml"));
+            Scene scene = new Scene(fxmlLoader.load(), 600, 400);
+            stage.setScene(scene);
         }
         //popUp.show();
     }
