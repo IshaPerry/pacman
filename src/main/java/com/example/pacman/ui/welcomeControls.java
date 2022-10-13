@@ -37,7 +37,7 @@ public class welcomeControls {
         start.setOnAction(e -> {
             Stage stage = (Stage) start.getScene().getWindow();
             this.stage = stage;
-            changeScene(stage, "/InfoScreen.fxml");
+            changeScene(stage, "/configuration.fxml");
         });
 
         //exitButton
