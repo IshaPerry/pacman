@@ -18,7 +18,10 @@ import javafx.util.Duration;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-
+/**
+ * Class that creates the Welcome Screen Controller
+ * @authors Suemin Lee and Isha Perry
+ */
 
 public class welcomeControls {
     @FXML

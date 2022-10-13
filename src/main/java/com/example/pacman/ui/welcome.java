@@ -10,6 +10,11 @@ import javafx.fxml.FXMLLoader;
 
 import java.io.IOException;
 
+/**
+ * Class that creates the Welcome Screen
+ * @authors Isha Perry and Suemin Lee
+ */
+
 public class welcome extends Application {
     public Stage stage;
 

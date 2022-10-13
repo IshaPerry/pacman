@@ -16,6 +16,10 @@ import javafx.scene.layout.GridPane;
 import java.io.IOException;
 import javafx.scene.Parent;
 
+/**
+ * Class that displays and controls the game configurations
+ * @authors Isha Perry and Suemin Lee
+ */
 public class configurationControls {
 
     private String name;
