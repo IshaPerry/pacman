@@ -23,6 +23,7 @@ public class configurationControls {
     private int lives;
     private int ghostSpeed;
     private String error;
+    private String avatar;
 
     @FXML
     private TextField enterName;
@@ -30,14 +31,12 @@ public class configurationControls {
     @FXML
     private ChoiceBox<String> levelSelector;
 
-    @FXML
-    private Button submitButton;
 
     @FXML
     private Label userLabel2;
 
     @FXML
-    private Button continueOn;
+    private ChoiceBox<String> characterSelector;
 
 
     @FXML
@@ -48,10 +47,11 @@ public class configurationControls {
         popUp.setScene(startGame);
         name = enterName.getText();
         level = levelSelector.getSelectionModel().getSelectedItem();
+        avatar = characterSelector.getSelectionModel().getSelectedItem();
         //userLabel.setText("");
-        if (isSetUpValid()){
-            userLabel2.setText(name + " is ready to play level " + level + " with character: X!" );
-           // Label.setTitle("You're good to go!");
+        if (isSetUpValid()) {
+            userLabel2.setText(name + " is ready to play level " + level + " with " + avatar + " pacman!");
+            // Label.setTitle("You're good to go!");
             setLevelParams(level);
         } else {
             userLabel2.setText(error);
@@ -63,8 +63,7 @@ public class configurationControls {
 
     public void initialize() {
         levelSelector.getItems().addAll("Easy", "Medium", "Hard");
-
-
+        characterSelector.getItems().addAll("Yellow", "Blue", "Pink");
     }
 
     private boolean isSetUpValid() { //code to set up errors
@@ -74,9 +73,11 @@ public class configurationControls {
         } else if (level == null) {
             error = "Please select a level.";
             return false;
-        } //code for a choosing a character
-            return true;
-        }
+        } else if (avatar == null){
+            error = "Please select an avatar";
+            return false;
+    } return true;
+}
 
     private void setLevelParams(String level) {
         if (level.equals("Easy")) {
