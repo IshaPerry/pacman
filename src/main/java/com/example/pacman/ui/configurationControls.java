@@ -2,19 +2,13 @@ package com.example.pacman.ui;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.AnchorPane;
-import javafx.stage.Stage;
-import javafx.stage.Popup;
 import javafx.scene.control.Label;
-import javafx.scene.layout.GridPane;
+import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 
 import java.io.IOException;
-import javafx.scene.Parent;
 
 public class configurationControls {
 
@@ -61,9 +55,11 @@ public class configurationControls {
         }
         else {
             Stage stage = (Stage) submitButton.getScene().getWindow();
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mazeScreen.fxml"));
-            Scene scene = new Scene(fxmlLoader.load(), 600, 400);
-            stage.setScene(scene);
+            mazePane mp = new mazePane();
+            mp.start(stage);
+//            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mazeScreen.fxml"));
+//            Scene scene = new Scene(fxmlLoader.load(), 600, 400);
+//            stage.setScene(scene);
         }
         //popUp.show();
     }
@@ -97,7 +93,6 @@ public class configurationControls {
             ghostSpeed = 6;
         }
     }
-
 
 }
 
