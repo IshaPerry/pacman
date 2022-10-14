@@ -35,12 +35,12 @@
             </Text>
             <TextField fx:id="enterName" GridPane.columnIndex="1" />
             <ChoiceBox fx:id="levelSelector" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <ImageView fx:id="pacmanOne" fitHeight="62.0" fitWidth="36.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+            <ImageView fx:id="pacman" fitHeight="62.0" fitWidth="36.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="2" GridPane.valignment="CENTER">
                <image>
                   <Image url="@images/pmright.gif" />
                </image>
             </ImageView>
-            <Button mnemonicParsing="false" text="&gt;" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
+            <Button fx:id="charButton" mnemonicParsing="false" onAction="#characterChanger" text="&gt;" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
          </children>
       </GridPane>
       <Button fx:id="submitButton" layoutX="57.0" layoutY="360.0" mnemonicParsing="false" onAction="#hitSubmit" text="Submit" />
