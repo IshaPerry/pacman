@@ -11,16 +11,14 @@ import javafx.fxml.FXMLLoader;
 import java.io.IOException;
 
 public class welcome extends Application {
+    public Stage stage;
 
 
    // private static Stage primaryStage;
     @Override
     public void start(Stage primaryStage) throws IOException {
+        this.stage = primaryStage;
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/welcome.fxml"));
-       // Parent root = FXMLLoader.load(getClass().getResource("/Users/ishaperry/Library/CloudStorage/OneDrive-GeorgiaInstituteofTechnology/pacman_2340/src/main/java/com/example/pacman/ui/welcome.fxml"));
-        //FXMLLoader fxmlLoader = new FXMLLoader(welcome.class.getResource("welcome.fxml"));
-        //Scene scene = new Scene(fxmlLoader.load(), 1000, 1000);
-
         Scene scene = new Scene(fxmlLoader.load(), 600, 400);
         //Scene scene = new Scene(root, 1000, 1000);
         //primaryStage.setTitle("Pacman");
@@ -30,9 +28,7 @@ public class welcome extends Application {
         primaryStage.show();
     }
 
-   // public static Stage getPrimaryStage() {
-   //     return primaryStage;
-  //  }
+
 
     public static void main(String[] args){
         launch(args);
