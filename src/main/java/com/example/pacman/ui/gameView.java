@@ -41,26 +41,26 @@ public class gameView extends Group {
      * Initializes the values of the image instance variables
      */
     public gameView() {
-        this.pacmanRight = new Image("/resources/images/pmright.gif");
-        this.pacmanLeft = new Image("/resources/images/pmleft.gif");
-        this.pacmanUp = new Image("/resources/images/pmup.gif");
-        this.pacmanDown = new Image("/resources/images/pdown.gif");
-        this.yGhostRight = new Image("/resources/images/yright.gif");
-        this.yGhostLeft = new Image("/resources/images/yleft.gif");
-        this.yGhostUp = new Image("/resources/images/yup.gif");
-        this.yGhostDown = new Image("/resources/images/ydown.gif");
-        this.rGhostRight = new Image("/resources/images/rright.gif");
-        this.rGhostLeft = new Image("/resources/images/rleft.gif");
-        this.rGhostUp = new Image("/resources/images/rup.gif");
-        this.rGhostDown = new Image("/resources/images/rdown.gif");
-        this.pGhostRight = new Image("/resources/images/pright.gif");
-        this.pGhostLeft = new Image("/resources/images/pleft.gif");
-        this.pGhostUp = new Image("/resources/images/pup.gif");
-        this.pGhostDown = new Image("/resources/images/pdown.gif");
-        this.bGhostRight = new Image("/resources/images/bright.gif");
-        this.bGhostLeft = new Image("/resources/images/bleft.gif");
-        this.bGhostUp = new Image("/resources/images/bup.gif");
-        this.bGhostDown = new Image("/resources/images/bdown.gif");
+        this.pacmanRight = new Image(".../.../resources/images/pmright.gif");
+        this.pacmanLeft = new Image(".../.../resources/images/pmleft.gif");
+        this.pacmanUp = new Image(".../.../resources/images/pmup.gif");
+        this.pacmanDown = new Image(".../.../resources/images/pdown.gif");
+        this.yGhostRight = new Image(".../.../resources/images/yright.gif");
+        this.yGhostLeft = new Image(".../.../resources/images/yleft.gif");
+        this.yGhostUp = new Image(".../.../resources/images/yup.gif");
+        this.yGhostDown = new Image(".../.../resources/images/ydown.gif");
+        this.rGhostRight = new Image(".../.../resources/images/rright.gif");
+        this.rGhostLeft = new Image(".../.../resources/images/rleft.gif");
+        this.rGhostUp = new Image(".../.../resources/images/rup.gif");
+        this.rGhostDown = new Image(".../.../resources/images/rdown.gif");
+        this.pGhostRight = new Image(".../.../resources/images/pright.gif");
+        this.pGhostLeft = new Image(".../.../resources/images/pleft.gif");
+        this.pGhostUp = new Image(".../.../resources/images/pup.gif");
+        this.pGhostDown = new Image(".../.../resources/images/pdown.gif");
+        this.bGhostRight = new Image(".../.../resources/images/bright.gif");
+        this.bGhostLeft = new Image(".../.../resources/images/bleft.gif");
+        this.bGhostUp = new Image(".../.../resources/images/bup.gif");
+        this.bGhostDown = new Image(".../.../resources/images/bdown.gif");
         //this.bigPellet = new Image();
         //this.smallPellet = new Image();
         //this.cherry = new Image();
