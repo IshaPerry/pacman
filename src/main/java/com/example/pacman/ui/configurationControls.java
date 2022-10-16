@@ -2,24 +2,17 @@ package com.example.pacman.ui;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.AnchorPane;
-import javafx.stage.Stage;
-import javafx.stage.Popup;
 import javafx.scene.control.Label;
-import javafx.scene.layout.GridPane;
+import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.stage.Stage;
 
 import java.io.IOException;
-import javafx.scene.Parent;
+import java.util.Objects;
 
-/**
- * Class that displays and controls the game configurations
- * @authors Isha Perry and Suemin Lee
- */
 public class configurationControls {
 
     private String name;
@@ -27,7 +20,7 @@ public class configurationControls {
     private int lives;
     private int ghostSpeed;
     private String error;
-    private String avatar;
+    private String pacmanColor = "yellow";
 
     @FXML
     private TextField enterName;
@@ -35,39 +28,71 @@ public class configurationControls {
     @FXML
     private ChoiceBox<String> levelSelector;
 
+    @FXML
+    private Button submitButton;
 
     @FXML
     private Label userLabel2;
 
     @FXML
-    private ChoiceBox<String> characterSelector;
+    private Button continueOn;
 
+    private int events = 0;
+
+    @FXML
+    private ImageView pacman;
+
+    @FXML
+    public Image yellowPacman = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/pmright.gif")));
+    @FXML
+    public Image bluePacman = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/pmbr.gif")));
+    @FXML
+    public Image purplePacman = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/pmpr.gif")));
+
+    @FXML
+    private void characterChanger() {
+        if (pacman.getImage().equals(yellowPacman)) {
+            pacman.setImage(purplePacman);
+            pacmanColor = "purple";
+        } else if (pacman.getImage().equals(purplePacman)) {
+            pacman.setImage(bluePacman);
+            pacmanColor = "blue";
+        } else {
+            pacman.setImage(yellowPacman);
+            pacmanColor = "yellow";
+        }
+    }
 
     @FXML
     private void hitSubmit(ActionEvent event) throws IOException {  //we need to change this bc u can't have 2 fxml files to once controller
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/goBack.fxml"));
-        Scene startGame = new Scene(fxmlLoader.load(), 300, 500);
-        Stage popUp = new Stage();
-        popUp.setScene(startGame);
         name = enterName.getText();
         level = levelSelector.getSelectionModel().getSelectedItem();
-        avatar = characterSelector.getSelectionModel().getSelectedItem();
-        //userLabel.setText("");
-        if (isSetUpValid()) {
-            userLabel2.setText(name + " is ready to play level " + level + " with " + avatar + " pacman!");
-            // Label.setTitle("You're good to go!");
-            setLevelParams(level);
-        } else {
-            userLabel2.setText(error);
-            //popUp.setTitle("Error");
-            //continueOn.setOnAction(); ///code to open game screen)
+        if (events == 0) {
+            if (isSetUpValid()) {
+                userLabel2.setText(name + " is ready to play level " + level + " with character: " + pacmanColor + "!");
+                // Label.setTitle("You're good to go!");
+                setLevelParams(level);
+                submitButton.setText("Continue");
+                events += 1;
+            } else {
+                userLabel2.setText(error);
+                //popUp.setTitle("Error");
+                //continueOn.setOnAction(); ///code to open game screen)
+            }
+        }
+        else {
+            Stage stage = (Stage) submitButton.getScene().getWindow();
+            mazePane mp = new mazePane();
+            mp.start(stage);
+//            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mazeScreen.fxml"));
+//            Scene scene = new Scene(fxmlLoader.load(), 600, 400);
+//            stage.setScene(scene);
         }
         //popUp.show();
     }
 
     public void initialize() {
         levelSelector.getItems().addAll("Easy", "Medium", "Hard");
-        characterSelector.getItems().addAll("Yellow", "Blue", "Pink");
     }
 
     private boolean isSetUpValid() { //code to set up errors
@@ -77,11 +102,9 @@ public class configurationControls {
         } else if (level == null) {
             error = "Please select a level.";
             return false;
-        } else if (avatar == null){
-            error = "Please select an avatar";
-            return false;
-    } return true;
-}
+        } //code for a choosing a character
+            return true;
+        }
 
     private void setLevelParams(String level) {
         if (level.equals("Easy")) {
@@ -95,8 +118,6 @@ public class configurationControls {
             ghostSpeed = 6;
         }
     }
-
-
 }
 
 

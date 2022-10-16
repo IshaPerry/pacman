@@ -1,5 +1,4 @@
 package com.example.pacman.ui;
 
-public class mazeScreen {
-
+public class gameController {
 }
