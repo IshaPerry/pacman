@@ -6,9 +6,12 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.Objects;
 
 public class configurationControls {
 
@@ -17,6 +20,7 @@ public class configurationControls {
     private int lives;
     private int ghostSpeed;
     private String error;
+    private String pacmanColor = "yellow";
 
     @FXML
     private TextField enterName;
@@ -35,6 +39,29 @@ public class configurationControls {
 
     private int events = 0;
 
+    @FXML
+    private ImageView pacman;
+
+    @FXML
+    public Image yellowPacman = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/pmright.gif")));
+    @FXML
+    public Image bluePacman = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/pmbr.gif")));
+    @FXML
+    public Image purplePacman = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/pmpr.gif")));
+
+    @FXML
+    private void characterChanger() {
+        if (pacman.getImage().equals(yellowPacman)) {
+            pacman.setImage(purplePacman);
+            pacmanColor = "purple";
+        } else if (pacman.getImage().equals(purplePacman)) {
+            pacman.setImage(bluePacman);
+            pacmanColor = "blue";
+        } else {
+            pacman.setImage(yellowPacman);
+            pacmanColor = "yellow";
+        }
+    }
 
     @FXML
     private void hitSubmit(ActionEvent event) throws IOException {  //we need to change this bc u can't have 2 fxml files to once controller
@@ -42,7 +69,7 @@ public class configurationControls {
         level = levelSelector.getSelectionModel().getSelectedItem();
         if (events == 0) {
             if (isSetUpValid()) {
-                userLabel2.setText(name + " is ready to play level " + level + " with character: X!");
+                userLabel2.setText(name + " is ready to play level " + level + " with character: " + pacmanColor + "!");
                 // Label.setTitle("You're good to go!");
                 setLevelParams(level);
                 submitButton.setText("Continue");
@@ -66,8 +93,6 @@ public class configurationControls {
 
     public void initialize() {
         levelSelector.getItems().addAll("Easy", "Medium", "Hard");
-
-
     }
 
     private boolean isSetUpValid() { //code to set up errors
@@ -93,7 +118,6 @@ public class configurationControls {
             ghostSpeed = 6;
         }
     }
-
 }
 
 

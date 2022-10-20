@@ -62,9 +62,9 @@ public class welcomeControls {
             ft.play();
             Scene newScene = new Scene(page);
             this.stage.setScene(newScene);
-            throw new IOException();
         } catch (IOException e) {
-            System.out.println("IO Error");
+//            System.out.println("IO Error");
+            System.out.println(e.toString());
         }
     }
 }
