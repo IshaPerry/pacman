@@ -16,6 +16,11 @@ import java.util.Objects;
 public class configurationControls {
 
     private String name;
+
+    public static String getLevel() {
+        return level;
+    }
+
     private static String level;
     private int lives;
     private int ghostSpeed;

@@ -1,13 +1,13 @@
 package com.example.pacman.ui;
 
-public class easyMaze {
-    private char[][] mazeArray;
+public class hardMaze {
+    private char[][] hardMazeArray;
 
     /**
      * Constructs a new easyMaze object
      */
-    public easyMaze() {
-        mazeArray = new char[][]{
+    public hardMaze() {
+        hardMazeArray = new char[][]{
                 {'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W'},
                 {'W', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'W', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'W', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'W'},
                 {'W', 'S', 'P', 'S', 'P', 'S', 'P', 'S', 'P', 'S', 'P', 'S', 'P', 'S', 'P', 'S', 'W', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'W', 'S', 'P', 'S', 'P', 'S', 'P', 'S', 'P', 'S', 'P', 'S', 'P', 'S', 'P', 'S', 'W'},
@@ -24,7 +24,7 @@ public class easyMaze {
         };
     }
 
-    public char[][] getMazeArray() {
-        return this.mazeArray;
+    public char[][] getHardMazeArray() {
+        return this.hardMazeArray;
     }
 }
