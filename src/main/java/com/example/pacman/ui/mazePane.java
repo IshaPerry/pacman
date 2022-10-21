@@ -36,8 +36,16 @@ public class mazePane extends Application {
         GridPane pane = new GridPane();
 
         // Get maze array
-        easyMaze maze = new easyMaze();
-        char[][] arr = maze.getMazeArray();
+        char[][] arr;
+        maze m = new maze();
+        String lev = configurationControls.getLevel();
+        if (lev.equals("Easy")) {
+            arr = m.getEasyArray();
+        } else if (lev.equals("Medium")) {
+            arr = m.getMedArray();
+        } else {
+            arr = m.getHardArray();
+        }
 
         double s = 25; // height & width of each square
         for (int i = 0; i < arr.length; i++) {
