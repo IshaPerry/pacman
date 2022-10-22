@@ -52,9 +52,8 @@ public class mazePane extends Application {
         this.bGhostDown = new Image(".../.../resources/images/bdown.gif");
     }
 
-    private void
 
-    @Override // Override the start method in the application class
+
     public void start(Stage primaryStage) {
         score.setText("Score: " + s);
         lives.setText("Lives: " + l);
