@@ -1,11 +1,15 @@
 package com.example.pacman.ui;
 
 import javafx.application.Application;
+import javafx.geometry.HPos;
+import javafx.geometry.VPos;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
@@ -24,37 +28,47 @@ public class mazePane extends Application {
     private Text lives = new Text();
     private Text round = new Text();
     private ImageView[][] cellViews;
-    private Image pacmanRight, pacmanLeft, pacmanUp, pacmanDown;
-    private Image yGhostRight, yGhostLeft, yGhostUp, yGhostDown;
-    private Image rGhostRight, rGhostLeft, rGhostUp, rGhostDown;
-    private Image pGhostRight, pGhostLeft, pGhostUp, pGhostDown;
-    private Image bGhostRight, bGhostLeft, bGhostUp, bGhostDown;
+    private ImageView yPacmanRight, yPacmanLeft, yPacmanUp, yPacmanDown;
+    private ImageView bPacmanRight, bPacmanLeft, bPacmanUp, bPacmanDown;
+    private ImageView pPacmanRight, pPacmanLeft, pPacmanUp, pPacmanDown;
+    private ImageView yGhostRight, yGhostLeft, yGhostUp, yGhostDown;
+    private ImageView rGhostRight, rGhostLeft, rGhostUp, rGhostDown;
+    private ImageView pGhostRight, pGhostLeft, pGhostUp, pGhostDown;
+    private ImageView bGhostRight, bGhostLeft, bGhostUp, bGhostDown;
     //private Image cherry;
 
     public mazePane() {
-        this.pacmanRight = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/pmright.gif")));
-        this.pacmanLeft = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/pmleft.gif")));
-        this.pacmanUp = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/pmup.gif")));
-        this.pacmanDown = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/pmdown.gif")));
-//        this.pacmanLeft = new Image("../../resources/images/pmleft.gif");
-//        this.pacmanUp = new Image("../../resources/images/pmup.gif");
-//        this.pacmanDown = new Image("../../resources/images/pdown.gif");
-//        this.yGhostRight = new Image("../../resources/images/yright.gif");
-//        this.yGhostLeft = new Image("../../resources/images/yleft.gif");
-//        this.yGhostUp = new Image("../../resources/images/yup.gif");
-//        this.yGhostDown = new Image("../../resources/images/ydown.gif");
-//        this.rGhostRight = new Image("../../resources/images/rright.gif");
-//        this.rGhostLeft = new Image("../../resources/images/rleft.gif");
-//        this.rGhostUp = new Image("../../resources/images/rup.gif");
-//        this.rGhostDown = new Image("../../resources/images/rdown.gif");
-//        this.pGhostRight = new Image("../../resources/images/pright.gif");
-//        this.pGhostLeft = new Image("../../resources/images/pleft.gif");
-//        this.pGhostUp = new Image("../../resources/images/pup.gif");
-//        this.pGhostDown = new Image("../../resources/images/pdown.gif");
-//        this.bGhostRight = new Image("../../resources/images/bright.gif");
-//        this.bGhostLeft = new Image("../../resources/images/bleft.gif");
-//        this.bGhostUp = new Image("../../resources/images/bup.gif");
-//        this.bGhostDown = new Image("../../resources/images/bdown.gif");
+        this.yPacmanRight = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/pmright.gif"))));
+        this.yPacmanLeft = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/pmleft.gif"))));
+        this.yPacmanUp = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/pmup.gif"))));
+        this.yPacmanDown = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/pmdown.gif"))));
+
+        this.bPacmanRight = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/pmbr.gif"))));
+        this.bPacmanLeft = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/pmbl.gif"))));
+        this.bPacmanUp = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/pmbu.gif"))));
+        this.bPacmanDown = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/pmbd.gif"))));
+
+        this.pPacmanRight = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/pmpr.gif"))));
+        this.pPacmanLeft = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/pmpl.gif"))));
+        this.pPacmanUp = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/pmpu.gif"))));
+        this.pPacmanDown = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/pmpd.gif"))));
+
+        this.yGhostRight = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/yright.gif"))));
+        this.yGhostLeft = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/yleft.gif"))));
+        this.yGhostUp = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/yup.gif"))));
+        this.yGhostDown = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/ydown.gif"))));
+        this.rGhostRight = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/rright.gif"))));
+        this.rGhostLeft = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/rleft.gif"))));
+        this.rGhostUp = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/rup.gif"))));
+        this.rGhostDown = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/rdown.gif"))));
+        this.pGhostRight = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/pright.gif"))));
+        this.pGhostLeft = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/pleft.gif"))));
+        this.pGhostUp = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/pup.gif"))));
+        this.pGhostDown = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/pdown.gif"))));
+        this.bGhostRight = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/pright.gif"))));
+        this.bGhostLeft = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/bleft.gif"))));
+        this.bGhostUp = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/bup.gif"))));
+        this.bGhostDown = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/bdown.gif"))));
     }
 
     public void start(Stage primaryStage) {
@@ -70,11 +84,14 @@ public class mazePane extends Application {
 
         // Create a GridPane
         GridPane pane = new GridPane();
+        //pane.setPadding(new Insets(5,5,5,5));
+
 
         // Get maze array
         char[][] arr;
         maze m = new maze();
         String lev = configurationControls.getLevel();
+
         if (lev.equals("Easy")) {
             arr = m.getEasyArray();
         } else if (lev.equals("Medium")) {
@@ -95,21 +112,40 @@ public class mazePane extends Application {
                 if (arr[i][j] == 'P') {
                     r.setFill(Color.BLACK);
                     pane.add(r, j, i);
-                    Circle pellet = new Circle(s/4, Color.YELLOW);
+                    Circle pellet = new Circle(s/8, Color.YELLOW);
                     pane.add(pellet, j, i);
+                    pane.setAlignment(Pos.CENTER);
+                    GridPane.setHalignment(pellet, HPos.CENTER);
+                    GridPane.setValignment(pellet, VPos.CENTER);
+
+
+
                 } else if (arr[i][j] == 'B') {
                     r.setFill(Color.BLACK);
                     pane.add(r, j, i);
-                    Circle pellet = new Circle(s/2, Color.YELLOW);
+                    Circle pellet = new Circle(s/4, Color.YELLOW);
                     pane.add(pellet, j, i);
+                    GridPane.setHalignment(pellet, HPos.CENTER);
+                    GridPane.setValignment(pellet, VPos.CENTER);
                 } else {
                     pane.add(r, j, i);
                 }
             }
         }
-        pane.setStyle("~fx-grid-lines-visible: false");
 
         bp.setCenter(pane);
+        ImageView pacman;
+        if (configurationControls.getPacman().equals("Yellow")) {
+            pacman = yPacmanRight;
+        } else if (configurationControls.getPacman().equals("Blue")) {
+            pacman = bPacmanRight;
+        } else {
+            pacman = pPacmanRight;
+        }
+        pacman.setFitHeight(s);
+        pacman.setFitWidth(s);
+        pane.add(pacman, 1, arr.length - 2);
+
 
         // Create a scene and place it in the stage
         Scene scene = new Scene (bp);

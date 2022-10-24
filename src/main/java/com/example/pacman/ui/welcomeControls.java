@@ -50,10 +50,6 @@ public class welcomeControls {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(filePath));
             // Scene newScene = new Scene(fxmlLoader.load(), 600,400);
             AnchorPane page = (AnchorPane) fxmlLoader.load();
-            FadeTransition ft = new FadeTransition(Duration.millis(3000), page);
-            ft.setFromValue(0.0);
-            ft.setToValue(1.0);
-            ft.play();
             Scene newScene = new Scene(page);
             this.stage.setScene(newScene);
         } catch (IOException e) {
