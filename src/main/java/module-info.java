@@ -7,6 +7,6 @@ module com.example.pacman {
 
 
     opens com.example.pacman to javafx.fxml, javafx.graphics;
-    exports com.example.pacman;
+    //exports com.example.pacman;
     exports com.example.pacman.ui;
 }

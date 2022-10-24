@@ -86,7 +86,6 @@ public class mazePane extends Application {
         GridPane pane = new GridPane();
         //pane.setPadding(new Insets(5,5,5,5));
 
-
         // Get maze array
         char[][] arr;
         maze m = new maze();
@@ -100,7 +99,7 @@ public class mazePane extends Application {
             arr = m.getHardArray();
         }
 
-        double s = 25; // height & width of each square
+        double s = 30; // height & width of each square
         for (int i = 0; i < arr.length; i++) {
             for (int j = 0; j < arr[i].length; j++) {
                 Rectangle r = new Rectangle(s, s, s, s);
