@@ -14,6 +14,8 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+import java.util.Objects;
+
 public class mazePane extends Application {
     private int s = 0;
     private int l = configurationControls.getLives();
@@ -30,29 +32,30 @@ public class mazePane extends Application {
     //private Image cherry;
 
     public mazePane() {
-        this.pacmanRight = new Image(".../.../resources/images/pmright.gif");
-        this.pacmanLeft = new Image(".../.../resources/images/pmleft.gif");
-        this.pacmanUp = new Image(".../.../resources/images/pmup.gif");
-        this.pacmanDown = new Image(".../.../resources/images/pdown.gif");
-        this.yGhostRight = new Image(".../.../resources/images/yright.gif");
-        this.yGhostLeft = new Image(".../.../resources/images/yleft.gif");
-        this.yGhostUp = new Image(".../.../resources/images/yup.gif");
-        this.yGhostDown = new Image(".../.../resources/images/ydown.gif");
-        this.rGhostRight = new Image(".../.../resources/images/rright.gif");
-        this.rGhostLeft = new Image(".../.../resources/images/rleft.gif");
-        this.rGhostUp = new Image(".../.../resources/images/rup.gif");
-        this.rGhostDown = new Image(".../.../resources/images/rdown.gif");
-        this.pGhostRight = new Image(".../.../resources/images/pright.gif");
-        this.pGhostLeft = new Image(".../.../resources/images/pleft.gif");
-        this.pGhostUp = new Image(".../.../resources/images/pup.gif");
-        this.pGhostDown = new Image(".../.../resources/images/pdown.gif");
-        this.bGhostRight = new Image(".../.../resources/images/bright.gif");
-        this.bGhostLeft = new Image(".../.../resources/images/bleft.gif");
-        this.bGhostUp = new Image(".../.../resources/images/bup.gif");
-        this.bGhostDown = new Image(".../.../resources/images/bdown.gif");
+        this.pacmanRight = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/pmright.gif")));
+        this.pacmanLeft = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/pmleft.gif")));
+        this.pacmanUp = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/pmup.gif")));
+        this.pacmanDown = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/pmdown.gif")));
+//        this.pacmanLeft = new Image("../../resources/images/pmleft.gif");
+//        this.pacmanUp = new Image("../../resources/images/pmup.gif");
+//        this.pacmanDown = new Image("../../resources/images/pdown.gif");
+//        this.yGhostRight = new Image("../../resources/images/yright.gif");
+//        this.yGhostLeft = new Image("../../resources/images/yleft.gif");
+//        this.yGhostUp = new Image("../../resources/images/yup.gif");
+//        this.yGhostDown = new Image("../../resources/images/ydown.gif");
+//        this.rGhostRight = new Image("../../resources/images/rright.gif");
+//        this.rGhostLeft = new Image("../../resources/images/rleft.gif");
+//        this.rGhostUp = new Image("../../resources/images/rup.gif");
+//        this.rGhostDown = new Image("../../resources/images/rdown.gif");
+//        this.pGhostRight = new Image("../../resources/images/pright.gif");
+//        this.pGhostLeft = new Image("../../resources/images/pleft.gif");
+//        this.pGhostUp = new Image("../../resources/images/pup.gif");
+//        this.pGhostDown = new Image("../../resources/images/pdown.gif");
+//        this.bGhostRight = new Image("../../resources/images/bright.gif");
+//        this.bGhostLeft = new Image("../../resources/images/bleft.gif");
+//        this.bGhostUp = new Image("../../resources/images/bup.gif");
+//        this.bGhostDown = new Image("../../resources/images/bdown.gif");
     }
-
-    private void
 
     @Override // Override the start method in the application class
     public void start(Stage primaryStage) {
@@ -111,7 +114,7 @@ public class mazePane extends Application {
 
         // Create a scene and place it in the stage
         Scene scene = new Scene (bp);
-        primaryStage.setTitle("Easy maze"); // Set the stage title
+        primaryStage.setTitle(lev + " maze"); // Set the stage title
         primaryStage.setScene(scene); // Place in scene in the stage
         primaryStage.show(); // Display the stage;
     }
