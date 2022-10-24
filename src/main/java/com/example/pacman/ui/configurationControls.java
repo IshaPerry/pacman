@@ -20,7 +20,7 @@ public class configurationControls {
     private static int lives;
     private int ghostSpeed;
     private String error;
-    private String pacmanColor = "yellow";
+    private static String pacmanColor = "Yellow";
 
     @FXML
     private TextField enterName;
@@ -53,13 +53,13 @@ public class configurationControls {
     private void characterChanger() {
         if (pacman.getImage().equals(yellowPacman)) {
             pacman.setImage(purplePacman);
-            pacmanColor = "purple";
+            pacmanColor = "Purple";
         } else if (pacman.getImage().equals(purplePacman)) {
             pacman.setImage(bluePacman);
-            pacmanColor = "blue";
+            pacmanColor = "Blue";
         } else {
             pacman.setImage(yellowPacman);
-            pacmanColor = "yellow";
+            pacmanColor = "Yellow";
         }
     }
 
@@ -126,6 +126,8 @@ public class configurationControls {
     public static String getLevel() {
         return level;
     }
+
+    public static String getPacman() {return pacmanColor; }
 }
 
 
