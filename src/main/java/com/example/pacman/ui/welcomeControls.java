@@ -1,24 +1,21 @@
 package com.example.pacman.ui;
 
 import javafx.animation.FadeTransition;
-import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
-import javafx.geometry.Pos;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.FXML;
 import javafx.util.Duration;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-
+/**
+ * Class that creates the Welcome Screen Controller
+ * @authors Suemin Lee and Isha Perry
+ */
 
 public class welcomeControls {
     @FXML
@@ -56,10 +53,6 @@ public class welcomeControls {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(filePath));
             // Scene newScene = new Scene(fxmlLoader.load(), 600,400);
             AnchorPane page = (AnchorPane) fxmlLoader.load();
-            FadeTransition ft = new FadeTransition(Duration.millis(3000), page);
-            ft.setFromValue(0.0);
-            ft.setToValue(1.0);
-            ft.play();
             Scene newScene = new Scene(page);
             this.stage.setScene(newScene);
         } catch (IOException e) {

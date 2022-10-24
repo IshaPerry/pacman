@@ -16,16 +16,11 @@ import java.util.Objects;
 public class configurationControls {
 
     private String name;
-
-    public static String getLevel() {
-        return level;
-    }
-
     private static String level;
-    private int lives;
+    private static int lives;
     private int ghostSpeed;
     private String error;
-    private String pacmanColor = "yellow";
+    private static String pacmanColor = "Yellow";
 
     @FXML
     private TextField enterName;
@@ -58,13 +53,13 @@ public class configurationControls {
     private void characterChanger() {
         if (pacman.getImage().equals(yellowPacman)) {
             pacman.setImage(purplePacman);
-            pacmanColor = "purple";
+            pacmanColor = "Purple";
         } else if (pacman.getImage().equals(purplePacman)) {
             pacman.setImage(bluePacman);
-            pacmanColor = "blue";
+            pacmanColor = "Blue";
         } else {
             pacman.setImage(yellowPacman);
-            pacmanColor = "yellow";
+            pacmanColor = "Yellow";
         }
     }
 
@@ -125,6 +120,16 @@ public class configurationControls {
             ghostSpeed = 6;
         }
     }
+
+    public static int getLives() {
+        return lives;
+    }
+
+    public static String getLevel() {
+        return level;
+    }
+
+    public static String getPacman() {return pacmanColor; }
 }
 
 
