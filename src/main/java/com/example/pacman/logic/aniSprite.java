@@ -34,7 +34,7 @@ public class aniSprite {
         width = i.getWidth();
         height = i.getHeight();
     }
-    public boolean collisioncheck(aniSprite sprite) {
+    private boolean collisioncheck(aniSprite sprite) {
         if ((x+width) > sprite.x) {
             return true;
         }
@@ -76,5 +76,11 @@ public class aniSprite {
     public void changeVelocity(double factor) {
         velocityX = velocityX * factor;
         velocityY = velocityY * factor;
+    }
+
+    public void collision(aniSprite pm, aniSprite ghost) {
+        //if collisioncheck == true and powerup timer is > 0
+        //then ghost dies
+        //else pacman dies
     }
 }
