@@ -1,11 +1,15 @@
 package com.example.pacman.ui;
 
 import javafx.application.Application;
+import javafx.geometry.HPos;
+import javafx.geometry.VPos;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
@@ -24,7 +28,7 @@ public class mazePane extends Application {
     private Text lives = new Text();
     private Text round = new Text();
     private ImageView[][] cellViews;
-    private Image pacmanRight, pacmanLeft, pacmanUp, pacmanDown;
+    private ImageView pacmanRight, pacmanLeft, pacmanUp, pacmanDown;
     private Image yGhostRight, yGhostLeft, yGhostUp, yGhostDown;
     private Image rGhostRight, rGhostLeft, rGhostUp, rGhostDown;
     private Image pGhostRight, pGhostLeft, pGhostUp, pGhostDown;
@@ -32,10 +36,10 @@ public class mazePane extends Application {
     //private Image cherry;
 
     public mazePane() {
-        this.pacmanRight = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/pmright.gif")));
-        this.pacmanLeft = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/pmleft.gif")));
-        this.pacmanUp = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/pmup.gif")));
-        this.pacmanDown = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/pmdown.gif")));
+        this.pacmanRight = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/pmright.gif"))));
+        this.pacmanLeft = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/pmleft.gif"))));
+        this.pacmanUp = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/pmup.gif"))));
+        this.pacmanDown = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/pmdown.gif"))));
 //        this.pacmanLeft = new Image("../../resources/images/pmleft.gif");
 //        this.pacmanUp = new Image("../../resources/images/pmup.gif");
 //        this.pacmanDown = new Image("../../resources/images/pdown.gif");
@@ -70,6 +74,10 @@ public class mazePane extends Application {
 
         // Create a GridPane
         GridPane pane = new GridPane();
+        //pane.setPadding(new Insets(5,5,5,5));
+
+
+
 
         // Get maze array
         char[][] arr;
@@ -83,7 +91,7 @@ public class mazePane extends Application {
             arr = m.getHardArray();
         }
 
-        double s = 25; // height & width of each square
+        double s = 30; // height & width of each square
         for (int i = 0; i < arr.length; i++) {
             for (int j = 0; j < arr[i].length; j++) {
                 Rectangle r = new Rectangle(s, s, s, s);
@@ -95,12 +103,18 @@ public class mazePane extends Application {
                 if (arr[i][j] == 'P') {
                     r.setFill(Color.BLACK);
                     pane.add(r, j, i);
-                    Circle pellet = new Circle(s/4, Color.YELLOW);
+                    Circle pellet = new Circle(s/8, Color.YELLOW);
                     pane.add(pellet, j, i);
+                    pane.setAlignment(Pos.CENTER);
+                    GridPane.setHalignment(pellet, HPos.CENTER);
+                    GridPane.setValignment(pellet, VPos.CENTER);
+
+
+
                 } else if (arr[i][j] == 'B') {
                     r.setFill(Color.BLACK);
                     pane.add(r, j, i);
-                    Circle pellet = new Circle(s/2, Color.YELLOW);
+                    Circle pellet = new Circle(s/4, Color.YELLOW);
                     pane.add(pellet, j, i);
                 } else {
                     pane.add(r, j, i);
@@ -110,6 +124,12 @@ public class mazePane extends Application {
         pane.setStyle("~fx-grid-lines-visible: false");
 
         bp.setCenter(pane);
+        pacmanRight.setFitHeight(s);
+        pacmanRight.setFitWidth(s);
+        pane.add(pacmanRight, 1, arr.length - 2);
+
+
+
 
         // Create a scene and place it in the stage
         Scene scene = new Scene (bp);
