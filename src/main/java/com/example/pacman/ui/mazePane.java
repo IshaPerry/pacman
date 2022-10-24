@@ -1,9 +1,15 @@
 package com.example.pacman.ui;
 
 import javafx.application.Application;
+import javafx.geometry.HPos;
+import javafx.geometry.VPos;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
@@ -12,15 +18,49 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+import java.util.Objects;
+
 public class mazePane extends Application {
     private int s = 0;
-    private int l = 2;
+    private int l = configurationControls.getLives();
     private int r = 1;
     private Text score = new Text();
     private Text lives = new Text();
     private Text round = new Text();
+    private ImageView[][] cellViews;
+    private ImageView pacmanRight, pacmanLeft, pacmanUp, pacmanDown;
+    private Image yGhostRight, yGhostLeft, yGhostUp, yGhostDown;
+    private Image rGhostRight, rGhostLeft, rGhostUp, rGhostDown;
+    private Image pGhostRight, pGhostLeft, pGhostUp, pGhostDown;
+    private Image bGhostRight, bGhostLeft, bGhostUp, bGhostDown;
+    //private Image cherry;
 
-    @Override // Override the start method in the application class
+    public mazePane() {
+        this.pacmanRight = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/pmright.gif"))));
+        this.pacmanLeft = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/pmleft.gif"))));
+        this.pacmanUp = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/pmup.gif"))));
+        this.pacmanDown = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/pmdown.gif"))));
+//        this.pacmanLeft = new Image("../../resources/images/pmleft.gif");
+//        this.pacmanUp = new Image("../../resources/images/pmup.gif");
+//        this.pacmanDown = new Image("../../resources/images/pdown.gif");
+//        this.yGhostRight = new Image("../../resources/images/yright.gif");
+//        this.yGhostLeft = new Image("../../resources/images/yleft.gif");
+//        this.yGhostUp = new Image("../../resources/images/yup.gif");
+//        this.yGhostDown = new Image("../../resources/images/ydown.gif");
+//        this.rGhostRight = new Image("../../resources/images/rright.gif");
+//        this.rGhostLeft = new Image("../../resources/images/rleft.gif");
+//        this.rGhostUp = new Image("../../resources/images/rup.gif");
+//        this.rGhostDown = new Image("../../resources/images/rdown.gif");
+//        this.pGhostRight = new Image("../../resources/images/pright.gif");
+//        this.pGhostLeft = new Image("../../resources/images/pleft.gif");
+//        this.pGhostUp = new Image("../../resources/images/pup.gif");
+//        this.pGhostDown = new Image("../../resources/images/pdown.gif");
+//        this.bGhostRight = new Image("../../resources/images/bright.gif");
+//        this.bGhostLeft = new Image("../../resources/images/bleft.gif");
+//        this.bGhostUp = new Image("../../resources/images/bup.gif");
+//        this.bGhostDown = new Image("../../resources/images/bdown.gif");
+    }
+
     public void start(Stage primaryStage) {
         score.setText("Score: " + s);
         lives.setText("Lives: " + l);
@@ -34,20 +74,24 @@ public class mazePane extends Application {
 
         // Create a GridPane
         GridPane pane = new GridPane();
+        //pane.setPadding(new Insets(5,5,5,5));
+
+
+
 
         // Get maze array
-
+        char[][] arr;
         maze m = new maze();
-        String lev = levelSelector.getSelectionModel().getSelectedItem();
-        if (level().equals("Easy")) {
-            char[][] arr = m.getEasyArray();
-        } else if (level.equals("Medium")) {
-            char[][] arr = m.getMedArray();
+        String lev = configurationControls.getLevel();
+        if (lev.equals("Easy")) {
+            arr = m.getEasyArray();
+        } else if (lev.equals("Medium")) {
+            arr = m.getMedArray();
         } else {
-            char[][] arr = m.getHardArray();
+            arr = m.getHardArray();
         }
 
-        double s = 25; // height & width of each square
+        double s = 30; // height & width of each square
         for (int i = 0; i < arr.length; i++) {
             for (int j = 0; j < arr[i].length; j++) {
                 Rectangle r = new Rectangle(s, s, s, s);
@@ -59,12 +103,18 @@ public class mazePane extends Application {
                 if (arr[i][j] == 'P') {
                     r.setFill(Color.BLACK);
                     pane.add(r, j, i);
-                    Circle pellet = new Circle(s/4, Color.YELLOW);
+                    Circle pellet = new Circle(s/8, Color.YELLOW);
                     pane.add(pellet, j, i);
+                    pane.setAlignment(Pos.CENTER);
+                    GridPane.setHalignment(pellet, HPos.CENTER);
+                    GridPane.setValignment(pellet, VPos.CENTER);
+
+
+
                 } else if (arr[i][j] == 'B') {
                     r.setFill(Color.BLACK);
                     pane.add(r, j, i);
-                    Circle pellet = new Circle(s/2, Color.YELLOW);
+                    Circle pellet = new Circle(s/4, Color.YELLOW);
                     pane.add(pellet, j, i);
                 } else {
                     pane.add(r, j, i);
@@ -74,10 +124,16 @@ public class mazePane extends Application {
         pane.setStyle("~fx-grid-lines-visible: false");
 
         bp.setCenter(pane);
+        pacmanRight.setFitHeight(s);
+        pacmanRight.setFitWidth(s);
+        pane.add(pacmanRight, 1, arr.length - 2);
+
+
+
 
         // Create a scene and place it in the stage
         Scene scene = new Scene (bp);
-        primaryStage.setTitle("Easy maze"); // Set the stage title
+        primaryStage.setTitle(lev + " maze"); // Set the stage title
         primaryStage.setScene(scene); // Place in scene in the stage
         primaryStage.show(); // Display the stage;
     }

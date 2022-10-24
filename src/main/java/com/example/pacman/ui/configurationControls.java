@@ -17,7 +17,7 @@ public class configurationControls {
 
     private String name;
     private static String level;
-    private int lives;
+    private static int lives;
     private int ghostSpeed;
     private String error;
     private String pacmanColor = "yellow";
@@ -117,6 +117,14 @@ public class configurationControls {
             lives = 3;
             ghostSpeed = 6;
         }
+    }
+
+    public static int getLives() {
+        return lives;
+    }
+
+    public static String getLevel() {
+        return level;
     }
 }
 
