@@ -4,9 +4,17 @@ import javafx.fxml.FXML;
 import javafx.scene.Group;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import java.util.*;
 
 public class gameView extends Group {
     public final static double CELL_WIDTH = 10.0;
+
+    public enum programState {
+        START, INSTR, GAME, WIN, LOSE, PAUSE
+    };
+
+    programState state;
+    private Timer timer;
 
     @FXML
     private int rows;
@@ -67,22 +75,36 @@ public class gameView extends Group {
     }
 
     /**
-     * Constructs the maze
+     * put switch statement for state classes?
      */
-    private void initializeMaze() {
-        if (this.rows > 0 && this.columns > 0) {
-            this.cellViews = new ImageView[this.rows][this.columns];
-            for (int row = 0; row < this.rows; row++) {
-                for (int column = 0; column < this.columns; column++) {
-                    ImageView imageView = new ImageView();
-                    imageView.setX((double) column * CELL_WIDTH);
-                    imageView.setY((double) row * CELL_WIDTH);
-                    imageView.setFitWidth(CELL_WIDTH);
-                    imageView.setFitHeight(CELL_WIDTH);
-                    this.cellViews[row][column] = imageView;
-                    this.getChildren().add(imageView);
-                }
+    public void main() {
+        while (true) {
+            switch (state) {
+                case START: start();
+                    break;
+                case INSTR: instr();
+                    break;
+                case PAUSE: pause();
+                    break;
+                case GAME: game();
+                    break;
+                case WIN: win();
+                    break;
+                case LOSE: lose();
+                    break;
             }
         }
     }
+//    private void update(gamelogic gl){}
+    public void pause() {
+        this.timer.cancel();
+        state = programState.PAUSE;
+    }
+
+    public void start() {}
+
+    public void game() {}
+    public void instr() {}
+    public void win(){}
+    public void lose(){}
 }

@@ -68,6 +68,8 @@ public class configurationControls {
         }
     }
 
+
+
     @FXML
     private void hitSubmit(ActionEvent event) throws IOException {  //we need to change this bc u can't have 2 fxml files to once controller
         name = enterName.getText();
