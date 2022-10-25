@@ -52,6 +52,7 @@ public class aniSprite {
     public void changeDirection(Direction d) {
         dir = d;
         if (dir == Direction.LEFT) {
+            
             //change sprite image
             velocityY = 0;
             velocityX = -abs(velocityX);

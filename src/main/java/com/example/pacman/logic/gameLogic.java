@@ -1,7 +1,9 @@
 package com.example.pacman.logic;
 
 public class gameLogic {
-    public void initGame(){};
+    public void initGame(){
+
+    };
     public void updateGame(){};
     public void drawGame(){};
     public void initPacman(){};
