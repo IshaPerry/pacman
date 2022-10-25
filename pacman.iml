@@ -14,6 +14,7 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="javafx-sdk-11.0" level="project" />
+    <orderEntry type="library" name="lib" level="project" />
     <orderEntry type="library" name="Maven: org.openjfx:javafx-controls:11.0.2" level="project" />
     <orderEntry type="library" name="Maven: org.openjfx:javafx-controls:mac:11.0.2" level="project" />
     <orderEntry type="library" name="Maven: org.openjfx:javafx-fxml:11.0.2" level="project" />
@@ -28,6 +29,5 @@
     <orderEntry type="library" name="Maven: org.openjfx:javafx-graphics:mac:17.0.2-ea+2" level="project" />
     <orderEntry type="library" name="Maven: org.openjfx:javafx-base:17.0.2-ea+2" level="project" />
     <orderEntry type="library" name="Maven: org.openjfx:javafx-base:mac:17.0.2-ea+2" level="project" />
-    <orderEntry type="library" name="lib" level="project" />
   </component>
 </module>
