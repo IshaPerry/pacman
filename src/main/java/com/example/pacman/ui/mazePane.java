@@ -1,6 +1,7 @@
 package com.example.pacman.ui;
 
 import javafx.application.Application;
+import javafx.event.EventHandler;
 import javafx.geometry.HPos;
 import javafx.geometry.VPos;
 import javafx.geometry.Insets;
@@ -17,8 +18,20 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.event.EventHandler;
+import javafx.event.EventHandler;
+import javafx.scene.control.Label;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 
 import java.util.Objects;
+import java.awt.event.KeyAdapter;
+
+import javafx.animation.*;
+import javafx.application.Application;
+import javafx.collections.*;
+import javafx.geometry.Point2D;
+import javafx.util.Duration;
 
 public class mazePane extends Application {
     private int s = 0;
@@ -35,6 +48,21 @@ public class mazePane extends Application {
     private ImageView rGhostRight, rGhostLeft, rGhostUp, rGhostDown;
     private ImageView pGhostRight, pGhostLeft, pGhostUp, pGhostDown;
     private ImageView bGhostRight, bGhostLeft, bGhostUp, bGhostDown;
+    private boolean inGame = true;
+    private int key_dx, key_dy;
+    private double x;
+    private double y;
+    private double velocityX;
+    private double velocityY;
+    private double width;
+    private double height;
+    private Direction dir;
+
+    public enum Direction {
+        LEFT, RIGHT, UP, DOWN
+    }
+
+    ;
     //private Image cherry;
 
     public mazePane() {
@@ -70,6 +98,7 @@ public class mazePane extends Application {
         this.bGhostUp = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/bup.gif"))));
         this.bGhostDown = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/bdown.gif"))));
     }
+
 
     public void start(Stage primaryStage) {
         score.setText("Score: " + s);
@@ -111,18 +140,17 @@ public class mazePane extends Application {
                 if (arr[i][j] == 'P') {
                     r.setFill(Color.BLACK);
                     pane.add(r, j, i);
-                    Circle pellet = new Circle(s/8, Color.YELLOW);
+                    Circle pellet = new Circle(s / 8, Color.YELLOW);
                     pane.add(pellet, j, i);
                     pane.setAlignment(Pos.CENTER);
                     GridPane.setHalignment(pellet, HPos.CENTER);
                     GridPane.setValignment(pellet, VPos.CENTER);
 
 
-
                 } else if (arr[i][j] == 'B') {
                     r.setFill(Color.BLACK);
                     pane.add(r, j, i);
-                    Circle pellet = new Circle(s/4, Color.YELLOW);
+                    Circle pellet = new Circle(s / 4, Color.YELLOW);
                     pane.add(pellet, j, i);
                     GridPane.setHalignment(pellet, HPos.CENTER);
                     GridPane.setValignment(pellet, VPos.CENTER);
@@ -147,9 +175,42 @@ public class mazePane extends Application {
 
 
         // Create a scene and place it in the stage
-        Scene scene = new Scene (bp);
+        Scene scene = new Scene(bp);
         primaryStage.setTitle(lev + " maze"); // Set the stage title
         primaryStage.setScene(scene); // Place in scene in the stage
         primaryStage.show(); // Display the stage;
+
+
+        //method to control pacman movement
+        //   private void movePacman() {}
+        scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent e) {
+                if (inGame) {
+                    System.out.println("in game");
+                    if (e.getCode() == KeyCode.LEFT) {
+                        key_dx = -1;
+                        key_dy = 0;
+                    } else if (e.getCode() == KeyCode.RIGHT) {
+                        key_dx = 1;
+                        key_dy = 0;
+                        TranslateTransition t = new TranslateTransition();
+                        t.setByX(40);
+                        t.setNode(pacman);
+                        t.play();
+                        System.out.println("hi");
+                    } else if (e.getCode() == KeyCode.DOWN) {
+                        key_dx = 0;
+                        key_dy = -1;
+                    } else if (e.getCode() == KeyCode.UP) {
+                        key_dx = 0;
+                        key_dy = 1;
+                    }
+                }
+            }
+
+        });
+
+
     }
 }

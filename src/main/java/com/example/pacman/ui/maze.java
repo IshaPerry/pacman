@@ -60,9 +60,7 @@ public class maze {
     public char[][] getEasyArray() {
         return this.easyArray;
     }
-    public char[][] getMedArray() {
-        return this.medArray;
-    }
+
 
     public char[][] getMedArray() {
         return this.medArray;
