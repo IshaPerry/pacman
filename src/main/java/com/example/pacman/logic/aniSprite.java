@@ -83,5 +83,22 @@ public class aniSprite {
         //if collisioncheck == true and powerup timer is > 0
         //then ghost dies
         //else pacman dies
+
     }
+    public boolean wallcheck() {
+        if ((x+width) > maze.x) {
+            return true;
+        }
+        if ((y+height) > sy) {
+            return true;
+        }
+        if ((sprite.x+sprite.width) > x) {
+            return true;
+        }
+        if ((sprite.y + sprite.height) > y) {
+            return true;
+        }
+        return false;
+    }
+    //
 }

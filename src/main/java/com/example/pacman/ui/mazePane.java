@@ -151,5 +151,8 @@ public class mazePane extends Application {
         primaryStage.setTitle(lev + " maze"); // Set the stage title
         primaryStage.setScene(scene); // Place in scene in the stage
         primaryStage.show(); // Display the stage;
+        while(true) {
+            TranslateTransition t = new TranslateTransition();
+        }
     }
 }
