@@ -1,16 +1,16 @@
 package com.example.pacman.ui;
 
 import javafx.application.Application;
+import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.geometry.HPos;
 import javafx.geometry.VPos;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
@@ -18,45 +18,41 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import javafx.event.EventHandler;
-import javafx.event.EventHandler;
-import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 
+import java.util.Iterator;
 import java.util.Objects;
-import java.awt.event.KeyAdapter;
 
 import javafx.animation.*;
-import javafx.application.Application;
-import javafx.collections.*;
-import javafx.geometry.Point2D;
-import javafx.util.Duration;
 
 public class mazePane extends Application {
     private int s = 0;
     private int l = configurationControls.getLives();
     private int r = 1;
+    private static GridPane pane = new GridPane();
     private Text score = new Text();
     private Text lives = new Text();
     private Text round = new Text();
     private ImageView[][] cellViews;
-    private ImageView yPacmanRight, yPacmanLeft, yPacmanUp, yPacmanDown;
-    private ImageView bPacmanRight, bPacmanLeft, bPacmanUp, bPacmanDown;
-    private ImageView pPacmanRight, pPacmanLeft, pPacmanUp, pPacmanDown;
+    private Image yPacmanRight, yPacmanLeft, yPacmanUp;
+    private Image yPacmanDown;
+    private Image bPacmanRight, bPacmanLeft, bPacmanUp, bPacmanDown;
+    private Image pPacmanRight, pPacmanLeft, pPacmanUp, pPacmanDown;
     private ImageView yGhostRight, yGhostLeft, yGhostUp, yGhostDown;
     private ImageView rGhostRight, rGhostLeft, rGhostUp, rGhostDown;
     private ImageView pGhostRight, pGhostLeft, pGhostUp, pGhostDown;
     private ImageView bGhostRight, bGhostLeft, bGhostUp, bGhostDown;
     private boolean inGame = true;
     private int key_dx, key_dy;
-    private double x;
-    private double y;
+    private int colPos;
+    private int rowPos;
     private double velocityX;
     private double velocityY;
     private double width;
     private double height;
     private Direction dir;
+    private char pacmanType;
 
     public enum Direction {
         LEFT, RIGHT, UP, DOWN
@@ -66,20 +62,21 @@ public class mazePane extends Application {
     //private Image cherry;
 
     public mazePane() {
-        this.yPacmanRight = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/pmright.gif"))));
-        this.yPacmanLeft = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/pmleft.gif"))));
-        this.yPacmanUp = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/pmup.gif"))));
-        this.yPacmanDown = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/pmdown.gif"))));
 
-        this.bPacmanRight = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/pmbr.gif"))));
-        this.bPacmanLeft = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/pmbl.gif"))));
-        this.bPacmanUp = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/pmbu.gif"))));
-        this.bPacmanDown = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/pmbd.gif"))));
+        this.yPacmanRight = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/pmright.gif")));
+        this.yPacmanLeft = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/pmleft.gif")));
+        this.yPacmanUp = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/pmup.gif")));
+        this.yPacmanDown = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/pmdown.gif")));
 
-        this.pPacmanRight = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/pmpr.gif"))));
-        this.pPacmanLeft = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/pmpl.gif"))));
-        this.pPacmanUp = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/pmpu.gif"))));
-        this.pPacmanDown = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/pmpd.gif"))));
+        this.bPacmanRight = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/pmbr.gif")));
+        this.bPacmanLeft = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/pmbl.gif")));
+        this.bPacmanUp = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/pmbu.gif")));
+        this.bPacmanDown = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/pmbd.gif")));
+
+        this.pPacmanRight = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/pmpr.gif")));
+        this.pPacmanLeft = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/pmpl.gif")));
+        this.pPacmanUp = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/pmpu.gif")));
+        this.pPacmanDown = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/pmpd.gif")));
 
         this.yGhostRight = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/yright.gif"))));
         this.yGhostLeft = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/yleft.gif"))));
@@ -111,11 +108,9 @@ public class mazePane extends Application {
         bp.setTop(top);
         bp.setBottom(lives);
 
-        // Create a GridPane
-        GridPane pane = new GridPane();
-        //pane.setPadding(new Insets(5,5,5,5));
 
         // Get maze array
+
         char[][] arr;
         maze m = new maze();
         String lev = configurationControls.getLevel();
@@ -159,19 +154,31 @@ public class mazePane extends Application {
                 }
             }
         }
-
+//        int numRows = arr.length;
+//        int numCols = arr[0].length;
+//        System.out.println(arr[numRows - 1][numCols - 1]);
         bp.setCenter(pane);
-        ImageView pacman;
+        ImageView pacman = new ImageView();
         if (configurationControls.getPacman().equals("Yellow")) {
-            pacman = yPacmanRight;
+            pacman.setImage(yPacmanRight);
+            pacmanType = 'y';
         } else if (configurationControls.getPacman().equals("Blue")) {
-            pacman = bPacmanRight;
+            pacman.setImage(bPacmanRight);
+            pacmanType = 'b';
         } else {
-            pacman = pPacmanRight;
+            pacman.setImage(pPacmanRight);
+            pacmanType = 'p';
         }
         pacman.setFitHeight(s);
         pacman.setFitWidth(s);
-        pane.add(pacman, 1, arr.length - 2);
+        colPos = 1;   //column
+        rowPos = arr.length - 2; //row
+      //  aniSprite pacMan = new aniSprite(pacman, s, s);
+        System.out.println(colPos);
+        System.out.println(rowPos);
+        pane.add(pacman, colPos, rowPos);  //column, row
+        System.out.println("col: " + pacman.getX() + "row: "+ pacman.getY());
+
 
 
         // Create a scene and place it in the stage
@@ -187,30 +194,134 @@ public class mazePane extends Application {
             @Override
             public void handle(KeyEvent e) {
                 if (inGame) {
-                    System.out.println("in game");
+                    TranslateTransition t = new TranslateTransition();
                     if (e.getCode() == KeyCode.LEFT) {
                         key_dx = -1;
                         key_dy = 0;
+                        if (! checkWallCollision(key_dx, key_dy, arr)) {
+                            pacman.setImage(orientPacman(pacman, pacmanType, Direction.LEFT));
+                            t.setByX(-s);
+                            t.setNode(pacman);
+                            t.play();
+                        }
+
                     } else if (e.getCode() == KeyCode.RIGHT) {
                         key_dx = 1;
                         key_dy = 0;
-                        TranslateTransition t = new TranslateTransition();
-                        t.setByX(40);
-                        t.setNode(pacman);
-                        t.play();
-                        System.out.println("hi");
+                        if (! checkWallCollision(key_dx, key_dy, arr)) {
+                            pacman.setImage(orientPacman(pacman, pacmanType, Direction.RIGHT));
+                            t.setByX(s);
+                            t.setNode(pacman);
+                            t.play();
+                        }
                     } else if (e.getCode() == KeyCode.DOWN) {
                         key_dx = 0;
-                        key_dy = -1;
+                        key_dy = 1;
+                        if (! checkWallCollision(key_dx, key_dy, arr)) {
+                            pacman.setImage(orientPacman(pacman, pacmanType, Direction.DOWN));
+                            t.setByY(s);
+                            t.setNode(pacman);
+                            t.play();
+                        }
                     } else if (e.getCode() == KeyCode.UP) {
                         key_dx = 0;
-                        key_dy = 1;
+                        key_dy = -1;
+                        if (! checkWallCollision(key_dx, key_dy, arr)) {
+                            pacman.setImage(orientPacman(pacman, pacmanType, Direction.UP));
+                            t.setByY(-s);
+                            t.setNode(pacman);
+                            t.play();
+                        }
                     }
+                    //System.out.println("col: " + pacman.getX() + "row: "+ pacman.getbyY());
                 }
             }
 
         });
 
 
+
+
     }
+
+    private boolean checkWallCollision(int x, int y, char[][] arr) {
+        if (arr[rowPos + y][colPos + x] == 'W') {
+            System.out.printf("Hit a wall, xPos: %d, YPos: %d \n", colPos + x, rowPos);
+            return true;  //there is a wall collision
+        } else if (arr[rowPos + y][colPos + x] == 'P') { //separate B later
+            s += 1;
+            arr[rowPos + y][colPos + x] = 'E';
+            ObservableList<Node> childrens = pane.getChildren();
+            for (Node node : childrens) {
+                if (node instanceof Circle && pane.getRowIndex(node) == rowPos && pane.getColumnIndex(node) == colPos) {
+                    pane.getChildren().remove(node);
+                    break;
+                }
+            }
+
+
+            colPos += x; //update x position
+            rowPos += y; //update y position
+
+
+            System.out.printf("No wall, xPos: %d, YPos: %d \n", colPos, rowPos);
+            return false;
+
+        } else if (arr[rowPos + y - 1][colPos + x - 1] == 'B') {
+            s += 3;
+            arr[rowPos + y][colPos + x] = 'E';
+            colPos += x;
+            rowPos += y;
+        }
+        return false;
+    }
+
+
+
+
+     private Image orientPacman(ImageView p, char type, Direction dir) {
+          switch(type) {
+              case 'b':
+                  switch(dir){
+                      case LEFT:
+                          return bPacmanLeft;
+                      case UP:
+                          return  bPacmanUp;
+                      case DOWN:
+                          return bPacmanDown;
+                      case RIGHT:
+                          return bPacmanRight;
+                  }
+              case 'y':
+                  switch(dir){
+                      case LEFT:
+                          return yPacmanLeft;
+                      case UP:
+                          return  yPacmanUp;
+                      case DOWN:
+                          return yPacmanDown;
+                      case RIGHT:
+                          return yPacmanRight;
+                  }
+              case 'p':
+                  switch(dir){
+                      case LEFT:
+                          return pPacmanLeft;
+                      case UP:
+                          return  pPacmanUp;
+                      case DOWN:
+                          return pPacmanDown;
+                      case RIGHT:
+                          return pPacmanRight;
+                  }
+
+          }
+          return pPacmanLeft;
+    }
+
 }
+
+
+
+
+
