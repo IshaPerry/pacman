@@ -17,6 +17,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
+import javafx.scene.transform.Translate;
 import javafx.stage.Stage;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -25,6 +26,7 @@ import java.util.Iterator;
 import java.util.Objects;
 
 import javafx.animation.*;
+import javafx.util.Duration;
 
 public class mazePane extends Application {
     private int s = 0;
@@ -194,11 +196,14 @@ public class mazePane extends Application {
             @Override
             public void handle(KeyEvent e) {
                 if (inGame) {
-                    TranslateTransition t = new TranslateTransition();
+                   TranslateTransition t = new TranslateTransition();
+
+                    boolean collision = false;
                     if (e.getCode() == KeyCode.LEFT) {
                         key_dx = -1;
                         key_dy = 0;
-                        if (! checkWallCollision(key_dx, key_dy, arr)) {
+                        collision = checkWallCollision(key_dx, key_dy, arr);
+                        if (!collision) {
                             pacman.setImage(orientPacman(pacman, pacmanType, Direction.LEFT));
                             t.setByX(-s);
                             t.setNode(pacman);
@@ -233,6 +238,10 @@ public class mazePane extends Application {
                             t.play();
                         }
                     }
+                    if (!collision) {
+                        colPos += key_dx; //update x position
+                        rowPos += key_dy; //update y position
+                    }
                     //System.out.println("col: " + pacman.getX() + "row: "+ pacman.getbyY());
                 }
             }
@@ -259,19 +268,12 @@ public class mazePane extends Application {
                 }
             }
 
-
-            colPos += x; //update x position
-            rowPos += y; //update y position
-
-
             System.out.printf("No wall, xPos: %d, YPos: %d \n", colPos, rowPos);
             return false;
 
         } else if (arr[rowPos + y - 1][colPos + x - 1] == 'B') {
             s += 3;
             arr[rowPos + y][colPos + x] = 'E';
-            colPos += x;
-            rowPos += y;
         }
         return false;
     }
