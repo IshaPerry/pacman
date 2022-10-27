@@ -246,7 +246,7 @@ public class mazePane extends Application {
                     }
                     if (!checkWallCollision(key_dx, key_dy, arr)) {
                         colPos += key_dx; //update x position
-                        rowPos += key_dy; //update y position
+                        rowPos += key_dy; //update y positio
                     }
                     //System.out.println("col: " + pacman.getX() + "row: "+ pacman.getbyY());
                 }
