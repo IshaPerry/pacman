@@ -49,30 +49,30 @@ public class aniSprite {
         }
         return false;
     }
-    public void changeDirection(Direction d) {
-        dir = d;
-        if (dir == Direction.LEFT) {
-            
-            //change sprite image
-            velocityY = 0;
-            velocityX = -abs(velocityX);
-        }
-        if (dir == Direction.RIGHT) {
-            //change sprite
-            velocityY = 0;
-            velocityX = abs(velocityX);
-        }
-        if (dir == Direction.UP) {
-            //change sprite
-            velocityX = 0;
-            velocityY = -abs(velocityX);
-        }
-        if (dir == Direction.DOWN) {
-            //change sprite
-            velocityX = 0;
-            velocityY = abs(velocityX);
-        }
-    }
+//    public void changeDirection(Direction d) {
+//        dir = d;
+//        if (dir == Direction.LEFT) {
+//
+//            //change sprite image
+//            velocityY = 0;
+//            velocityX = -abs(velocityX);
+//        }
+//        if (dir == Direction.RIGHT) {
+//            //change sprite
+//            velocityY = 0;
+//            velocityX = abs(velocityX);
+//        }
+//        if (dir == Direction.UP) {
+//            //change sprite
+//            velocityX = 0;
+//            velocityY = -abs(velocityX);
+//        }
+//        if (dir == Direction.DOWN) {
+//            //change sprite
+//            velocityX = 0;
+//            velocityY = abs(velocityX);
+//        }
+//    }
 
     public void changeVelocity(double factor) {
         velocityX = velocityX * factor;
@@ -85,20 +85,4 @@ public class aniSprite {
         //else pacman dies
 
     }
-    public boolean wallcheck() {
-        if ((x+width) > maze.x) {
-            return true;
-        }
-        if ((y+height) > sy) {
-            return true;
-        }
-        if ((sprite.x+sprite.width) > x) {
-            return true;
-        }
-        if ((sprite.y + sprite.height) > y) {
-            return true;
-        }
-        return false;
-    }
-    //
 }
