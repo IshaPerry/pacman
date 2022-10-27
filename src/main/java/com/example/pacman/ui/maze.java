@@ -71,10 +71,6 @@ public class maze {
     public char[][] getMedArray() {
         return this.medArray;
     }
-
-    public char[][] getMedArray() {
-        return this.medArray;
-    }
   
     public char[][] getHardArray() {
         return this.hardArray;
