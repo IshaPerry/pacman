@@ -27,7 +27,6 @@ import java.util.Objects;
 
 import javafx.animation.*;
 import javafx.util.Duration;
-import javafx.geometry.Point2D;
 
 public class mazePane extends Application {
     private int s = 0;
@@ -56,7 +55,6 @@ public class mazePane extends Application {
     private double height;
     private Direction dir;
     private char pacmanType;
-    private Point2D pacmanLoc;
 
     public enum Direction {
         LEFT, RIGHT, UP, DOWN
@@ -177,7 +175,7 @@ public class mazePane extends Application {
         pacman.setFitWidth(s);
         colPos = 1;   //column
         rowPos = arr.length - 2; //row
-        //  aniSprite pacMan = new aniSprite(pacman, s, s);
+      //  aniSprite pacMan = new aniSprite(pacman, s, s);
         System.out.println(colPos);
         System.out.println(rowPos);
         pane.add(pacman, colPos, rowPos);  //column, row
@@ -198,7 +196,7 @@ public class mazePane extends Application {
             @Override
             public void handle(KeyEvent e) {
                 if (inGame) {
-                    TranslateTransition t = new TranslateTransition();
+                   TranslateTransition t = new TranslateTransition();
 
                     boolean collision = false;
                     if (e.getCode() == KeyCode.LEFT) {
@@ -207,8 +205,7 @@ public class mazePane extends Application {
                         collision = checkWallCollision(key_dx, key_dy, arr);
                         if (!collision) {
                             pacman.setImage(orientPacman(pacman, pacmanType, Direction.LEFT));
-//                            t.setByX(-s);
-                            t.setToX((colPos - 1)* s );
+                            t.setByX(-s);
                             t.setNode(pacman);
                             t.play();
                         }
@@ -216,10 +213,9 @@ public class mazePane extends Application {
                     } else if (e.getCode() == KeyCode.RIGHT) {
                         key_dx = 1;
                         key_dy = 0;
-                        if (!checkWallCollision(key_dx, key_dy, arr)) {
+                        if (! checkWallCollision(key_dx, key_dy, arr)) {
                             pacman.setImage(orientPacman(pacman, pacmanType, Direction.RIGHT));
-//                            t.setByX(s);
-                            t.setToX(colPos*s);
+                            t.setByX(s);
                             t.setNode(pacman);
                             t.play();
                         }
@@ -228,8 +224,7 @@ public class mazePane extends Application {
                         key_dy = 1;
                         if (! checkWallCollision(key_dx, key_dy, arr)) {
                             pacman.setImage(orientPacman(pacman, pacmanType, Direction.DOWN));
-//                            t.setByY(s);
-                            t.setToY((rowPos) * s);
+                            t.setByY(s);
                             t.setNode(pacman);
                             t.play();
                         }
@@ -238,15 +233,14 @@ public class mazePane extends Application {
                         key_dy = -1;
                         if (! checkWallCollision(key_dx, key_dy, arr)) {
                             pacman.setImage(orientPacman(pacman, pacmanType, Direction.UP));
-//                            t.setByY(-s);
-                            t.setToY((rowPos-1) * s);
+                            t.setByY(-s);
                             t.setNode(pacman);
                             t.play();
                         }
                     }
-                    if (!checkWallCollision(key_dx, key_dy, arr)) {
+                    if (!collision) {
                         colPos += key_dx; //update x position
-                        rowPos += key_dy; //update y positio
+                        rowPos += key_dy; //update y position
                     }
                     //System.out.println("col: " + pacman.getX() + "row: "+ pacman.getbyY());
                 }
@@ -287,44 +281,49 @@ public class mazePane extends Application {
 
 
 
-    private Image orientPacman(ImageView p, char type, Direction dir) {
-        switch(type) {
-            case 'b':
-                switch(dir){
-                    case LEFT:
-                        return bPacmanLeft;
-                    case UP:
-                        return  bPacmanUp;
-                    case DOWN:
-                        return bPacmanDown;
-                    case RIGHT:
-                        return bPacmanRight;
-                }
-            case 'y':
-                switch(dir){
-                    case LEFT:
-                        return yPacmanLeft;
-                    case UP:
-                        return  yPacmanUp;
-                    case DOWN:
-                        return yPacmanDown;
-                    case RIGHT:
-                        return yPacmanRight;
-                }
-            case 'p':
-                switch(dir){
-                    case LEFT:
-                        return pPacmanLeft;
-                    case UP:
-                        return  pPacmanUp;
-                    case DOWN:
-                        return pPacmanDown;
-                    case RIGHT:
-                        return pPacmanRight;
-                }
+     private Image orientPacman(ImageView p, char type, Direction dir) {
+          switch(type) {
+              case 'b':
+                  switch(dir){
+                      case LEFT:
+                          return bPacmanLeft;
+                      case UP:
+                          return  bPacmanUp;
+                      case DOWN:
+                          return bPacmanDown;
+                      case RIGHT:
+                          return bPacmanRight;
+                  }
+              case 'y':
+                  switch(dir){
+                      case LEFT:
+                          return yPacmanLeft;
+                      case UP:
+                          return  yPacmanUp;
+                      case DOWN:
+                          return yPacmanDown;
+                      case RIGHT:
+                          return yPacmanRight;
+                  }
+              case 'p':
+                  switch(dir){
+                      case LEFT:
+                          return pPacmanLeft;
+                      case UP:
+                          return  pPacmanUp;
+                      case DOWN:
+                          return pPacmanDown;
+                      case RIGHT:
+                          return pPacmanRight;
+                  }
 
-        }
-        return pPacmanLeft;
+          }
+          return pPacmanLeft;
     }
 
 }
+
+
+
+
+
