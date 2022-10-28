@@ -23,6 +23,7 @@ public class GameControl implements EventHandler<KeyEvent> {
     public void start(Stage primaryStage) {
         String level = configurationControls.getLevel();
         maze m = new maze();
+        this.gameModel = new GameModel();
 
         if (level.equals("Easy")) {
             gameModel.setMaze(m.getEasyArray());

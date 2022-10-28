@@ -83,15 +83,11 @@ public class configurationControls {
         }
         else {
             Stage stage = (Stage) submitButton.getScene().getWindow();
-//            GameControl gameControl = new GameControl();
-//            gameControl.start(stage);
-            mazePane mp = new mazePane();
-            mp.start(stage);
-////            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mazeScreen.fxml"));
-////            Scene scene = new Scene(fxmlLoader.load(), 600, 400);
-////            stage.setScene(scene);
+            GameControl gameControl = new GameControl();
+            gameControl.start(stage);
+//            mazePane mp = new mazePane();
+//            mp.start(stage);
         }
-        //popUp.show();
     }
 
     public void initialize() {
