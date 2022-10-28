@@ -1,12 +1,9 @@
 package com.example.pacman.ui;
 
 import javafx.application.Application;
-import javafx.collections.ObservableList;
-import javafx.event.EventHandler;
 import javafx.geometry.HPos;
-import javafx.geometry.VPos;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
+import javafx.geometry.VPos;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -17,25 +14,12 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
-import javafx.scene.transform.Translate;
 import javafx.stage.Stage;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 
-import java.util.Iterator;
 import java.util.Objects;
 
-import javafx.animation.*;
-import javafx.util.Duration;
-
-public class mazePane extends Application {
-    private int s = 0;
-    private int l = configurationControls.getLives();
-    private int r = 1;
+public class GameView extends Application {
     private static GridPane pane = new GridPane();
-    private Text score = new Text();
-    private Text lives = new Text();
-    private Text round = new Text();
     private ImageView[][] cellViews;
     private Image yPacmanRight, yPacmanLeft, yPacmanUp;
     private Image yPacmanDown;
@@ -45,26 +29,12 @@ public class mazePane extends Application {
     private ImageView rGhostRight, rGhostLeft, rGhostUp, rGhostDown;
     private ImageView pGhostRight, pGhostLeft, pGhostUp, pGhostDown;
     private ImageView bGhostRight, bGhostLeft, bGhostUp, bGhostDown;
-    private boolean inGame = true;
-    private int key_dx, key_dy;
+    private Text scoreDisplay = new Text();
+    private Text livesDisplay = new Text();
     private int colPos;
     private int rowPos;
-    private double velocityX;
-    private double velocityY;
-    private double width;
-    private double height;
-    private Direction dir;
-    private char pacmanType;
 
-    public enum Direction {
-        LEFT, RIGHT, UP, DOWN
-    }
-
-    ;
-    //private Image cherry;
-
-    public mazePane() {
-
+    public GameView() {
         this.yPacmanRight = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/pmright.gif")));
         this.yPacmanLeft = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/pmleft.gif")));
         this.yPacmanUp = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/pmup.gif")));
@@ -98,17 +68,15 @@ public class mazePane extends Application {
         this.bGhostDown = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/bdown.gif"))));
     }
 
-
     public void start(Stage primaryStage) {
-        score.setText("Score: " + s);
-        lives.setText("Lives: " + l);
-        round.setText("Round " + r + "!");
-        BorderPane.setAlignment(lives, Pos.BOTTOM_LEFT);
-        HBox top = new HBox(score, round);
+        scoreDisplay.setText("Score: " + GameModel.getScore());
+        livesDisplay.setText("Lives: " + GameModel.getLives());
+        BorderPane.setAlignment(livesDisplay, Pos.BOTTOM_LEFT);
+        HBox top = new HBox(scoreDisplay);
         top.setSpacing(500);
         BorderPane bp = new BorderPane();
         bp.setTop(top);
-        bp.setBottom(lives);
+        bp.setBottom(livesDisplay);
 
 
         // Get maze array
@@ -160,26 +128,16 @@ public class mazePane extends Application {
 //        System.out.println(arr[numRows - 1][numCols - 1]);
         bp.setCenter(pane);
         ImageView pacman = new ImageView();
-        if (configurationControls.getPacman().equals("Yellow")) {
-            pacman.setImage(yPacmanRight);
-            pacmanType = 'y';
-        } else if (configurationControls.getPacman().equals("Blue")) {
-            pacman.setImage(bPacmanRight);
-            pacmanType = 'b';
-        } else {
-            pacman.setImage(pPacmanRight);
-            pacmanType = 'p';
-        }
+        String pacmanColor = GameModel.getPacmanColor();
         pacman.setFitHeight(s);
         pacman.setFitWidth(s);
         colPos = 1;   //column
         rowPos = arr.length - 2; //row
-      //  aniSprite pacMan = new aniSprite(pacman, s, s);
+        //  aniSprite pacMan = new aniSprite(pacman, s, s);
         System.out.println(colPos);
         System.out.println(rowPos);
         pane.add(pacman, colPos, rowPos);  //column, row
-        System.out.println("col: " + pacman.getX() + "row: "+ pacman.getY());
-
+        System.out.println("col: " + pacman.getX() + "row: " + pacman.getY());
 
 
         // Create a scene and place it in the stage
@@ -187,142 +145,5 @@ public class mazePane extends Application {
         primaryStage.setTitle(lev + " maze"); // Set the stage title
         primaryStage.setScene(scene); // Place in scene in the stage
         primaryStage.show(); // Display the stage;
-
-
-        //method to control pacman movement
-        //   private void movePacman() {}
-        scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
-            @Override
-            public void handle(KeyEvent e) {
-                if (inGame) {
-                   TranslateTransition t = new TranslateTransition();
-
-                    boolean collision = false;
-                    if (e.getCode() == KeyCode.LEFT) {
-                        key_dx = -1;
-                        key_dy = 0;
-                        collision = checkWallCollision(key_dx, key_dy, arr);
-                        if (!collision) {
-                            pacman.setImage(orientPacman(pacman, pacmanType, Direction.LEFT));
-                            t.setByX(-s);
-                            t.setNode(pacman);
-                            t.play();
-                        }
-
-                    } else if (e.getCode() == KeyCode.RIGHT) {
-                        key_dx = 1;
-                        key_dy = 0;
-                        if (! checkWallCollision(key_dx, key_dy, arr)) {
-                            pacman.setImage(orientPacman(pacman, pacmanType, Direction.RIGHT));
-                            t.setByX(s);
-                            t.setNode(pacman);
-                            t.play();
-                        }
-                    } else if (e.getCode() == KeyCode.DOWN) {
-                        key_dx = 0;
-                        key_dy = 1;
-                        if (! checkWallCollision(key_dx, key_dy, arr)) {
-                            pacman.setImage(orientPacman(pacman, pacmanType, Direction.DOWN));
-                            t.setByY(s);
-                            t.setNode(pacman);
-                            t.play();
-                        }
-                    } else if (e.getCode() == KeyCode.UP) {
-                        key_dx = 0;
-                        key_dy = -1;
-                        if (! checkWallCollision(key_dx, key_dy, arr)) {
-                            pacman.setImage(orientPacman(pacman, pacmanType, Direction.UP));
-                            t.setByY(-s);
-                            t.setNode(pacman);
-                            t.play();
-                        }
-                    }
-                    if (!collision) {
-                        colPos += key_dx; //update x position
-                        rowPos += key_dy; //update y position
-                    }
-                    //System.out.println("col: " + pacman.getX() + "row: "+ pacman.getbyY());
-                }
-            }
-
-        });
-
-
-
-
     }
-
-    private boolean checkWallCollision(int x, int y, char[][] arr) {
-        if (arr[rowPos + y][colPos + x] == 'W') {
-            System.out.printf("Hit a wall, xPos: %d, YPos: %d \n", colPos + x, rowPos);
-            return true;  //there is a wall collision
-        } else if (arr[rowPos + y][colPos + x] == 'P') { //separate B later
-            s += 1;
-            arr[rowPos + y][colPos + x] = 'E';
-            ObservableList<Node> childrens = pane.getChildren();
-            for (Node node : childrens) {
-                if (node instanceof Circle && pane.getRowIndex(node) == rowPos && pane.getColumnIndex(node) == colPos) {
-                    pane.getChildren().remove(node);
-                    break;
-                }
-            }
-
-            System.out.printf("No wall, xPos: %d, YPos: %d \n", colPos, rowPos);
-            return false;
-
-        } else if (arr[rowPos + y - 1][colPos + x - 1] == 'B') {
-            s += 3;
-            arr[rowPos + y][colPos + x] = 'E';
-        }
-        return false;
-    }
-
-
-
-
-     private Image orientPacman(ImageView p, char type, Direction dir) {
-          switch(type) {
-              case 'b':
-                  switch(dir){
-                      case LEFT:
-                          return bPacmanLeft;
-                      case UP:
-                          return  bPacmanUp;
-                      case DOWN:
-                          return bPacmanDown;
-                      case RIGHT:
-                          return bPacmanRight;
-                  }
-              case 'y':
-                  switch(dir){
-                      case LEFT:
-                          return yPacmanLeft;
-                      case UP:
-                          return  yPacmanUp;
-                      case DOWN:
-                          return yPacmanDown;
-                      case RIGHT:
-                          return yPacmanRight;
-                  }
-              case 'p':
-                  switch(dir){
-                      case LEFT:
-                          return pPacmanLeft;
-                      case UP:
-                          return  pPacmanUp;
-                      case DOWN:
-                          return pPacmanDown;
-                      case RIGHT:
-                          return pPacmanRight;
-                  }
-
-          }
-          return pPacmanLeft;
-    }
-
 }
-
-
-
-
-
