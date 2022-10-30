@@ -50,12 +50,8 @@ public class GameControl implements EventHandler<KeyEvent> {
             public void run() {
                 Platform.runLater(new Runnable() {
                     public void run() {
-//                        this.gameModel.step(gameModel.getCurrDirection());
-                        //updates pacmans position
-//                        this.gameView.animate(gameModel)
-                        //redraw everything??
                         update(gameModel.getCurrDirection());
-//                        System.out.println("Testing timer");
+                        System.out.println("Timer running, X=" + GameModel.getPacmanX() + " Y=" + GameModel.getPacmanY());
                     }
                 });
             }
@@ -77,9 +73,7 @@ public class GameControl implements EventHandler<KeyEvent> {
         if (e.getCode() == KeyCode.LEFT) {
             gameModel.setCurrDirection(GameModel.Direction.LEFT);
         } else if (e.getCode() == KeyCode.RIGHT) {
-            System.out.println("kdtl");
             gameModel.setCurrDirection(GameModel.Direction.RIGHT);
-            System.out.println("right");
         } else if (e.getCode() == KeyCode.UP) {
             gameModel.setCurrDirection(GameModel.Direction.UP);
         } else if (e.getCode() == KeyCode.DOWN) {
