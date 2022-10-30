@@ -62,7 +62,7 @@ public class GameControl implements EventHandler<KeyEvent> {
 
     private void update(GameModel.Direction direction) {
         this.gameModel.movePacman(direction);
-        this.gameView.updateView(gameModel);
+//        this.gameView.updateView(gameModel);
     }
 
     @Override
