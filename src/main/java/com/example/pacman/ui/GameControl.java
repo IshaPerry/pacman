@@ -14,6 +14,7 @@ public class GameControl implements EventHandler<KeyEvent> {
     private GameModel gameModel;
     private GameView gameView;
     private Timer timer;
+    private static String level;
 
     public GameControl() {};
 
@@ -21,7 +22,7 @@ public class GameControl implements EventHandler<KeyEvent> {
      * Initializes the game with the model's initial state. Called in configurationControls
      */
     public void start(Stage primaryStage) {
-        String level = configurationControls.getLevel();
+        level = configurationControls.getLevel();
         maze m = new maze();
         this.gameModel = new GameModel();
 
@@ -69,7 +70,6 @@ public class GameControl implements EventHandler<KeyEvent> {
     public void handle(KeyEvent e) {
         System.out.println("press");
         KeyCode code = e.getCode();
-//        GameModel.Direction direction = GameModel.Direction.NONE;
         if (e.getCode() == KeyCode.LEFT) {
             gameModel.setCurrDirection(GameModel.Direction.LEFT);
         } else if (e.getCode() == KeyCode.RIGHT) {
@@ -80,6 +80,10 @@ public class GameControl implements EventHandler<KeyEvent> {
             gameModel.setCurrDirection(GameModel.Direction.DOWN);
         }
         System.out.println(gameModel.getCurrDirection());
+    }
+
+    public static String getLevel() {
+        return level;
     }
 
 }
