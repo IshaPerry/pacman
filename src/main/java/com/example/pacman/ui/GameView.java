@@ -21,6 +21,7 @@ import javafx.stage.Stage;
 import java.util.Objects;
 
 public class GameView extends Application {
+    static final int CELL = 30;
     private static GridPane pane = new GridPane();
     private ImageView[][] cellViews;
     private Image yPacmanRight, yPacmanLeft, yPacmanUp;
@@ -153,10 +154,10 @@ public class GameView extends Application {
         primaryStage.show(); // Display the stage;
     }
 
-    public static void updateView(GameModel model) {
+    public static void updateView() {
         Translate t = new Translate();
-        t.setX(GameModel.getDx());
-        t.setY(GameModel.getDy());
+        t.setX(GameModel.getDx() * CELL);
+        t.setY(GameModel.getDy() * CELL);
         pacman.getTransforms().addAll(t);
     }
 }
