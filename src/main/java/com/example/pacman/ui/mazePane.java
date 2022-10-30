@@ -241,7 +241,6 @@ public class mazePane extends Application {
                         colPos += key_dx; //update x position
                         rowPos += key_dy; //update y position
                     }
-                    //System.out.println("col: " + pacman.getX() + "row: "+ pacman.getbyY());
                 }
             }
 
@@ -254,7 +253,6 @@ public class mazePane extends Application {
 
     private boolean checkWallCollision(int x, int y, char[][] arr) {
         if (arr[rowPos + y][colPos + x] == 'W') {
-            System.out.printf("Hit a wall, xPos: %d, YPos: %d \n", colPos + x, rowPos);
             return true;  //there is a wall collision
         } else if (arr[rowPos + y][colPos + x] == 'P') { //separate B later
             s += 1;
