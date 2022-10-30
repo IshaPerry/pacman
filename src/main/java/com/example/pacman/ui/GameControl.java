@@ -34,8 +34,8 @@ public class GameControl implements EventHandler<KeyEvent> {
         }
         String color = configurationControls.getPacman();
         gameModel.setPacmanColor(color);
-        this.gameModel = new GameModel();
         gameModel.setCurrDirection(GameModel.Direction.NONE);
+        gameModel.setOldDirection(GameModel.Direction.NONE);
         this.gameView = new GameView();
         gameView.start(primaryStage);
         this.timer = new java.util.Timer();
@@ -50,9 +50,8 @@ public class GameControl implements EventHandler<KeyEvent> {
             public void run() {
                 Platform.runLater(new Runnable() {
                     public void run() {
-//                        this.gameModel.step(gameModel.getCurrDirection());
-//                        this.gameView.animate(gameModel)
-                        System.out.println("Testing timer");
+                        update(gameModel.getCurrDirection());
+                        System.out.println("Timer running, X=" + GameModel.getPacmanX() + " Y=" + GameModel.getPacmanY());
                     }
                 });
             }
@@ -61,18 +60,26 @@ public class GameControl implements EventHandler<KeyEvent> {
         this.timer.schedule(timerTask, 0, frameTimeInMilliseconds);
     }
 
+    private void update(GameModel.Direction direction) {
+        this.gameModel.movePacman(direction);
+//        this.gameView.updateView(gameModel);
+    }
+
     @Override
     public void handle(KeyEvent e) {
+        System.out.println("press");
         KeyCode code = e.getCode();
-        GameModel.Direction direction = GameModel.Direction.NONE;
-        if (code == KeyCode.LEFT) {
+//        GameModel.Direction direction = GameModel.Direction.NONE;
+        if (e.getCode() == KeyCode.LEFT) {
             gameModel.setCurrDirection(GameModel.Direction.LEFT);
-        } else if (code == KeyCode.RIGHT) {
+        } else if (e.getCode() == KeyCode.RIGHT) {
             gameModel.setCurrDirection(GameModel.Direction.RIGHT);
-        } else if (code == KeyCode.UP) {
+        } else if (e.getCode() == KeyCode.UP) {
             gameModel.setCurrDirection(GameModel.Direction.UP);
-        } else if (code == KeyCode.DOWN) {
+        } else if (e.getCode() == KeyCode.DOWN) {
             gameModel.setCurrDirection(GameModel.Direction.DOWN);
         }
+        System.out.println(gameModel.getCurrDirection());
     }
+
 }

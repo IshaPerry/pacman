@@ -2,6 +2,8 @@ package com.example.pacman.ui;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
@@ -21,7 +23,7 @@ public class configurationControls {
     private int ghostSpeed;
     private String error;
     private static String pacmanColor = "Yellow";
-    private GameControl gameControl;
+    private static GameControl gameControl;
 
     @FXML
     private TextField enterName;
@@ -64,6 +66,8 @@ public class configurationControls {
         }
     }
 
+
+
     @FXML
     private void hitSubmit(ActionEvent event) throws IOException {  //we need to change this bc u can't have 2 fxml files to once controller
         name = enterName.getText();
@@ -82,12 +86,19 @@ public class configurationControls {
             }
         }
         else {
+//            FXMLLoader loader = new FXMLLoader(getClass().getResource("configurationControls.fxml"));
+
             Stage stage = (Stage) submitButton.getScene().getWindow();
-            GameControl gameControl = new GameControl();
+            gameControl = new GameControl();
+
             gameControl.start(stage);
 //            mazePane mp = new mazePane();
 //            mp.start(stage);
         }
+    }
+
+    public static GameControl getGameControl(){
+        return gameControl;
     }
 
     public void initialize() {
