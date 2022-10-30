@@ -34,8 +34,8 @@ public class GameControl implements EventHandler<KeyEvent> {
         }
         String color = configurationControls.getPacman();
         gameModel.setPacmanColor(color);
-        this.gameModel = new GameModel();
         gameModel.setCurrDirection(GameModel.Direction.NONE);
+        gameModel.setOldDirection(GameModel.Direction.NONE);
         this.gameView = new GameView();
         gameView.start(primaryStage);
         this.timer = new java.util.Timer();
@@ -51,8 +51,11 @@ public class GameControl implements EventHandler<KeyEvent> {
                 Platform.runLater(new Runnable() {
                     public void run() {
 //                        this.gameModel.step(gameModel.getCurrDirection());
+                        //updates pacmans position
 //                        this.gameView.animate(gameModel)
-                        System.out.println("Testing timer");
+                        //redraw everything??
+                        update(gameModel.getCurrDirection());
+//                        System.out.println("Testing timer");
                     }
                 });
             }
@@ -61,20 +64,28 @@ public class GameControl implements EventHandler<KeyEvent> {
         this.timer.schedule(timerTask, 0, frameTimeInMilliseconds);
     }
 
-    @Override
-    public void handle(KeyEvent e) {
-        KeyCode code = e.getCode();
-        GameModel.Direction direction = GameModel.Direction.NONE;
-        if (code == KeyCode.LEFT) {
-            gameModel.setCurrDirection(GameModel.Direction.LEFT);
-        } else if (code == KeyCode.RIGHT) {
-            gameModel.setCurrDirection(GameModel.Direction.RIGHT);
-        } else if (code == KeyCode.UP) {
-            gameModel.setCurrDirection(GameModel.Direction.UP);
-        } else if (code == KeyCode.DOWN) {
-            gameModel.setCurrDirection(GameModel.Direction.DOWN);
-        }
+    private void update(GameModel.Direction direction) {
+        this.gameModel.movePacman(direction);
+        this.gameView.updateView(gameModel);
     }
 
+    @Override
+    public void handle(KeyEvent e) {
+        System.out.println("press");
+        KeyCode code = e.getCode();
+//        GameModel.Direction direction = GameModel.Direction.NONE;
+        if (e.getCode() == KeyCode.LEFT) {
+            gameModel.setCurrDirection(GameModel.Direction.LEFT);
+        } else if (e.getCode() == KeyCode.RIGHT) {
+            System.out.println("kdtl");
+            gameModel.setCurrDirection(GameModel.Direction.RIGHT);
+            System.out.println("right");
+        } else if (e.getCode() == KeyCode.UP) {
+            gameModel.setCurrDirection(GameModel.Direction.UP);
+        } else if (e.getCode() == KeyCode.DOWN) {
+            gameModel.setCurrDirection(GameModel.Direction.DOWN);
+        }
+        System.out.println(gameModel.getCurrDirection());
+    }
 
 }
