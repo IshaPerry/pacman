@@ -15,6 +15,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
+import javafx.scene.transform.Translate;
 import javafx.stage.Stage;
 
 import java.util.Objects;
@@ -153,10 +154,9 @@ public class GameView extends Application {
     }
 
     public static void updateView(GameModel model) {
-        TranslateTransition t = new TranslateTransition();
-        t.setToY(model.getPacmanY());
-        t.setToX(model.getPacmanX());
-        t.setNode(pacman);
-        t.play();
+        Translate t = new Translate();
+        t.setX(GameModel.getDx());
+        t.setY(GameModel.getDy());
+        pacman.getTransforms().addAll(t);
     }
 }
