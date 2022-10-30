@@ -51,7 +51,7 @@ public class GameModel {
         return maze[pacmanY + dy][pacmanX + dx] == 'W';
     }
 
-    public Direction getCurrDirection() {
+    public static Direction getCurrDirection() {
         return currDirection;
     }
 

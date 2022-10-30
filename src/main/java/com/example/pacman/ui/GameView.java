@@ -24,16 +24,16 @@ public class GameView extends Application {
     static final int CELL = 30;
     private static GridPane pane = new GridPane();
     private ImageView[][] cellViews;
-    private Image yPacmanRight, yPacmanLeft, yPacmanUp;
-    private Image yPacmanDown;
-    private Image bPacmanRight, bPacmanLeft, bPacmanUp, bPacmanDown;
-    private Image pPacmanRight, pPacmanLeft, pPacmanUp, pPacmanDown;
-    private ImageView yGhostRight, yGhostLeft, yGhostUp, yGhostDown;
-    private ImageView rGhostRight, rGhostLeft, rGhostUp, rGhostDown;
-    private ImageView pGhostRight, pGhostLeft, pGhostUp, pGhostDown;
-    private ImageView bGhostRight, bGhostLeft, bGhostUp, bGhostDown;
-    private Text scoreDisplay = new Text();
-    private Text livesDisplay = new Text();
+    private static Image yPacmanRight, yPacmanLeft, yPacmanUp;
+    private static Image yPacmanDown;
+    private static Image bPacmanRight, bPacmanLeft, bPacmanUp, bPacmanDown;
+    private static Image pPacmanRight, pPacmanLeft, pPacmanUp, pPacmanDown;
+    private static ImageView yGhostRight, yGhostLeft, yGhostUp, yGhostDown;
+    private static ImageView rGhostRight, rGhostLeft, rGhostUp, rGhostDown;
+    private static ImageView pGhostRight, pGhostLeft, pGhostUp, pGhostDown;
+    private static ImageView bGhostRight, bGhostLeft, bGhostUp, bGhostDown;
+    private static Text scoreDisplay = new Text();
+    private static Text livesDisplay = new Text();
     private static ImageView pacman;
 
     public GameView() {
@@ -158,6 +158,65 @@ public class GameView extends Application {
         Translate t = new Translate();
         t.setX(GameModel.getDx() * CELL);
         t.setY(GameModel.getDy() * CELL);
+        orientPacman(pacman, GameModel.getPacmanColor(), GameModel.getCurrDirection());
         pacman.getTransforms().addAll(t);
+
+    }
+
+    public static void orientPacman(ImageView p, String color, GameModel.Direction dir) {
+        switch(color) {
+            case "Blue":
+                switch(dir){
+                    case LEFT:
+                        pacman.setImage(bPacmanLeft);
+                        break;
+                    case UP:
+                        pacman.setImage(bPacmanUp);
+                        break;
+                    case DOWN:
+                        pacman.setImage(bPacmanDown);
+                        break;
+                    case RIGHT:
+                        pacman.setImage(bPacmanRight);
+                        break;
+                }
+                break;
+            case "Yellow":
+                switch(dir){
+                    case LEFT:
+                        pacman.setImage(yPacmanLeft);
+                        break;
+                    case UP:
+                        pacman.setImage(yPacmanUp);
+                        break;
+                    case DOWN:
+                        pacman.setImage(yPacmanDown);
+                        break;
+                    case RIGHT:
+                        pacman.setImage(yPacmanRight);
+                        break;
+                }
+                break;
+            case "Purple":
+                switch(dir){
+                    case LEFT:
+                        pacman.setImage(pPacmanLeft);
+                        break;
+                    case UP:
+                        pacman.setImage(pPacmanUp);
+                        break;
+                    case DOWN:
+                        pacman.setImage(pPacmanDown);
+                        break;
+                    case RIGHT:
+                        pacman.setImage(pPacmanRight);
+                        break;
+                }
+
+        }
+    }
+
+    public static ImageView getPacman() {
+        return pacman;
     }
 }
