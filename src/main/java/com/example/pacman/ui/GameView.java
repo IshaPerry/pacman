@@ -146,4 +146,55 @@ public class GameView extends Application {
         primaryStage.setScene(scene); // Place in scene in the stage
         primaryStage.show(); // Display the stage;
     }
+
+    public void updateScoreDisplay(){
+        scoreDisplay.setText("Score: " + GameModel.getScore());
+    }
+
+    public void updateLivesDisplay() {
+        livesDisplay.setText("Lives: " + GameModel.getLives());
+    }
+
+    private Image orientPacman(ImageView p, String pacmanColor, mazePane.Direction dir) {
+        switch(pacmanColor) {
+            case "Blue":
+                switch(dir){
+                    case LEFT:
+                        return bPacmanLeft;
+                    case UP:
+                        return  bPacmanUp;
+                    case DOWN:
+                        return bPacmanDown;
+                    case RIGHT:
+                        return bPacmanRight;
+                }
+            case "Yellow":
+                switch(dir){
+                    case LEFT:
+                        return yPacmanLeft;
+                    case UP:
+                        return  yPacmanUp;
+                    case DOWN:
+                        return yPacmanDown;
+                    case RIGHT:
+                        return yPacmanRight;
+                }
+            case "Purple":
+                switch(dir){
+                    case LEFT:
+                        return pPacmanLeft;
+                    case UP:
+                        return  pPacmanUp;
+                    case DOWN:
+                        return pPacmanDown;
+                    case RIGHT:
+                        return pPacmanRight;
+                }
+
+        }
+        return pPacmanLeft; //since i need to have a return value but change if u want
+    }
+
+
+
 }

@@ -75,4 +75,6 @@ public class GameControl implements EventHandler<KeyEvent> {
             gameModel.setCurrDirection(GameModel.Direction.DOWN);
         }
     }
+
+
 }
