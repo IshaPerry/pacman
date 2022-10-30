@@ -1,5 +1,6 @@
 package com.example.pacman.ui;
 
+import javafx.animation.TranslateTransition;
 import javafx.application.Application;
 import javafx.geometry.HPos;
 import javafx.geometry.Pos;
@@ -31,8 +32,7 @@ public class GameView extends Application {
     private ImageView bGhostRight, bGhostLeft, bGhostUp, bGhostDown;
     private Text scoreDisplay = new Text();
     private Text livesDisplay = new Text();
-    private int colPos;
-    private int rowPos;
+    private static ImageView pacman;
 
     public GameView() {
         this.yPacmanRight = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/pmright.gif")));
@@ -127,17 +127,21 @@ public class GameView extends Application {
 //        int numCols = arr[0].length;
 //        System.out.println(arr[numRows - 1][numCols - 1]);
         bp.setCenter(pane);
-        ImageView pacman = new ImageView();
+        pacman = new ImageView();
         String pacmanColor = GameModel.getPacmanColor();
+        if (pacmanColor.equals("Yellow")) {
+            pacman.setImage(yPacmanRight);
+        } else if (pacmanColor.equals("Blue")) {
+            pacman.setImage(bPacmanRight);
+        }else {
+            pacman.setImage(pPacmanRight);
+        }
         pacman.setFitHeight(s);
         pacman.setFitWidth(s);
-        colPos = 1;   //column
-        rowPos = arr.length - 2; //row
+//        colPos = 1;   //column
+//        rowPos = arr.length - 2; //row
         //  aniSprite pacMan = new aniSprite(pacman, s, s);
-        System.out.println(colPos);
-        System.out.println(rowPos);
-        pane.add(pacman, colPos, rowPos);  //column, row
-        System.out.println("col: " + pacman.getX() + "row: " + pacman.getY());
+        pane.add(pacman, GameModel.getPacmanX(), GameModel.getPacmanY());  //column, row
 
 
         // Create a scene and place it in the stage
@@ -145,5 +149,13 @@ public class GameView extends Application {
         primaryStage.setTitle(lev + " maze"); // Set the stage title
         primaryStage.setScene(scene); // Place in scene in the stage
         primaryStage.show(); // Display the stage;
+    }
+
+    public static void updateView(GameModel model) {
+        TranslateTransition t = new TranslateTransition();
+        t.setToY(model.getPacmanY());
+        t.setToX(model.getPacmanX());
+        t.setNode(pacman);
+        t.play();
     }
 }
