@@ -17,7 +17,7 @@ public class GameModel {
     private static Integer score;
     private static Integer lives;
     private static String pacmanColor;
-    private char[][] maze;
+    private static char[][] maze;
     private static int pacmanX;
     private static int pacmanY;
     private static int dx;
@@ -63,16 +63,16 @@ public class GameModel {
         oldDirection = dir;
     }
 
-    public char[][] getMaze() {
-        return this.maze;
+    public static char[][] getMaze() {
+        return maze;
     }
 
     public char getMazeID(int i, int j) {
         return this.maze[i][j];
     }
 
-    public void setMaze(char[][] maze) {
-        this.maze = maze;
+    public void setMaze(char[][] newMaze) {
+        maze = newMaze;
         pacmanX = 1;   //column
         pacmanY = maze.length - 2; //row
     }

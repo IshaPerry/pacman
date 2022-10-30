@@ -35,6 +35,9 @@ public class GameView extends Application {
     private static Text scoreDisplay = new Text();
     private static Text livesDisplay = new Text();
     private static ImageView pacman;
+    private static BorderPane bp;
+    private Scene scene;
+
 
     public GameView() {
         this.yPacmanRight = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/pmright.gif")));
@@ -76,28 +79,17 @@ public class GameView extends Application {
         BorderPane.setAlignment(livesDisplay, Pos.BOTTOM_LEFT);
         HBox top = new HBox(scoreDisplay);
         top.setSpacing(500);
-        BorderPane bp = new BorderPane();
+        bp = new BorderPane();
         bp.setTop(top);
         bp.setBottom(livesDisplay);
 
 
         // Get maze array
-        char[][] arr;
-        maze m = new maze();
-        String lev = configurationControls.getLevel();
+        char[][] arr = GameModel.getMaze();
 
-        if (lev.equals("Easy")) {
-            arr = m.getEasyArray();
-        } else if (lev.equals("Medium")) {
-            arr = m.getMedArray();
-        } else {
-            arr = m.getHardArray();
-        }
-
-        double s = 30; // height & width of each square
         for (int i = 0; i < arr.length; i++) {
             for (int j = 0; j < arr[i].length; j++) {
-                Rectangle r = new Rectangle(s, s, s, s);
+                Rectangle r = new Rectangle(CELL, CELL, CELL, CELL);
                 if (arr[i][j] == 'W') {
                     r.setFill(Color.BLUE);
                 } else {
@@ -106,7 +98,7 @@ public class GameView extends Application {
                 if (arr[i][j] == 'P') {
                     r.setFill(Color.BLACK);
                     pane.add(r, j, i);
-                    Circle pellet = new Circle(s / 8, Color.YELLOW);
+                    Circle pellet = new Circle(CELL / 8, Color.YELLOW);
                     pane.add(pellet, j, i);
                     pane.setAlignment(Pos.CENTER);
                     GridPane.setHalignment(pellet, HPos.CENTER);
@@ -116,7 +108,7 @@ public class GameView extends Application {
                 } else if (arr[i][j] == 'B') {
                     r.setFill(Color.BLACK);
                     pane.add(r, j, i);
-                    Circle pellet = new Circle(s / 4, Color.YELLOW);
+                    Circle pellet = new Circle(CELL/ 4, Color.YELLOW);
                     pane.add(pellet, j, i);
                     GridPane.setHalignment(pellet, HPos.CENTER);
                     GridPane.setValignment(pellet, VPos.CENTER);
@@ -125,9 +117,6 @@ public class GameView extends Application {
                 }
             }
         }
-//        int numRows = arr.length;
-//        int numCols = arr[0].length;
-//        System.out.println(arr[numRows - 1][numCols - 1]);
         bp.setCenter(pane);
         pacman = new ImageView();
         String pacmanColor = GameModel.getPacmanColor();
@@ -138,8 +127,8 @@ public class GameView extends Application {
         }else {
             pacman.setImage(pPacmanRight);
         }
-        pacman.setFitHeight(s);
-        pacman.setFitWidth(s);
+        pacman.setFitHeight(CELL);
+        pacman.setFitWidth(CELL);
 //        colPos = 1;   //column
 //        rowPos = arr.length - 2; //row
         //  aniSprite pacMan = new aniSprite(pacman, s, s);
@@ -147,8 +136,8 @@ public class GameView extends Application {
 
 
         // Create a scene and place it in the stage
-        Scene scene = new Scene(bp);
-        primaryStage.setTitle(lev + " maze"); // Set the stage title
+        scene = new Scene(bp);
+        primaryStage.setTitle(GameControl.getLevel() + " maze"); // Set the stage title
         primaryStage.setScene(scene); // Place in scene in the stage
         scene.setOnKeyPressed(configurationControls.getGameControl());
         primaryStage.show(); // Display the stage;
@@ -162,6 +151,8 @@ public class GameView extends Application {
         pacman.getTransforms().addAll(t);
 
     }
+
+
 
     public static void orientPacman(ImageView p, String color, GameModel.Direction dir) {
         switch(color) {
