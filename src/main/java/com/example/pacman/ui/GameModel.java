@@ -16,6 +16,7 @@ public class GameModel {
     private static Direction oldDirection;
     private static Integer score;
     private static Integer lives;
+    private static Integer round;
     private static String pacmanColor;
     private static char[][] maze;
     private static int pacmanX;
@@ -37,18 +38,31 @@ public class GameModel {
         } else if (dir == Direction.UP) {
             dy = -1;
         }
-        boolean collision = checkWallCollision(dx, dy);
+        boolean collision = checkMaze(dx, dy);
         if (!collision) {
-            pacmanX = pacmanX + dx;
+            // Now check for wraparound
             pacmanY = pacmanY + dy;
-            System.out.println("No collision");
+            pacmanX = pacmanX + dx;
             GameView.updateView();
         }
         System.out.println("X=" + pacmanX + " Y=" + pacmanY);
     }
 
-    private boolean checkWallCollision(int dx, int dy) {
-        return maze[pacmanY + dy][pacmanX + dx] == 'W';
+    private boolean checkMaze(int dx, int dy) {
+        char newPos = maze[pacmanY + dy][pacmanX + dx];
+        char currPos = maze[pacmanY][pacmanX];
+        if (newPos == 'W') {
+            return true;
+        } else if (currPos == 'P') {
+            score += 1;
+            maze[pacmanY][pacmanX] = 'S';
+            GameView.removePellets();
+        } else if (currPos == 'B') {
+            score += 5;
+            maze[pacmanY][pacmanX] = 'S';
+            GameView.removePellets();
+        }
+        return false;
     }
 
     public static Direction getCurrDirection() {
@@ -89,6 +103,10 @@ public class GameModel {
         return score;
     }
 
+    public static Integer getRound() {
+        return round;
+    }
+
     public void setScore(Integer newScore) {
         score = newScore;
     }
@@ -99,6 +117,10 @@ public class GameModel {
 
     public void setLives(Integer newLives) {
         lives = newLives;
+    }
+
+    public void setRound(Integer newRound) {
+        round = newRound;
     }
 
     public static int getPacmanX() {

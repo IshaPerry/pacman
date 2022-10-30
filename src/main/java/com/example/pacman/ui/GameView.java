@@ -2,9 +2,11 @@ package com.example.pacman.ui;
 
 import javafx.animation.TranslateTransition;
 import javafx.application.Application;
+import javafx.collections.ObservableList;
 import javafx.geometry.HPos;
 import javafx.geometry.Pos;
 import javafx.geometry.VPos;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -34,6 +36,7 @@ public class GameView extends Application {
     private static ImageView bGhostRight, bGhostLeft, bGhostUp, bGhostDown;
     private static Text scoreDisplay = new Text();
     private static Text livesDisplay = new Text();
+    private static Text roundDisplay = new Text();
     private static ImageView pacman;
     private static BorderPane bp;
     private Scene scene;
@@ -76,12 +79,14 @@ public class GameView extends Application {
     public void start(Stage primaryStage) {
         scoreDisplay.setText("Score: " + GameModel.getScore());
         livesDisplay.setText("Lives: " + GameModel.getLives());
+        roundDisplay.setText("Round: " + GameModel.getRound());
         BorderPane.setAlignment(livesDisplay, Pos.BOTTOM_LEFT);
-        HBox top = new HBox(scoreDisplay);
-        top.setSpacing(500);
+        HBox top = new HBox(scoreDisplay, roundDisplay);
+        top.setSpacing(700);
         bp = new BorderPane();
         bp.setTop(top);
         bp.setBottom(livesDisplay);
+
 
 
         // Get maze array
@@ -120,13 +125,24 @@ public class GameView extends Application {
         bp.setCenter(pane);
         pacman = new ImageView();
         String pacmanColor = GameModel.getPacmanColor();
-        if (pacmanColor.equals("Yellow")) {
-            pacman.setImage(yPacmanRight);
-        } else if (pacmanColor.equals("Blue")) {
-            pacman.setImage(bPacmanRight);
-        }else {
-            pacman.setImage(pPacmanRight);
+        if (GameControl.getLevel().equals("Medium")) {
+            if (pacmanColor.equals("Yellow")) {
+                pacman.setImage(yPacmanUp);
+            } else if (pacmanColor.equals("Blue")) {
+                pacman.setImage(bPacmanUp);
+            }else {
+                pacman.setImage(pPacmanUp);
+            }
+        } else {
+            if (pacmanColor.equals("Yellow")) {
+                pacman.setImage(yPacmanRight);
+            } else if (pacmanColor.equals("Blue")) {
+                pacman.setImage(bPacmanRight);
+            }else {
+                pacman.setImage(pPacmanRight);
+            }
         }
+
         pacman.setFitHeight(CELL);
         pacman.setFitWidth(CELL);
 //        colPos = 1;   //column
@@ -148,8 +164,27 @@ public class GameView extends Application {
         t.setX(GameModel.getDx() * CELL);
         t.setY(GameModel.getDy() * CELL);
         orientPacman(pacman, GameModel.getPacmanColor(), GameModel.getCurrDirection());
+        updateDisplay();
         pacman.getTransforms().addAll(t);
 
+
+
+    }
+
+    public static void updateDisplay(){
+        scoreDisplay.setText("Score: " + GameModel.getScore());
+        livesDisplay.setText("Lives: " + GameModel.getLives());
+    }
+
+    public static void removePellets() {
+        ObservableList<Node> childrens = pane.getChildren();
+        for (Node node : childrens) {
+            if (node instanceof Circle && pane.getRowIndex(node) == GameModel.getPacmanY() && pane.getColumnIndex(node) == GameModel.getPacmanX()) {
+                pane.getChildren().remove(node);
+                break;
+            }
+
+         }
     }
 
 

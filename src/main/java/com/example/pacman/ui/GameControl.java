@@ -35,6 +35,9 @@ public class GameControl implements EventHandler<KeyEvent> {
         }
         String color = configurationControls.getPacman();
         gameModel.setPacmanColor(color);
+        gameModel.setScore(0);
+        gameModel.setLives(3);
+        gameModel.setRound(1);
         gameModel.setCurrDirection(GameModel.Direction.NONE);
         gameModel.setOldDirection(GameModel.Direction.NONE);
         this.gameView = new GameView();
@@ -51,8 +54,7 @@ public class GameControl implements EventHandler<KeyEvent> {
             public void run() {
                 Platform.runLater(new Runnable() {
                     public void run() {
-                        update(gameModel.getCurrDirection());
-                        System.out.println("Timer running, X=" + GameModel.getPacmanX() + " Y=" + GameModel.getPacmanY());
+                        gameModel.movePacman(GameModel.getCurrDirection());
                     }
                 });
             }
@@ -61,10 +63,6 @@ public class GameControl implements EventHandler<KeyEvent> {
         this.timer.schedule(timerTask, 0, frameTimeInMilliseconds);
     }
 
-    private void update(GameModel.Direction direction) {
-        this.gameModel.movePacman(direction);
-//        this.gameView.updateView(gameModel);
-    }
 
     @Override
     public void handle(KeyEvent e) {
