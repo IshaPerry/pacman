@@ -148,6 +148,7 @@ public class GameView extends Application {
         Scene scene = new Scene(bp);
         primaryStage.setTitle(lev + " maze"); // Set the stage title
         primaryStage.setScene(scene); // Place in scene in the stage
+        scene.setOnKeyPressed(configurationControls.getGameControl());
         primaryStage.show(); // Display the stage;
     }
 
