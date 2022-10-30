@@ -48,6 +48,7 @@ public class GameModel {
     }
 
     private boolean checkWallCollision(int dx, int dy) {
+//        System.out.println("commit");
         return maze[pacmanY + dy][pacmanX + dx] == 'W';
     }
 
