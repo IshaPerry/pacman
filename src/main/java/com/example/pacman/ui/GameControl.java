@@ -39,7 +39,6 @@ public class GameControl implements EventHandler<KeyEvent> {
         gameModel.setLives(3);
         gameModel.setRound(1);
         gameModel.setCurrDirection(GameModel.Direction.NONE);
-        gameModel.setOldDirection(GameModel.Direction.NONE);
         this.gameView = new GameView();
         gameView.start(primaryStage);
         this.timer = new java.util.Timer();
@@ -68,6 +67,7 @@ public class GameControl implements EventHandler<KeyEvent> {
     public void handle(KeyEvent e) {
         System.out.println("press");
         KeyCode code = e.getCode();
+        gameModel.setOldDirection(gameModel.getCurrDirection());
         if (e.getCode() == KeyCode.LEFT) {
             gameModel.setCurrDirection(GameModel.Direction.LEFT);
         } else if (e.getCode() == KeyCode.RIGHT) {
