@@ -23,10 +23,24 @@ public class GameModel {
     private static int pacmanY;
     private static int dx;
     private static int dy;
+    private static int blueX;
+    private static int blueY;
+    private static int pinkX;
+    private static int pinkY;
+    private static int redX;
+    private static int redY;
+    private static int blueDx;
+    private static int blueDy;
+    private static int redDx;
+    private static int redDy;
+    private static int pinkDx;
+    private static int pinkDy;
 
     public GameModel() {}
 
     public void movePacman(Direction dir) {
+        oldDirection = currDirection;
+        currDirection = dir;
         dx = 0;
         dy = 0;
         if (dir == Direction.LEFT) {
@@ -44,6 +58,11 @@ public class GameModel {
             pacmanY = pacmanY + dy;
             pacmanX = pacmanX + dx;
             GameView.updateView();
+        } else {
+            if (oldDirection != currDirection) {
+                //keepgoing in old direction
+                currDirection = oldDirection;
+            }
         }
         System.out.println("X=" + pacmanX + " Y=" + pacmanY);
     }
@@ -89,6 +108,29 @@ public class GameModel {
         maze = newMaze;
         pacmanX = 1;   //column
         pacmanY = maze.length - 2; //row
+        String level = GameControl.getLevel();
+        if (level.equals("Easy")) {
+            blueX = 9;
+            blueY = 1;
+            pinkX = 12;
+            pinkY = 1;
+            redX = 15;
+            redY = 1;
+        } else if (level.equals("Medium")) {
+            blueX = 8;
+            blueY = 5;
+            pinkX = 9;
+            pinkY = 5;
+            redX = 11;
+            redY = 5;
+        } else {
+            blueX = 8;
+            blueY = 9;
+            pinkX = 9;
+            pinkY = 10;
+            redX = 10;
+            redY = 9;
+        }
     }
 
     public static String getPacmanColor() {
@@ -137,5 +179,53 @@ public class GameModel {
 
     public static int getDy() {
         return dy;
+    }
+
+    public static int getBlueX() {
+        return blueX;
+    }
+
+    public static int getBlueY() {
+        return blueY;
+    }
+
+    public static int getPinkX() {
+        return pinkX;
+    }
+
+    public static int getPinkY() {
+        return pinkY;
+    }
+
+    public static int getRedX() {
+        return redX;
+    }
+
+    public static int getRedY() {
+        return redY;
+    }
+
+    public static int getBlueDX() {
+        return blueDx;
+    }
+
+    public static int getBlueDY() {
+        return blueDy;
+    }
+
+    public static int getPinkDX() {
+        return pinkDx;
+    }
+
+    public static int getPinkDY() {
+        return pinkDy;
+    }
+
+    public static int getRedDX() {
+        return redDx;
+    }
+
+    public static int getRedDY() {
+        return redDy;
     }
 }

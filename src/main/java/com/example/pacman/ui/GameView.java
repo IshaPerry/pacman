@@ -30,14 +30,17 @@ public class GameView extends Application {
     private static Image yPacmanDown;
     private static Image bPacmanRight, bPacmanLeft, bPacmanUp, bPacmanDown;
     private static Image pPacmanRight, pPacmanLeft, pPacmanUp, pPacmanDown;
-    private static ImageView yGhostRight, yGhostLeft, yGhostUp, yGhostDown;
-    private static ImageView rGhostRight, rGhostLeft, rGhostUp, rGhostDown;
-    private static ImageView pGhostRight, pGhostLeft, pGhostUp, pGhostDown;
-    private static ImageView bGhostRight, bGhostLeft, bGhostUp, bGhostDown;
+    private static Image yGhostRight, yGhostLeft, yGhostUp, yGhostDown;
+    private static Image rGhostRight, rGhostLeft, rGhostUp, rGhostDown;
+    private static Image pGhostRight, pGhostLeft, pGhostUp, pGhostDown;
+    private static Image bGhostRight, bGhostLeft, bGhostUp, bGhostDown;
     private static Text scoreDisplay = new Text();
     private static Text livesDisplay = new Text();
     private static Text roundDisplay = new Text();
     private static ImageView pacman;
+    private static ImageView blue;
+    private static ImageView pink;
+    private static ImageView red;
     private static BorderPane bp;
     private Scene scene;
 
@@ -58,22 +61,19 @@ public class GameView extends Application {
         this.pPacmanUp = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/pmpu.gif")));
         this.pPacmanDown = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/pmpd.gif")));
 
-        this.yGhostRight = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/yright.gif"))));
-        this.yGhostLeft = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/yleft.gif"))));
-        this.yGhostUp = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/yup.gif"))));
-        this.yGhostDown = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/ydown.gif"))));
-        this.rGhostRight = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/rright.gif"))));
-        this.rGhostLeft = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/rleft.gif"))));
-        this.rGhostUp = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/rup.gif"))));
-        this.rGhostDown = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/rdown.gif"))));
-        this.pGhostRight = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/pright.gif"))));
-        this.pGhostLeft = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/pleft.gif"))));
-        this.pGhostUp = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/pup.gif"))));
-        this.pGhostDown = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/pdown.gif"))));
-        this.bGhostRight = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/pright.gif"))));
-        this.bGhostLeft = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/bleft.gif"))));
-        this.bGhostUp = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/bup.gif"))));
-        this.bGhostDown = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/bdown.gif"))));
+
+        this.rGhostRight = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/rright.gif")));
+        this.rGhostLeft = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/rleft.gif")));
+        this.rGhostUp = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/rup.gif")));
+        this.rGhostDown = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/rdown.gif")));
+        this.pGhostRight = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/pright.gif")));
+        this.pGhostLeft = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/pleft.gif")));
+        this.pGhostUp = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/pup.gif")));
+        this.pGhostDown = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/pdown.gif")));
+        this.bGhostRight = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/pright.gif")));
+        this.bGhostLeft = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/bleft.gif")));
+        this.bGhostUp = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/bup.gif")));
+        this.bGhostDown = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/bdown.gif")));
     }
 
     public void start(Stage primaryStage) {
@@ -124,6 +124,10 @@ public class GameView extends Application {
         }
         bp.setCenter(pane);
         pacman = new ImageView();
+        blue = new ImageView();
+        red = new ImageView();
+        pink = new ImageView();
+
         String pacmanColor = GameModel.getPacmanColor();
         if (GameControl.getLevel().equals("Medium")) {
             if (pacmanColor.equals("Yellow")) {
@@ -143,12 +147,25 @@ public class GameView extends Application {
             }
         }
 
+        blue.setImage(bGhostUp);
+        red.setImage(rGhostDown);
+        pink.setImage(pGhostLeft);
+
         pacman.setFitHeight(CELL);
         pacman.setFitWidth(CELL);
+        blue.setFitHeight(CELL);
+        blue.setFitWidth(CELL);
+        red.setFitHeight(CELL);
+        red.setFitWidth(CELL);
+        pink.setFitHeight(CELL);
+        pink.setFitWidth(CELL);
 //        colPos = 1;   //column
 //        rowPos = arr.length - 2; //row
         //  aniSprite pacMan = new aniSprite(pacman, s, s);
         pane.add(pacman, GameModel.getPacmanX(), GameModel.getPacmanY());  //column, row
+        pane.add(blue, GameModel.getBlueX(), GameModel.getBlueY());
+        pane.add(pink, GameModel.getPinkX(), GameModel.getPinkY());
+        pane.add(red, GameModel.getRedX(), GameModel.getRedY());
 
 
         // Create a scene and place it in the stage
@@ -239,6 +256,40 @@ public class GameView extends Application {
                         break;
                 }
 
+        }
+    }
+
+    public static void orientBlue(int dx, int dy) {
+        if (dx == 1) {
+            blue.setImage(bGhostRight);
+        } else if (dx == -1) {
+            blue.setImage(bGhostLeft);
+        } else if (dy == 1) {
+            blue.setImage(bGhostDown);
+        } else {
+            blue.setImage(bGhostUp);
+        }
+    }
+    public static void orientRed(int dx, int dy) {
+        if (dx == 1) {
+            red.setImage(rGhostRight);
+        } else if (dx == -1) {
+            red.setImage(rGhostLeft);
+        } else if (dy == 1) {
+            red.setImage(rGhostDown);
+        } else {
+            red.setImage(rGhostUp);
+        }
+    }
+    public static void orientPink(int dx, int dy) {
+        if (dx == 1) {
+            pink.setImage(pGhostRight);
+        } else if (dx == -1) {
+            pink.setImage(pGhostLeft);
+        } else if (dy == 1) {
+            pink.setImage(pGhostDown);
+        } else {
+            pink.setImage(pGhostUp);
         }
     }
 
