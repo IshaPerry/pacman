@@ -6,6 +6,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 
+import java.net.MalformedURLException;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -13,7 +14,7 @@ public class GameControl implements EventHandler<KeyEvent> {
     final private static double FRAMES_PER_SECOND = 5.0;
     private GameModel gameModel;
     private GameView gameView;
-    private Timer timer;
+    private static Timer timer;
     private static String level;
 
     public GameControl() {};
@@ -53,7 +54,14 @@ public class GameControl implements EventHandler<KeyEvent> {
             public void run() {
                 Platform.runLater(new Runnable() {
                     public void run() {
+                        gameModel.setGameStatus(GameModel.GameState.PLAYING);
                         gameModel.movePacman(GameModel.getCurrDirection());
+                        gameModel.testGameOver();
+                        try {
+                            gameModel.checkGameStatus();
+                        } catch (MalformedURLException e) {
+                            e.printStackTrace();
+                        }
                     }
                 });
             }
@@ -82,6 +90,10 @@ public class GameControl implements EventHandler<KeyEvent> {
 
     public static String getLevel() {
         return level;
+    }
+
+    public static Timer getTimer() {
+        return timer;
     }
 
 }

@@ -184,7 +184,7 @@ public class mazePane extends Application {
 
         // Create a scene and place it in the stage
         Scene scene = new Scene(bp);
-        primaryStage.setTitle(lev + " maze"); // Set the stage title
+      //  primaryStage.setTitle(lev + " maze"); // Set the stage title
         primaryStage.setScene(scene); // Place in scene in the stage
         primaryStage.show(); // Display the stage;
 
