@@ -43,6 +43,7 @@ public class GameView extends Application {
     private static ImageView red;
     private static BorderPane bp;
     private Scene scene;
+    private static Stage stage;
 
 
     public GameView() {
@@ -77,6 +78,7 @@ public class GameView extends Application {
     }
 
     public void start(Stage primaryStage) {
+        stage = primaryStage;
         scoreDisplay.setText("Score: " + GameModel.getScore());
         livesDisplay.setText("Lives: " + GameModel.getLives());
         roundDisplay.setText("Round: " + GameModel.getRound());
@@ -202,6 +204,10 @@ public class GameView extends Application {
             }
 
          }
+    }
+
+    public static Stage getStage() {
+        return stage;
     }
 
 

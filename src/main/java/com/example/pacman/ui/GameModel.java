@@ -4,6 +4,8 @@ import javafx.scene.Node;
 import javafx.scene.shape.Circle;
 
 import javax.sound.midi.Soundbank;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.*;
 
 public class GameModel {
@@ -11,7 +13,12 @@ public class GameModel {
     public enum Direction {
         UP, DOWN, LEFT, RIGHT, NONE
     };
+
+    public enum GameState {
+        WIN, LOSE, PLAYING
+    };
     // Attributes
+    private static GameState gameStatus;
     private static Direction currDirection;
     private static Direction oldDirection;
     private static Integer score;
@@ -83,6 +90,26 @@ public class GameModel {
         }
         return false;
     }
+
+    public void checkGameStatus() throws MalformedURLException {
+        URL location = getClass().getResource("/gameOver.fxml");
+        if (gameStatus == GameState.WIN) {
+            gameOverControls.changeScene(GameView.getStage(), location, "Congrats, you won!");
+            GameControl.getTimer().cancel();
+        } else if (gameStatus == GameState.LOSE) {
+            gameOverControls.changeScene(GameView.getStage(), location, "Sorry, you lost!");
+            GameControl.getTimer().cancel();
+        } else {
+            return;
+        }
+    }
+
+    public void testGameOver() {
+        gameStatus = GameState.WIN;
+    }
+
+
+
 
     public static Direction getCurrDirection() {
         return currDirection;
@@ -227,5 +254,13 @@ public class GameModel {
 
     public static int getRedDY() {
         return redDy;
+    }
+
+    public static void setGameStatus(GameState state) {
+        gameStatus = state;
+    }
+
+    public GameState getGameStatus() {
+        return gameStatus;
     }
 }
