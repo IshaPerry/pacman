@@ -90,6 +90,58 @@ public class GameModel {
         }
         return false;
     }
+     public void releaseGhost(String color) {
+        if (color.equals("Blue") && !(GameControl.getLevel().equals("Hard"))) {
+            blueDx = 2;
+            blueDy = 2;
+            blueX += blueDx;
+            blueY += blueDy;
+            GameView.updateGhost(blueDx, blueDy, "Blue");
+            moveBlueGhost();
+        }
+        else if (color.equals("Blue") && (GameControl.getLevel().equals("Hard"))) {
+            blueDy = -1;
+            blueDx = 0;
+            blueX += blueDx;
+            blueY += blueDy;
+            blueY += blueDy;
+            GameView.updateGhost(blueDx, blueDy, "Blue");
+            moveBlueGhost();
+        }
+        else if (color.equals("Pink") && !(GameControl.getLevel().equals("Hard"))) {
+            pinkDy += 2;
+            pinkDx = 0;
+            pinkX += pinkDx;
+            pinkY += pinkDy;
+            GameView.updateGhost(pinkDx, pinkDy, "Pink");
+        }
+        else if (color.equals("Pink") && (GameControl.getLevel().equals("Hard"))) {
+            pinkDy -= 2;
+            pinkDx = 0;
+            pinkX += pinkDx;
+            pinkY += pinkDy;
+            GameView.updateGhost(pinkDx, pinkDy, "Pink");
+        } else if (color.equals("Red") && !(GameControl.getLevel().equals("Hard"))) {
+            redDy += 2;
+            redDx = 0;
+            redX += redDx;
+            redY += redDy;
+            GameView.updateGhost(redDx, redDy, "Red");
+        } else if (color.equals("Red") && (GameControl.getLevel().equals("Hard"))) {
+            redDy -= 1;
+            redDx = 0;
+            redX += redDx;
+            redY += redDy;
+            GameView.updateGhost(redDx, redDy, "Red");
+        }
+
+     }
+
+    public void moveBlueGhost() {
+
+    }
+
+
 
     public void checkGameStatus() throws MalformedURLException {
         URL location = getClass().getResource("/gameOver.fxml");
@@ -159,6 +211,8 @@ public class GameModel {
             redY = 9;
         }
     }
+
+
 
     public static String getPacmanColor() {
         return pacmanColor;

@@ -16,6 +16,14 @@ public class GameControl implements EventHandler<KeyEvent> {
     private GameView gameView;
     private static Timer timer;
     private static String level;
+    private static int delayTimer;
+    private static int delayTime;
+    private static boolean blueReleased = false;
+    private static boolean pinkReleased = false;
+    private static boolean redReleased = false;
+
+
+
 
     public GameControl() {};
 
@@ -28,10 +36,13 @@ public class GameControl implements EventHandler<KeyEvent> {
         this.gameModel = new GameModel();
 
         if (level.equals("Easy")) {
+            delayTime = 40;
             gameModel.setMaze(m.getEasyArray());
         } else if (level.equals("Medium")) {
+            delayTime = 30;
             gameModel.setMaze(m.getMedArray());
         } else {
+            delayTime = 10;
             gameModel.setMaze(m.getHardArray());
         }
         String color = configurationControls.getPacman();
@@ -56,7 +67,20 @@ public class GameControl implements EventHandler<KeyEvent> {
                     public void run() {
                         gameModel.setGameStatus(GameModel.GameState.PLAYING);
                         gameModel.movePacman(GameModel.getCurrDirection());
-                        gameModel.testGameOver();
+                        delayTimer++;
+                        if (delayTimer > 5 && !(blueReleased)) {
+                            gameModel.releaseGhost("Blue");
+                            blueReleased = true;
+                        }
+                        else if (delayTimer > delayTime && !(pinkReleased)) {
+                            gameModel.releaseGhost("Pink");
+                            pinkReleased = true;
+                        } else if (delayTimer > delayTime * 2 && !(redReleased)) {
+                            gameModel.releaseGhost("Red");
+                            redReleased = true;
+                        }
+
+                       // gameModel.testGameOver();
                         try {
                             gameModel.checkGameStatus();
                         } catch (MalformedURLException e) {
@@ -66,6 +90,7 @@ public class GameControl implements EventHandler<KeyEvent> {
                 });
             }
         };
+
         long frameTimeInMilliseconds = (long)(1000.0 / FRAMES_PER_SECOND);
         this.timer.schedule(timerTask, 0, frameTimeInMilliseconds);
     }
@@ -95,5 +120,7 @@ public class GameControl implements EventHandler<KeyEvent> {
     public static Timer getTimer() {
         return timer;
     }
+
+
 
 }
