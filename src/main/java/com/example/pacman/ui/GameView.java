@@ -30,13 +30,15 @@ public class GameView extends Application {
     private static Image yPacmanDown;
     private static Image bPacmanRight, bPacmanLeft, bPacmanUp, bPacmanDown;
     private static Image pPacmanRight, pPacmanLeft, pPacmanUp, pPacmanDown;
-    private static Image yGhostRight, yGhostLeft, yGhostUp, yGhostDown;
+
     private static Image rGhostRight, rGhostLeft, rGhostUp, rGhostDown;
     private static Image pGhostRight, pGhostLeft, pGhostUp, pGhostDown;
     private static Image bGhostRight, bGhostLeft, bGhostUp, bGhostDown;
+
     private static Text scoreDisplay = new Text();
     private static Text livesDisplay = new Text();
     private static Text roundDisplay = new Text();
+
     private static ImageView pacman;
     private static ImageView blue;
     private static ImageView pink;
@@ -161,9 +163,7 @@ public class GameView extends Application {
         red.setFitWidth(CELL);
         pink.setFitHeight(CELL);
         pink.setFitWidth(CELL);
-//        colPos = 1;   //column
-//        rowPos = arr.length - 2; //row
-        //  aniSprite pacMan = new aniSprite(pacman, s, s);
+
         pane.add(pacman, GameModel.getPacmanX(), GameModel.getPacmanY());  //column, row
         pane.add(blue, GameModel.getBlueX(), GameModel.getBlueY());
         pane.add(pink, GameModel.getPinkX(), GameModel.getPinkY());
@@ -185,10 +185,24 @@ public class GameView extends Application {
         orientPacman(pacman, GameModel.getPacmanColor(), GameModel.getCurrDirection());
         updateDisplay();
         pacman.getTransforms().addAll(t);
+    }
 
-
+    public static void updateGhost(int dx, int dy, String ghost) {
+        Translate t = new Translate();
+        t.setX(dx * CELL);
+        t.setY(dy * CELL);
+        updateDisplay();
+        if(ghost.equals("Blue")) {
+          blue.getTransforms().addAll(t);
+        } else if (ghost.equals("Pink")) {
+            pink.getTransforms().addAll(t);
+        } else {
+            red.getTransforms().addAll(t);
+        }
 
     }
+
+
 
     public static void updateDisplay(){
         scoreDisplay.setText("Score: " + GameModel.getScore());
