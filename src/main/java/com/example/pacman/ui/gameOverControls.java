@@ -31,13 +31,18 @@ public class gameOverControls {
     @FXML
     private void hitPlayAgain() {
         URL location = getClass().getResource("/welcome.fxml");
+
         try{
             this.stage = stage;
             FXMLLoader fxmlLoader = new FXMLLoader(location);
             Pane page = (Pane) fxmlLoader.load();
             Scene newScene = new Scene(page);
+            GameControl.setBlueReleased(false);
+            GameControl.setPinkReleased(false);
+            GameControl.setRedReleased(false);
             stage.setTitle("Welcome");
             this.stage.setScene(newScene);
+
         } catch (IOException e) {
             System.out.println(e.toString());
         }

@@ -36,15 +36,19 @@ public class GameControl implements EventHandler<KeyEvent> {
         this.gameModel = new GameModel();
 
         if (level.equals("Easy")) {
+            GameModel.setMaxScore(84);
             delayTime = 40;
             gameModel.setMaze(m.getEasyArray());
         } else if (level.equals("Medium")) {
+            GameModel.setMaxScore(91);
             delayTime = 30;
             gameModel.setMaze(m.getMedArray());
         } else {
+            GameModel.setMaxScore(182);
             delayTime = 10;
             gameModel.setMaze(m.getHardArray());
         }
+
         String color = configurationControls.getPacman();
         gameModel.setPacmanColor(color);
         gameModel.setScore(0);
@@ -56,6 +60,9 @@ public class GameControl implements EventHandler<KeyEvent> {
         this.timer = new java.util.Timer();
         this.runTimer();
     }
+
+
+
 
     /**
      * On each animation frame, update the model with information and display UI
@@ -69,18 +76,23 @@ public class GameControl implements EventHandler<KeyEvent> {
                         gameModel.movePacman(GameModel.getCurrDirection());
                         delayTimer++;
                         if (delayTimer > 5 && !(blueReleased)) {
-                            gameModel.releaseGhost("Blue");
                             blueReleased = true;
+                            gameModel.releaseGhost("Blue");
                         }
                         else if (delayTimer > delayTime && !(pinkReleased)) {
-                            gameModel.releaseGhost("Pink");
                             pinkReleased = true;
+                            gameModel.releaseGhost("Pink");
                         } else if (delayTimer > delayTime * 2 && !(redReleased)) {
-                            gameModel.releaseGhost("Red");
                             redReleased = true;
+                            gameModel.releaseGhost("Red");
+                        }
+                        if (blueReleased) {
+                            System.out.println(GameModel.getBlueCurrDir());
+                            gameModel.moveBlueGhost(GameModel.getBlueCurrDir());
                         }
 
-                       // gameModel.testGameOver();
+
+                        //gameModel.testGameOver();
                         try {
                             gameModel.checkGameStatus();
                         } catch (MalformedURLException e) {
@@ -95,12 +107,26 @@ public class GameControl implements EventHandler<KeyEvent> {
         this.timer.schedule(timerTask, 0, frameTimeInMilliseconds);
     }
 
+    public static void resetGame() {
+        try {
+            timer.wait();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+
+
 
     @Override
     public void handle(KeyEvent e) {
-        System.out.println("press");
+       // System.out.println("press");
         KeyCode code = e.getCode();
         gameModel.setOldDirection(gameModel.getCurrDirection());
+        if (e.getCode() == KeyCode.SPACE) {
+            timer.cancel();
+        }
         if (e.getCode() == KeyCode.LEFT) {
             gameModel.setCurrDirection(GameModel.Direction.LEFT);
         } else if (e.getCode() == KeyCode.RIGHT) {
@@ -110,7 +136,7 @@ public class GameControl implements EventHandler<KeyEvent> {
         } else if (e.getCode() == KeyCode.DOWN) {
             gameModel.setCurrDirection(GameModel.Direction.DOWN);
         }
-        System.out.println(gameModel.getCurrDirection());
+      //  System.out.println(gameModel.getCurrDirection());
     }
 
     public static String getLevel() {
@@ -119,6 +145,22 @@ public class GameControl implements EventHandler<KeyEvent> {
 
     public static Timer getTimer() {
         return timer;
+    }
+
+    public static boolean getBlueReleased() {
+        return blueReleased;
+    }
+
+    public static void setBlueReleased(boolean x) {
+        blueReleased = x;
+    }
+
+    public static void setPinkReleased(boolean x) {
+        pinkReleased = x;
+    }
+
+    public static void setRedReleased(boolean x) {
+        redReleased = x;
     }
 
 

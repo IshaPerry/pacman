@@ -1,5 +1,6 @@
 package com.example.pacman.ui;
 
+import javafx.animation.PauseTransition;
 import javafx.animation.TranslateTransition;
 import javafx.application.Application;
 import javafx.collections.ObservableList;
@@ -19,6 +20,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.scene.transform.Translate;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 import java.util.Objects;
 
@@ -178,6 +180,9 @@ public class GameView extends Application {
         primaryStage.show(); // Display the stage;
     }
 
+
+
+
     public static void updateView() {
         Translate t = new Translate();
         t.setX(GameModel.getDx() * CELL);
@@ -187,20 +192,60 @@ public class GameView extends Application {
         pacman.getTransforms().addAll(t);
     }
 
+    public static void resetView() {
+        Translate t = new Translate();
+        System.out.println(GameModel.getPacmanX());
+        System.out.println(GameModel.getPacmanY());
+        t.setX((1 - GameModel.getPacmanX()) * CELL);
+        System.out.println("x translations: " + (1 - pacman.getX()));
+        System.out.println("y translations: " + (GameModel.getMaze().length - 2));
+        t.setY(((GameModel.getMaze().length - 2) - GameModel.getPacmanY()) * CELL);
+        if (GameControl.getLevel().equals("Medium")) {
+            orientPacman(pacman, GameModel.getPacmanColor(), GameModel.Direction.UP);
+        } else {
+            orientPacman(pacman, GameModel.getPacmanColor(), GameModel.Direction.RIGHT);
+        }
+        pacman.getTransforms().addAll(t);
+
+
+//        blue.setX(GameModel.getBlueX());
+//        blue.setY(GameModel.getBlueY());
+
+//        pacman.setX(GameModel.getPacmanX());
+//        pacman.setY(GameModel.getPacmanY());
+//        System.out.println("Changed Image");
+//
+//        blue.setX(GameModel.getBlueX());
+//        blue.setY(GameModel.getBlueY());
+//
+//        pink.setX(GameModel.getPinkX());
+//        pink.setY(GameModel.getPinkY());
+//
+//        red.setX(GameModel.getRedX());
+//        red.setY(GameModel.getRedY());
+
+    }
+
     public static void updateGhost(int dx, int dy, String ghost) {
         Translate t = new Translate();
         t.setX(dx * CELL);
         t.setY(dy * CELL);
-        updateDisplay();
+
+
         if(ghost.equals("Blue")) {
+            //orientBlue(dx, dy);
           blue.getTransforms().addAll(t);
         } else if (ghost.equals("Pink")) {
+            //orientPink(dx, dy);
             pink.getTransforms().addAll(t);
         } else {
-            red.getTransforms().addAll(t);
+            //orientRed(dx, dy);
+           red.getTransforms().addAll(t);
         }
 
     }
+
+
 
 
 
@@ -210,14 +255,21 @@ public class GameView extends Application {
     }
 
     public static void removePellets() {
-        ObservableList<Node> childrens = pane.getChildren();
-        for (Node node : childrens) {
+        ObservableList<Node> children = pane.getChildren();
+        for (Node node : children) {
             if (node instanceof Circle && pane.getRowIndex(node) == GameModel.getPacmanY() && pane.getColumnIndex(node) == GameModel.getPacmanX()) {
                 pane.getChildren().remove(node);
                 break;
             }
-
          }
+    }
+
+    /**
+     * If the user hits play again, remove all remaining pellets from the screen (so they don't
+     * stack on top of one another)
+     */
+    public static void removeRemainingPellets() {
+        pane.getChildren().clear();
     }
 
     public static Stage getStage() {

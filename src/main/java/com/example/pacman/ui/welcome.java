@@ -28,6 +28,7 @@ public class welcome extends Application {
         //Scene scene = new Scene(root, 1000, 1000);
         //primaryStage.setTitle("Pacman");
         // Parent root = new GridPane();
+
         primaryStage.setScene(scene);
         primaryStage.setTitle("Welcome");
         primaryStage.show();
