@@ -116,6 +116,7 @@ public class configurationControls {
             return true;
         }
 
+
     private void setLevelParams(String level) {
         if (level.equals("Easy")) {
             lives = 5;

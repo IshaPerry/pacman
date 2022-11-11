@@ -12,15 +12,26 @@ public class GameModel {
 
     public enum Direction {
         UP, DOWN, LEFT, RIGHT, NONE
-    };
+    }
+
+    ;
 
     public enum GameState {
         WIN, LOSE, PLAYING
-    };
+    }
+
+    ;
     // Attributes
     private static GameState gameStatus;
     private static Direction currDirection;
     private static Direction oldDirection;
+
+    private static int maxScore;
+
+
+    private static Direction blueCurrDir;
+    private static Direction blueOldDir;
+
     private static Integer score;
     private static Integer lives;
     private static Integer round;
@@ -43,13 +54,18 @@ public class GameModel {
     private static int pinkDx;
     private static int pinkDy;
 
-    public GameModel() {}
+
+    Random randomDir = new Random();
+
+    public GameModel() {
+    }
 
     public void movePacman(Direction dir) {
         oldDirection = currDirection;
         currDirection = dir;
         dx = 0;
         dy = 0;
+
         if (dir == Direction.LEFT) {
             dx = -1;
         } else if (dir == Direction.RIGHT) {
@@ -62,6 +78,7 @@ public class GameModel {
         boolean collision = checkMaze(dx, dy);
         if (!collision) {
             // Now check for wraparound
+            checkPellet();
             pacmanY = pacmanY + dy;
             pacmanX = pacmanX + dx;
             GameView.updateView();
@@ -71,15 +88,20 @@ public class GameModel {
                 currDirection = oldDirection;
             }
         }
-        System.out.println("X=" + pacmanX + " Y=" + pacmanY);
+        //System.out.println("X=" + pacmanX + " Y=" + pacmanY);
     }
 
     private boolean checkMaze(int dx, int dy) {
         char newPos = maze[pacmanY + dy][pacmanX + dx];
-        char currPos = maze[pacmanY][pacmanX];
         if (newPos == 'W') {
             return true;
-        } else if (currPos == 'P') {
+        }
+        return false;
+    }
+
+    private void checkPellet() {
+        char currPos = maze[pacmanY][pacmanX];
+        if (currPos == 'P') {
             score += 1;
             maze[pacmanY][pacmanX] = 'S';
             GameView.removePellets();
@@ -88,34 +110,33 @@ public class GameModel {
             maze[pacmanY][pacmanX] = 'S';
             GameView.removePellets();
         }
-        return false;
     }
-     public void releaseGhost(String color) {
+
+
+    public void releaseGhost(String color) {
         if (color.equals("Blue") && !(GameControl.getLevel().equals("Hard"))) {
             blueDx = 2;
             blueDy = 2;
             blueX += blueDx;
             blueY += blueDy;
             GameView.updateGhost(blueDx, blueDy, "Blue");
-            moveBlueGhost();
-        }
-        else if (color.equals("Blue") && (GameControl.getLevel().equals("Hard"))) {
+            blueDx = -1;
+            blueDy = 0;
+            blueCurrDir = Direction.LEFT;
+            blueOldDir = Direction.NONE;
+        } else if (color.equals("Blue") && (GameControl.getLevel().equals("Hard"))) {
             blueDy = -1;
             blueDx = 0;
             blueX += blueDx;
             blueY += blueDy;
-            blueY += blueDy;
-            GameView.updateGhost(blueDx, blueDy, "Blue");
-            moveBlueGhost();
-        }
-        else if (color.equals("Pink") && !(GameControl.getLevel().equals("Hard"))) {
+            GameView.updateGhost(blueX, blueY, "Blue");
+        } else if (color.equals("Pink") && !(GameControl.getLevel().equals("Hard"))) {
             pinkDy += 2;
             pinkDx = 0;
             pinkX += pinkDx;
             pinkY += pinkDy;
             GameView.updateGhost(pinkDx, pinkDy, "Pink");
-        }
-        else if (color.equals("Pink") && (GameControl.getLevel().equals("Hard"))) {
+        } else if (color.equals("Pink") && (GameControl.getLevel().equals("Hard"))) {
             pinkDy -= 2;
             pinkDx = 0;
             pinkX += pinkDx;
@@ -135,22 +156,87 @@ public class GameModel {
             GameView.updateGhost(redDx, redDy, "Red");
         }
 
-     }
-
-    public void moveBlueGhost() {
-
     }
 
+
+    public void moveBlueGhost(Direction dir) {
+        blueOldDir = blueCurrDir;
+        blueCurrDir = dir;
+
+        char newPos = maze[blueY + blueDy][blueX + blueDx];
+        char currPos = maze[blueY][blueX];
+        System.out.printf("GHOST X pos: %d, y pos: %d \n", blueX, blueY);
+        System.out.println("PACMAN X=" + pacmanX + " Y=" + pacmanY);
+            boolean xOff = Math.abs(pacmanX - blueX) == 1;
+            boolean yOff = Math.abs(pacmanY - blueY) == 1;
+            if ((blueX == pacmanX && blueY == pacmanY) || (xOff && blueY == pacmanY) || (yOff && blueX == pacmanX)) {
+                System.out.println("Collided");
+                lives -= 1;
+                GameView.updateDisplay();
+                GameView.resetView();
+                pacmanX = 1;
+                pacmanY = maze.length - 2;
+          }
+
+            if (newPos != 'W') {
+                blueX += blueDx;
+                blueY += blueDy;
+                GameView.updateGhost(blueDx, blueDy, "Blue");
+            }
+            if (newPos == 'W') {
+                newPos = currPos;
+                blueOldDir = blueCurrDir;
+                Direction tempDir = randomDirection(randomDir.nextInt(4));
+                if (blueOldDir != tempDir) {
+                    blueCurrDir = tempDir;
+                } else {
+                    blueCurrDir = randomDirection(randomDir.nextInt(4));
+                }
+
+            }
+
+        }
+
+
+
+    public Direction randomDirection(int x) {
+        if (x == 0) {
+            blueDx = -1;
+            blueDy = 0;
+            return Direction.LEFT;
+
+        } else if (x == 1) {
+            blueDx = 1;
+            blueDy = 0;
+            return Direction.RIGHT;
+        } else if (x == 2) {
+            blueDy = -1;
+            blueDx = 0;
+            return Direction.UP;
+        } else {
+            blueDy = 1;
+            blueDx = 0;
+            return Direction.DOWN;
+        }
+    }
 
 
     public void checkGameStatus() throws MalformedURLException {
         URL location = getClass().getResource("/gameOver.fxml");
+        if (score == maxScore) {
+            setGameStatus(GameState.WIN);
+        } else if (lives == 0) {
+            setGameStatus(GameState.LOSE);
+        }
         if (gameStatus == GameState.WIN) {
+            GameView.removeRemainingPellets();
+            GameControl.getTimer().cancel();
             gameOverControls.changeScene(GameView.getStage(), location, "Congrats, you won!");
-            GameControl.getTimer().cancel();
         } else if (gameStatus == GameState.LOSE) {
-            gameOverControls.changeScene(GameView.getStage(), location, "Sorry, you lost!");
             GameControl.getTimer().cancel();
+            gameOverControls.changeScene(GameView.getStage(), location, "Sorry, you lost!");
+            GameView.removeRemainingPellets();
+
         } else {
             return;
         }
@@ -161,8 +247,6 @@ public class GameModel {
     }
 
 
-
-
     public static Direction getCurrDirection() {
         return currDirection;
     }
@@ -171,6 +255,7 @@ public class GameModel {
         oldDirection = currDirection;
         currDirection = dir;
     }
+
     public static void setOldDirection(Direction dir) {
         oldDirection = dir;
     }
@@ -183,12 +268,13 @@ public class GameModel {
         return this.maze[i][j];
     }
 
-    public void setMaze(char[][] newMaze) {
+    public static void setMaze(char[][] newMaze) {
         maze = newMaze;
         pacmanX = 1;   //column
         pacmanY = maze.length - 2; //row
         String level = GameControl.getLevel();
         if (level.equals("Easy")) {
+            //System.out.println("Set blue position");
             blueX = 9;
             blueY = 1;
             pinkX = 12;
@@ -211,7 +297,6 @@ public class GameModel {
             redY = 9;
         }
     }
-
 
 
     public static String getPacmanColor() {
@@ -317,4 +402,15 @@ public class GameModel {
     public GameState getGameStatus() {
         return gameStatus;
     }
+
+    public static void setMaxScore(int max) {
+        maxScore = max;
+    }
+
+    public static Direction getBlueCurrDir() {
+        return blueCurrDir;
+    }
+
+
+
 }
