@@ -69,31 +69,24 @@ public class configurationControls {
 
 
     @FXML
-    private void hitSubmit(ActionEvent event) throws IOException {  //we need to change this bc u can't have 2 fxml files to once controller
+    private void hitSubmit(ActionEvent event) throws IOException {
         name = enterName.getText();
         level = levelSelector.getSelectionModel().getSelectedItem();
         if (events == 0) {
             if (isSetUpValid()) {
                 userLabel2.setText(name + " is ready to play level " + level + " with character: " + pacmanColor + "!");
-                // Label.setTitle("You're good to go!");
                 setLevelParams(level);
                 submitButton.setText("Continue");
                 events += 1;
             } else {
                 userLabel2.setText(error);
-                //popUp.setTitle("Error");
-                //continueOn.setOnAction(); ///code to open game screen)
             }
         }
         else {
-//            FXMLLoader loader = new FXMLLoader(getClass().getResource("configurationControls.fxml"));
-
             Stage stage = (Stage) submitButton.getScene().getWindow();
             gameControl = new GameControl();
 
             gameControl.start(stage);
-//            mazePane mp = new mazePane();
-//            mp.start(stage);
         }
     }
 

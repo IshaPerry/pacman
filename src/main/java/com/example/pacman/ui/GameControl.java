@@ -18,11 +18,10 @@ public class GameControl implements EventHandler<KeyEvent> {
     private static String level;
     private static int delayTimer;
     private static int delayTime;
-    private static boolean blueReleased = false;
-    private static boolean pinkReleased = false;
-    private static boolean redReleased = false;
-
-
+    private static int timeElapsed = 0;
+    private static boolean blueReleased;
+    private static boolean pinkReleased;
+    private static boolean redReleased;
 
 
     public GameControl() {};
@@ -31,6 +30,11 @@ public class GameControl implements EventHandler<KeyEvent> {
      * Initializes the game with the model's initial state. Called in configurationControls
      */
     public void start(Stage primaryStage) {
+        blueReleased = false;
+        pinkReleased = false;
+        redReleased = false;
+        delayTimer = 0;
+
         level = configurationControls.getLevel();
         maze m = new maze();
         this.gameModel = new GameModel();
@@ -75,6 +79,19 @@ public class GameControl implements EventHandler<KeyEvent> {
                         gameModel.setGameStatus(GameModel.GameState.PLAYING);
                         gameModel.movePacman(GameModel.getCurrDirection());
                         delayTimer++;
+                        if (GameModel.getSafeMode()) {
+                            if (timeElapsed < 10) {
+                                timeElapsed++;
+                            } else {
+                                GameModel.setSafeMode(false);
+                                timeElapsed = 0;
+                            }
+                        }
+                        System.out.println(delayTimer);
+//                        if (delayTimer> 5 && (!pinkReleased)) {
+//                            pinkReleased = true;
+//                            gameModel.releaseGhost("Pink");
+//                        }
                         if (delayTimer > 5 && !(blueReleased)) {
                             blueReleased = true;
                             gameModel.releaseGhost("Blue");
@@ -87,12 +104,12 @@ public class GameControl implements EventHandler<KeyEvent> {
                             gameModel.releaseGhost("Red");
                         }
                         if (blueReleased) {
-                            System.out.println(GameModel.getBlueCurrDir());
                             gameModel.moveBlueGhost(GameModel.getBlueCurrDir());
                         }
+                        if (pinkReleased) {
+                            gameModel.movePinkGhost(GameModel.getPinkCurrDir());
+                        }
 
-
-                        //gameModel.testGameOver();
                         try {
                             gameModel.checkGameStatus();
                         } catch (MalformedURLException e) {
@@ -121,7 +138,6 @@ public class GameControl implements EventHandler<KeyEvent> {
 
     @Override
     public void handle(KeyEvent e) {
-       // System.out.println("press");
         KeyCode code = e.getCode();
         gameModel.setOldDirection(gameModel.getCurrDirection());
         if (e.getCode() == KeyCode.SPACE) {
@@ -136,7 +152,6 @@ public class GameControl implements EventHandler<KeyEvent> {
         } else if (e.getCode() == KeyCode.DOWN) {
             gameModel.setCurrDirection(GameModel.Direction.DOWN);
         }
-      //  System.out.println(gameModel.getCurrDirection());
     }
 
     public static String getLevel() {
@@ -163,6 +178,6 @@ public class GameControl implements EventHandler<KeyEvent> {
         redReleased = x;
     }
 
-
+    public static void setDelayTimer(int x) {delayTimer = x; }
 
 }
