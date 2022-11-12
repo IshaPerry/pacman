@@ -3,6 +3,8 @@ package com.example.pacman.ui;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
@@ -18,6 +20,7 @@ import javafx.scene.paint.Color;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.EventObject;
 import java.util.Objects;
 
 
@@ -29,24 +32,13 @@ public class gameOverControls {
 
 
     @FXML
-    private void hitPlayAgain() {
-        URL location = getClass().getResource("/welcome.fxml");
-
-        try{
-            this.stage = stage;
-            FXMLLoader fxmlLoader = new FXMLLoader(location);
-            Pane page = (Pane) fxmlLoader.load();
-            Scene newScene = new Scene(page);
-            GameControl.setBlueReleased(false);
-            GameControl.setPinkReleased(false);
-            GameControl.setRedReleased(false);
-            stage.setTitle("Welcome");
-            this.stage.setScene(newScene);
-
-        } catch (IOException e) {
-            System.out.println(e.toString());
-        }
-
+    private void hitPlayAgain(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/configuration.fxml"));
+        Parent root = loader.load();
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
     }
 
     @FXML

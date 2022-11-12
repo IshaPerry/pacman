@@ -75,7 +75,7 @@ public class GameView extends Application {
         this.pGhostLeft = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/pleft.gif")));
         this.pGhostUp = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/pup.gif")));
         this.pGhostDown = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/pdown.gif")));
-        this.bGhostRight = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/pright.gif")));
+        this.bGhostRight = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/bright.gif")));
         this.bGhostLeft = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/bleft.gif")));
         this.bGhostUp = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/bup.gif")));
         this.bGhostDown = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/bdown.gif")));
@@ -135,22 +135,12 @@ public class GameView extends Application {
         pink = new ImageView();
 
         String pacmanColor = GameModel.getPacmanColor();
-        if (GameControl.getLevel().equals("Medium")) {
-            if (pacmanColor.equals("Yellow")) {
-                pacman.setImage(yPacmanUp);
-            } else if (pacmanColor.equals("Blue")) {
-                pacman.setImage(bPacmanUp);
-            }else {
-                pacman.setImage(pPacmanUp);
-            }
-        } else {
-            if (pacmanColor.equals("Yellow")) {
-                pacman.setImage(yPacmanRight);
-            } else if (pacmanColor.equals("Blue")) {
-                pacman.setImage(bPacmanRight);
-            }else {
-                pacman.setImage(pPacmanRight);
-            }
+        if (pacmanColor.equals("Yellow")) {
+            pacman.setImage(yPacmanRight);
+        } else if (pacmanColor.equals("Blue")) {
+            pacman.setImage(bPacmanRight);
+        }else {
+            pacman.setImage(pPacmanRight);
         }
 
         blue.setImage(bGhostUp);
@@ -181,8 +171,6 @@ public class GameView extends Application {
     }
 
 
-
-
     public static void updateView() {
         Translate t = new Translate();
         t.setX(GameModel.getDx() * CELL);
@@ -192,38 +180,12 @@ public class GameView extends Application {
         pacman.getTransforms().addAll(t);
     }
 
-    public static void resetView() {
+    public static void resetPacmanView() {
         Translate t = new Translate();
-        System.out.println(GameModel.getPacmanX());
-        System.out.println(GameModel.getPacmanY());
         t.setX((1 - GameModel.getPacmanX()) * CELL);
-        System.out.println("x translations: " + (1 - pacman.getX()));
-        System.out.println("y translations: " + (GameModel.getMaze().length - 2));
         t.setY(((GameModel.getMaze().length - 2) - GameModel.getPacmanY()) * CELL);
-        if (GameControl.getLevel().equals("Medium")) {
-            orientPacman(pacman, GameModel.getPacmanColor(), GameModel.Direction.UP);
-        } else {
-            orientPacman(pacman, GameModel.getPacmanColor(), GameModel.Direction.RIGHT);
-        }
+        orientPacman(pacman, GameModel.getPacmanColor(), GameModel.Direction.RIGHT);
         pacman.getTransforms().addAll(t);
-
-
-//        blue.setX(GameModel.getBlueX());
-//        blue.setY(GameModel.getBlueY());
-
-//        pacman.setX(GameModel.getPacmanX());
-//        pacman.setY(GameModel.getPacmanY());
-//        System.out.println("Changed Image");
-//
-//        blue.setX(GameModel.getBlueX());
-//        blue.setY(GameModel.getBlueY());
-//
-//        pink.setX(GameModel.getPinkX());
-//        pink.setY(GameModel.getPinkY());
-//
-//        red.setX(GameModel.getRedX());
-//        red.setY(GameModel.getRedY());
-
     }
 
     public static void updateGhost(int dx, int dy, String ghost) {
@@ -231,16 +193,15 @@ public class GameView extends Application {
         t.setX(dx * CELL);
         t.setY(dy * CELL);
 
-
         if(ghost.equals("Blue")) {
-            //orientBlue(dx, dy);
-          blue.getTransforms().addAll(t);
+            orientBlue(dx, dy);
+            blue.getTransforms().addAll(t);
         } else if (ghost.equals("Pink")) {
-            //orientPink(dx, dy);
+            orientPink(dx, dy);
             pink.getTransforms().addAll(t);
         } else {
-            //orientRed(dx, dy);
-           red.getTransforms().addAll(t);
+            orientRed(dx, dy);
+            red.getTransforms().addAll(t);
         }
 
     }
@@ -275,8 +236,6 @@ public class GameView extends Application {
     public static Stage getStage() {
         return stage;
     }
-
-
 
     public static void orientPacman(ImageView p, String color, GameModel.Direction dir) {
         switch(color) {
