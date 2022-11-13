@@ -94,21 +94,21 @@ public class GameControl implements EventHandler<KeyEvent> {
                                 timeElapsed = 0;
                             }
                         }
-                        if (delayTimer > 5 && (!redReleased)) {
-                            redReleased = true;
-                            gameModel.releaseGhost("Red");
-                        }
-//                        if (delayTimer > 5 && !(blueReleased)) {
-//                            blueReleased = true;
-//                            gameModel.releaseGhost("Blue");
-//                        }
-//                        else if (delayTimer > delayTime && !(pinkReleased)) {
-//                            pinkReleased = true;
-//                            gameModel.releaseGhost("Pink");
-//                        } else if (delayTimer > delayTime * 2 && !(redReleased)) {
+//                        if (delayTimer > 5 && (!redReleased)) {
 //                            redReleased = true;
 //                            gameModel.releaseGhost("Red");
 //                        }
+                        if (delayTimer > 5 && !(blueReleased)) {
+                            blueReleased = true;
+                            gameModel.releaseGhost("Blue");
+                        }
+                        else if (delayTimer > delayTime && !(pinkReleased)) {
+                            pinkReleased = true;
+                            gameModel.releaseGhost("Pink");
+                        } else if (delayTimer > delayTime * 2 && !(redReleased)) {
+                            redReleased = true;
+                            gameModel.releaseGhost("Red");
+                        }
                         if (blueReleased) {
                             gameModel.moveBlueGhost(GameModel.getBlueCurrDir());
                         }
