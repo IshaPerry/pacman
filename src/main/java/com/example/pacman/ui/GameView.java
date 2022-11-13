@@ -203,11 +203,7 @@ public class GameView extends Application {
             orientRed(dx, dy);
             red.getTransforms().addAll(t);
         }
-
     }
-
-
-
 
 
     public static void updateDisplay(){
