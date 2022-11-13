@@ -335,7 +335,7 @@ public class GameModel {
             GameView.updateGhost(redDx, redDy, "Red");
         }
         if (newPos == 'W') {
-            double epsilon = 0.33;
+            double epsilon = 0.40;
             Random rd = new Random();
             // The red ghost moves towards pacman {epsilon}% of the time
             if (epsilon > rd.nextDouble()) {
