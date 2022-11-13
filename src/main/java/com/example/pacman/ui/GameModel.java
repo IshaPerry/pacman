@@ -184,9 +184,9 @@ public class GameModel {
             } else if (color.equals("Pink")) {
                 pinkY += -2;
                 GameView.updateGhost(0, -2, "Pink");
-                pinkDx = -1;
+                pinkDx = 1;
                 pinkDy = 0;
-                pinkCurrDir = Direction.LEFT;
+                pinkCurrDir = Direction.RIGHT;
                 pinkOldDir = Direction.NONE;
             } else if (color.equals("Red")) {
                 redY += -1;
@@ -198,9 +198,9 @@ public class GameModel {
             } else if (color.equals("Yellow")) {
                 yellowY += -2;
                 GameView.updateGhost(0, -2, "Yellow");
-                yellowDx = -1;
+                yellowDx = 1;
                 yellowDy = 0;
-                yellowCurrDir = Direction.LEFT;
+                yellowCurrDir = Direction.RIGHT;
                 yellowOldDir = Direction.NONE;
             }
         }
