@@ -1,11 +1,6 @@
 package com.example.pacman.ui;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.shape.Circle;
-
-import javax.sound.midi.Soundbank;
-import java.awt.geom.Point2D;
+import javafx.geometry.Point2D;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.*;
@@ -61,6 +56,9 @@ public class GameModel {
     private static int redDy;
     private static int pinkDx;
     private static int pinkDy;
+
+    private static int rowCount;
+    private static int columnCount;
 
 
     Random randomDir = new Random();
@@ -155,11 +153,12 @@ public class GameModel {
             pinkY += pinkDy;
             GameView.updateGhost(pinkDx, pinkDy, "Pink");
         } else if (color.equals("Red") && !(GameControl.getLevel().equals("Hard"))) {
-            redDy += 2;
+            redDy = 2;
             redDx = 0;
-            redX += redDx;
-            redY += redDy;
+            redY += 2;
             GameView.updateGhost(redDx, redDy, "Red");
+            redDx = -1;
+            redDy = 0;
             redCurrDir = Direction.LEFT;
             redOldDir = Direction.NONE;
         } else if (color.equals("Red") && (GameControl.getLevel().equals("Hard"))) {
@@ -172,7 +171,10 @@ public class GameModel {
 
     }
 
-
+    /**
+     * Algorithm #1
+     * If the blue ghost collides with a wall, it's next direction is chosen at random
+     */
     public void moveBlueGhost(Direction dir) {
         blueOldDir = blueCurrDir;
         blueCurrDir = dir;
@@ -211,6 +213,12 @@ public class GameModel {
         System.out.println("PACMAN X=" + pacmanX + " Y=" + pacmanY);
     }
 
+    /**
+     * Algorithm #2
+     * If the pink ghost collides with a wall, it's next direction is chosen at random.
+     * If the pink ghost is in the same row/column as pacman, it will change
+     * its direction and to start following pacman
+     */
     public void movePinkGhost(Direction dir) {
         System.out.println("\n");
         pinkOldDir = pinkCurrDir;
@@ -272,7 +280,7 @@ public class GameModel {
         if (newPos == 'W') {
             newPos = currPos;
             System.out.println("Hit a wall");
-            pinkOldDir = blueCurrDir;
+            pinkOldDir = pinkCurrDir;
             Direction tempDir = randomDirection(randomDir.nextInt(4), "Pink");
             if (pinkOldDir != tempDir) {
                 pinkCurrDir = tempDir;
@@ -281,6 +289,79 @@ public class GameModel {
             }
         }
         System.out.println("PACMAN X=" + pacmanX + " Y=" + pacmanY);
+    }
+
+    /**
+     * Algorithm #3
+     * If the red ghost collides with a wall, it's next direction is chosen depending on
+     * a probability threshold called epsilon.
+     * We generate a random double between [0-1]
+     * If epsilon is greater than this probability, the ghost moves in the direction that has the
+     * smallest distance to pacman using a heuristic of manhattan distance.
+     * Otherwise, the ghost moves randomly.
+     */
+    public void moveRedGhost(Direction dir) {
+        Map<Direction, int[]> map = new HashMap<>();
+        map.put(Direction.LEFT, new int[]{-1, 0});
+        map.put(Direction.RIGHT, new int[]{1, 0});
+        map.put(Direction.UP, new int[]{0, -1});
+        map.put(Direction.DOWN, new int[]{0, 1});
+        redDx = map.get(redCurrDir)[0];
+        redDy = map.get(redCurrDir)[1];
+        redOldDir = redCurrDir;
+        redCurrDir = dir;
+
+        char newPos = maze[redY + redDy][redX + redDx];
+        if ((redX == pacmanX && redY == pacmanY) || (redX == pacmanOldX && redY == pacmanOldY)) {
+            if (!safeMode) {
+                safeMode = true;
+                System.out.println("Collided");
+                lives -= 1;
+                GameView.updateDisplay();
+                GameView.resetPacmanView();
+                pacmanX = 1;
+                pacmanY = maze.length - 2;
+            }
+        }
+
+        if (newPos != 'W') {
+            redX += redDx;
+            redY += redDy;
+            GameView.updateGhost(redDx, redDy, "Red");
+        }
+        if (newPos == 'W') {
+            double epsilon = 0.33;
+            Random rd = new Random();
+            if (epsilon > rd.nextDouble()) {
+                Direction tempDir = redOldDir;
+                int minDistance = Integer.MAX_VALUE;
+                redOldDir = redCurrDir;
+                for (Map.Entry<Direction, int[]> entry : map.entrySet()) {
+                    Direction potentialDirection = entry.getKey();
+                    int[] displacement = entry.getValue();
+                    int potentialX = redX + displacement[0];
+                    int potentialY = redY + displacement[1];
+                    // Use manhattan distance as a heuristic
+                    int heuristic = Math.abs(potentialX-pacmanX) + Math.abs(potentialY-pacmanY);
+                    if (heuristic < minDistance && potentialDirection != redOldDir && maze[potentialY][potentialX] != 'W') {
+                        tempDir = potentialDirection;
+                    }
+                }
+                redCurrDir = tempDir;
+            } else {
+                redOldDir = redCurrDir;
+                Direction tempDir = randomDirection(randomDir.nextInt(4), "Red");
+                if (redOldDir != tempDir) {
+                    redCurrDir = tempDir;
+                } else {
+                    redCurrDir = randomDirection(randomDir.nextInt(4), "Red");
+                }
+            }
+        }
+        System.out.printf("Red X=%d, Y=%d \n", redX, redY);
+        System.out.println("Red Direction: " + GameModel.getRedCurrDir());
+        System.out.println("Red dx: " + redDx + ", Red dy: " + redDy);
+        System.out.println("PACMAN X=" + pacmanX + " Y=" + pacmanY + "\n");
     }
 
     public Direction randomDirection(int x, String color) {
@@ -512,11 +593,23 @@ public class GameModel {
         return pinkCurrDir;
     }
 
+    public static Direction getRedCurrDir() {
+        return redCurrDir;
+    }
+
     public static boolean getSafeMode() {
         return safeMode;
     }
 
     public static void setSafeMode(boolean x) {
         safeMode = x;
+    }
+
+    public static void setRowCount(int x) {
+        rowCount = x;
+    }
+
+    public static void setColumnCount(int x) {
+        columnCount = x;
     }
 }

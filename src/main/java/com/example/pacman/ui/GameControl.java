@@ -2,6 +2,7 @@ package com.example.pacman.ui;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
+import javafx.geometry.Point2D;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
@@ -42,15 +43,21 @@ public class GameControl implements EventHandler<KeyEvent> {
         if (level.equals("Easy")) {
             GameModel.setMaxScore(84);
             delayTime = 40;
-            gameModel.setMaze(m.getEasyArray());
+            GameModel.setMaze(m.getEasyArray());
+            GameModel.setRowCount(m.getEASYROW());
+            GameModel.setColumnCount(m.getEASYCOL());
         } else if (level.equals("Medium")) {
             GameModel.setMaxScore(91);
             delayTime = 30;
-            gameModel.setMaze(m.getMedArray());
+            GameModel.setMaze(m.getMedArray());
+            GameModel.setRowCount(m.getMEDROW());
+            GameModel.setColumnCount(m.getMEDCOL());
         } else {
             GameModel.setMaxScore(182);
             delayTime = 10;
-            gameModel.setMaze(m.getHardArray());
+            GameModel.setMaze(m.getHardArray());
+            GameModel.setRowCount(m.getHARDROW());
+            GameModel.setColumnCount(m.getHARDCOL());
         }
 
         String color = configurationControls.getPacman();
@@ -58,10 +65,10 @@ public class GameControl implements EventHandler<KeyEvent> {
         gameModel.setScore(0);
         gameModel.setLives(3);
         gameModel.setRound(1);
-        gameModel.setCurrDirection(GameModel.Direction.NONE);
+        GameModel.setCurrDirection(GameModel.Direction.NONE);
         this.gameView = new GameView();
         gameView.start(primaryStage);
-        this.timer = new java.util.Timer();
+        timer = new java.util.Timer();
         this.runTimer();
     }
 
@@ -87,27 +94,32 @@ public class GameControl implements EventHandler<KeyEvent> {
                                 timeElapsed = 0;
                             }
                         }
-                        System.out.println(delayTimer);
-//                        if (delayTimer> 5 && (!pinkReleased)) {
-//                            pinkReleased = true;
-//                            gameModel.releaseGhost("Pink");
-//                        }
-                        if (delayTimer > 5 && !(blueReleased)) {
-                            blueReleased = true;
-                            gameModel.releaseGhost("Blue");
-                        }
-                        else if (delayTimer > delayTime && !(pinkReleased)) {
-                            pinkReleased = true;
-                            gameModel.releaseGhost("Pink");
-                        } else if (delayTimer > delayTime * 2 && !(redReleased)) {
+                        if (delayTimer > 5 && (!redReleased)) {
                             redReleased = true;
                             gameModel.releaseGhost("Red");
                         }
+//                        if (delayTimer > 5 && !(blueReleased)) {
+//                            blueReleased = true;
+//                            gameModel.releaseGhost("Blue");
+//                        }
+//                        else if (delayTimer > delayTime && !(pinkReleased)) {
+//                            pinkReleased = true;
+//                            gameModel.releaseGhost("Pink");
+//                        } else if (delayTimer > delayTime * 2 && !(redReleased)) {
+//                            redReleased = true;
+//                            gameModel.releaseGhost("Red");
+//                        }
                         if (blueReleased) {
                             gameModel.moveBlueGhost(GameModel.getBlueCurrDir());
                         }
                         if (pinkReleased) {
                             gameModel.movePinkGhost(GameModel.getPinkCurrDir());
+                        }
+                        if (redReleased) {
+//                            Point2D ghostLocation = new Point2D(GameModel.getRedX(), GameModel.getRedY());
+//                            Point2D pacmanLocation = new Point2D(GameModel.getPacmanX(), GameModel.getPacmanY());
+//                            gameModel.moveRedGhost(ghostLocation, pacmanLocation);
+                            gameModel.moveRedGhost(GameModel.getRedCurrDir());
                         }
 
                         try {
