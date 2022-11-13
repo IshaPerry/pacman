@@ -36,6 +36,7 @@ public class GameView extends Application {
     private static Image rGhostRight, rGhostLeft, rGhostUp, rGhostDown;
     private static Image pGhostRight, pGhostLeft, pGhostUp, pGhostDown;
     private static Image bGhostRight, bGhostLeft, bGhostUp, bGhostDown;
+    private static Image yGhostRight, yGhostLeft, yGhostUp, yGhostDown;
 
     private static Text scoreDisplay = new Text();
     private static Text livesDisplay = new Text();
@@ -45,6 +46,7 @@ public class GameView extends Application {
     private static ImageView blue;
     private static ImageView pink;
     private static ImageView red;
+    private static ImageView yellow;
     private static BorderPane bp;
     private Scene scene;
     private static Stage stage;
@@ -79,6 +81,10 @@ public class GameView extends Application {
         this.bGhostLeft = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/bleft.gif")));
         this.bGhostUp = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/bup.gif")));
         this.bGhostDown = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/bdown.gif")));
+        this.yGhostRight = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/yright.gif")));
+        this.yGhostLeft = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/yleft.gif")));
+        this.yGhostUp = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/yup.gif")));
+        this.yGhostDown = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/ydown.gif")));
     }
 
     public void start(Stage primaryStage) {
@@ -92,7 +98,6 @@ public class GameView extends Application {
         bp = new BorderPane();
         bp.setTop(top);
         bp.setBottom(livesDisplay);
-
 
 
         // Get maze array
@@ -133,6 +138,7 @@ public class GameView extends Application {
         blue = new ImageView();
         red = new ImageView();
         pink = new ImageView();
+        yellow = new ImageView();
 
         String pacmanColor = GameModel.getPacmanColor();
         if (pacmanColor.equals("Yellow")) {
@@ -146,6 +152,7 @@ public class GameView extends Application {
         blue.setImage(bGhostUp);
         red.setImage(rGhostDown);
         pink.setImage(pGhostLeft);
+        yellow.setImage(yGhostRight);
 
         pacman.setFitHeight(CELL);
         pacman.setFitWidth(CELL);
@@ -155,11 +162,18 @@ public class GameView extends Application {
         red.setFitWidth(CELL);
         pink.setFitHeight(CELL);
         pink.setFitWidth(CELL);
+        yellow.setFitHeight(CELL);
+        yellow.setFitWidth(CELL);
 
         pane.add(pacman, GameModel.getPacmanX(), GameModel.getPacmanY());  //column, row
         pane.add(blue, GameModel.getBlueX(), GameModel.getBlueY());
         pane.add(pink, GameModel.getPinkX(), GameModel.getPinkY());
-        pane.add(red, GameModel.getRedX(), GameModel.getRedY());
+        if (GameControl.getLevel().equals("Medium")) {
+            pane.add(red, GameModel.getRedX(), GameModel.getRedY());
+        } else if (GameControl.getLevel().equals("Hard")){
+            pane.add(red, GameModel.getRedX(), GameModel.getRedY());
+            pane.add(yellow, GameModel.getYellowX(), GameModel.getYellowY());
+        }
 
 
         // Create a scene and place it in the stage
@@ -199,9 +213,12 @@ public class GameView extends Application {
         } else if (ghost.equals("Pink")) {
             orientPink(dx, dy);
             pink.getTransforms().addAll(t);
-        } else {
+        } else if (ghost.equals("Red")){
             orientRed(dx, dy);
             red.getTransforms().addAll(t);
+        } else {
+            orientYellow(dx, dy);
+            yellow.getTransforms().addAll(t);
         }
     }
 
@@ -308,6 +325,7 @@ public class GameView extends Application {
             red.setImage(rGhostUp);
         }
     }
+
     public static void orientPink(int dx, int dy) {
         if (dx == 1) {
             pink.setImage(pGhostRight);
@@ -317,6 +335,18 @@ public class GameView extends Application {
             pink.setImage(pGhostDown);
         } else {
             pink.setImage(pGhostUp);
+        }
+    }
+
+    public static void orientYellow(int dx, int dy) {
+        if (dx == 1) {
+            yellow.setImage(yGhostRight);
+        } else if (dx == -1) {
+            yellow.setImage(yGhostLeft);
+        } else if (dy == 1) {
+            yellow.setImage(yGhostDown);
+        } else {
+            yellow.setImage(yGhostUp);
         }
     }
 

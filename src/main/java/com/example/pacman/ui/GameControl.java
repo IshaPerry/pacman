@@ -23,6 +23,7 @@ public class GameControl implements EventHandler<KeyEvent> {
     private static boolean blueReleased;
     private static boolean pinkReleased;
     private static boolean redReleased;
+    private static boolean yellowReleased;
 
 
     public GameControl() {};
@@ -34,6 +35,7 @@ public class GameControl implements EventHandler<KeyEvent> {
         blueReleased = false;
         pinkReleased = false;
         redReleased = false;
+        yellowReleased = false;
         delayTimer = 0;
 
         level = configurationControls.getLevel();
@@ -44,20 +46,14 @@ public class GameControl implements EventHandler<KeyEvent> {
             GameModel.setMaxScore(84);
             delayTime = 40;
             GameModel.setMaze(m.getEasyArray());
-            GameModel.setRowCount(m.getEASYROW());
-            GameModel.setColumnCount(m.getEASYCOL());
         } else if (level.equals("Medium")) {
             GameModel.setMaxScore(91);
             delayTime = 30;
             GameModel.setMaze(m.getMedArray());
-            GameModel.setRowCount(m.getMEDROW());
-            GameModel.setColumnCount(m.getMEDCOL());
         } else {
             GameModel.setMaxScore(182);
             delayTime = 10;
             GameModel.setMaze(m.getHardArray());
-            GameModel.setRowCount(m.getHARDROW());
-            GameModel.setColumnCount(m.getHARDCOL());
         }
 
         String color = configurationControls.getPacman();
@@ -71,8 +67,6 @@ public class GameControl implements EventHandler<KeyEvent> {
         timer = new java.util.Timer();
         this.runTimer();
     }
-
-
 
 
     /**
@@ -94,11 +88,6 @@ public class GameControl implements EventHandler<KeyEvent> {
                                 timeElapsed = 0;
                             }
                         }
-
-                        if (delayTimer > 5 && (!redReleased)) {
-                            redReleased = true;
-                            gameModel.releaseGhost("Red");
-                        }
                         if (delayTimer > 5 && !(blueReleased)) {
                             blueReleased = true;
                             gameModel.releaseGhost("Blue");
@@ -106,9 +95,12 @@ public class GameControl implements EventHandler<KeyEvent> {
                         else if (delayTimer > delayTime && !(pinkReleased)) {
                             pinkReleased = true;
                             gameModel.releaseGhost("Pink");
-                        } else if (delayTimer > delayTime * 2 && !(redReleased)) {
+                        } else if (delayTimer > delayTime * 2 && !(redReleased) && !level.equals("Easy")) {
                             redReleased = true;
                             gameModel.releaseGhost("Red");
+                        } else if (delayTimer > delayTime * 3 && !(yellowReleased) && level.equals("Hard")) {
+                            yellowReleased = true;
+                            gameModel.releaseGhost("Yellow");
                         }
                         if (blueReleased) {
                             gameModel.moveBlueGhost(GameModel.getBlueCurrDir());
@@ -117,10 +109,10 @@ public class GameControl implements EventHandler<KeyEvent> {
                             gameModel.movePinkGhost(GameModel.getPinkCurrDir());
                         }
                         if (redReleased) {
-//                            Point2D ghostLocation = new Point2D(GameModel.getRedX(), GameModel.getRedY());
-//                            Point2D pacmanLocation = new Point2D(GameModel.getPacmanX(), GameModel.getPacmanY());
-//                            gameModel.moveRedGhost(ghostLocation, pacmanLocation);
                             gameModel.moveRedGhost(GameModel.getRedCurrDir());
+                        }
+                        if (yellowReleased) {
+                            gameModel.moveYellowGhost(GameModel.getYellowCurrDir());
                         }
 
                         try {
