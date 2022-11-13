@@ -174,6 +174,7 @@ public class GameModel {
     /**
      * Algorithm #1
      * If the blue ghost collides with a wall, it's next direction is chosen at random
+     * @param dir the ghost's current direction
      */
     public void moveBlueGhost(Direction dir) {
         blueOldDir = blueCurrDir;
@@ -218,6 +219,7 @@ public class GameModel {
      * If the pink ghost collides with a wall, it's next direction is chosen at random.
      * If the pink ghost is in the same row/column as pacman, it will change
      * its direction and to start following pacman
+     * @param dir the ghost's current direction
      */
     public void movePinkGhost(Direction dir) {
         System.out.println("\n");
@@ -299,6 +301,7 @@ public class GameModel {
      * If epsilon is greater than this probability, the ghost moves in the direction that has the
      * smallest distance to pacman using a heuristic of manhattan distance.
      * Otherwise, the ghost moves randomly.
+     * @param dir the ghost's current direction
      */
     public void moveRedGhost(Direction dir) {
         Map<Direction, int[]> map = new HashMap<>();
