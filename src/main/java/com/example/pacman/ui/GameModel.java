@@ -167,6 +167,8 @@ public class GameModel {
             redX += redDx;
             redY += redDy;
             GameView.updateGhost(redDx, redDy, "Red");
+            redCurrDir = Direction.LEFT;
+            redOldDir = Direction.NONE;
         }
 
     }
@@ -174,6 +176,7 @@ public class GameModel {
     /**
      * Algorithm #1
      * If the blue ghost collides with a wall, it's next direction is chosen at random
+     * @param dir the ghost's current direction
      */
     public void moveBlueGhost(Direction dir) {
         blueOldDir = blueCurrDir;
@@ -217,7 +220,8 @@ public class GameModel {
      * Algorithm #2
      * If the pink ghost collides with a wall, it's next direction is chosen at random.
      * If the pink ghost is in the same row/column as pacman, it will change
-     * its direction and to start following pacman
+     * its direction to start following pacman
+     * @param dir the ghost's current direction
      */
     public void movePinkGhost(Direction dir) {
         System.out.println("\n");
@@ -299,6 +303,7 @@ public class GameModel {
      * If epsilon is greater than this probability, the ghost moves in the direction that has the
      * smallest distance to pacman using a heuristic of manhattan distance.
      * Otherwise, the ghost moves randomly.
+     * @param dir the ghost's current direction
      */
     public void moveRedGhost(Direction dir) {
         Map<Direction, int[]> map = new HashMap<>();
@@ -332,6 +337,7 @@ public class GameModel {
         if (newPos == 'W') {
             double epsilon = 0.33;
             Random rd = new Random();
+            // The red ghost moves towards pacman {epsilon}% of the time
             if (epsilon > rd.nextDouble()) {
                 Direction tempDir = redOldDir;
                 int minDistance = Integer.MAX_VALUE;
@@ -348,6 +354,7 @@ public class GameModel {
                     }
                 }
                 redCurrDir = tempDir;
+            // The red ghost moves randomly {1 - epsilon}% of the time
             } else {
                 redOldDir = redCurrDir;
                 Direction tempDir = randomDirection(randomDir.nextInt(4), "Red");
