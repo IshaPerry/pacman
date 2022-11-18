@@ -11,7 +11,7 @@ public class GameModel {
     }
 
     public enum GameState {
-        WIN, LOSE, PLAYING
+        WIN, LOSE, PLAYING,
     }
 
     // Attributes
@@ -21,9 +21,10 @@ public class GameModel {
     private static int pacmanOldX;
     private static int pacmanOldY;
     private static boolean safeMode = false;
+    private static boolean ghostEatingMode = false;
 
-    private static int maxScore;
-
+    private static int maxPellets;
+    private static int pelletsEaten;
 
     private static Direction blueCurrDir;
     private static Direction blueOldDir;
@@ -64,8 +65,7 @@ public class GameModel {
     private static int yellowDy;
 
     private final Map<Direction, int[]> map;
-
-    Random randomDir = new Random();
+    private static final Random randomDir = new Random();
 
     public GameModel() {
         map = new HashMap<>();
@@ -73,6 +73,16 @@ public class GameModel {
         map.put(Direction.RIGHT, new int[]{1, 0});
         map.put(Direction.UP, new int[]{0, -1});
         map.put(Direction.DOWN, new int[]{0, 1});
+    }
+
+    public static void generateCherry(int x, int y) {
+        int cherryX = randomDir.nextInt(x);
+        int cherryY = randomDir.nextInt(y);
+        while (maze[cherryX][cherryY] == 'W') {
+            cherryX = randomDir.nextInt(x);
+            cherryY = randomDir.nextInt(y);
+        }
+        maze[cherryX][cherryY] = 'C';
     }
 
     public void movePacman(Direction dir) {
@@ -119,12 +129,14 @@ public class GameModel {
         char currPos = maze[pacmanY][pacmanX];
         if (currPos == 'P') {
             score += 1;
+            pelletsEaten += 1;
             maze[pacmanY][pacmanX] = 'S';
             GameView.removePellets();
         } else if (currPos == 'B') {
-            score += 5;
+            score += 1;
+            pelletsEaten += 1;
             maze[pacmanY][pacmanX] = 'S';
-            GameView.removePellets();
+            GameView.removeImageView();
         }
     }
 
@@ -530,7 +542,7 @@ public class GameModel {
 
     public void checkGameStatus() throws MalformedURLException {
         URL location = getClass().getResource("/gameOver.fxml");
-        if (score == maxScore) {
+        if (pelletsEaten == maxPellets) {
             setGameStatus(GameState.WIN);
         } else if (lives == 0) {
             setGameStatus(GameState.LOSE);
@@ -693,8 +705,8 @@ public class GameModel {
         return gameStatus;
     }
 
-    public static void setMaxScore(int max) {
-        maxScore = max;
+    public static void setMaxPellets(int numPellets) {
+        maxPellets = numPellets;
     }
 
     public static Direction getBlueCurrDir() {
@@ -719,5 +731,13 @@ public class GameModel {
 
     public static void setSafeMode(boolean x) {
         safeMode = x;
+    }
+
+    public static boolean getGhostEatingMode() {
+        return ghostEatingMode;
+    }
+
+    public static void setGhostEatingMode(boolean x) {
+        ghostEatingMode = x;
     }
 }

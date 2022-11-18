@@ -38,6 +38,8 @@ public class GameView extends Application {
     private static Image bGhostRight, bGhostLeft, bGhostUp, bGhostDown;
     private static Image yGhostRight, yGhostLeft, yGhostUp, yGhostDown;
 
+    private static Image bigPellet;
+
     private static Text scoreDisplay = new Text();
     private static Text livesDisplay = new Text();
     private static Text roundDisplay = new Text();
@@ -85,6 +87,8 @@ public class GameView extends Application {
         this.yGhostLeft = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/yleft.gif")));
         this.yGhostUp = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/yup.gif")));
         this.yGhostDown = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/ydown.gif")));
+
+        this.bigPellet = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/bigPellet.gif")));
     }
 
     public void start(Stage primaryStage) {
@@ -103,6 +107,7 @@ public class GameView extends Application {
         // Get maze array
         char[][] arr = GameModel.getMaze();
 
+
         for (int i = 0; i < arr.length; i++) {
             for (int j = 0; j < arr[i].length; j++) {
                 Rectangle r = new Rectangle(CELL, CELL, CELL, CELL);
@@ -119,13 +124,20 @@ public class GameView extends Application {
                     pane.setAlignment(Pos.CENTER);
                     GridPane.setHalignment(pellet, HPos.CENTER);
                     GridPane.setValignment(pellet, VPos.CENTER);
-
-
                 } else if (arr[i][j] == 'B') {
                     r.setFill(Color.BLACK);
                     pane.add(r, j, i);
-                    Circle pellet = new Circle(CELL/ 4, Color.YELLOW);
+                    ImageView tempPellet = new ImageView();
+                    tempPellet.setImage(bigPellet);
+                    tempPellet.setFitHeight(CELL);
+                    tempPellet.setFitWidth(CELL);
+                    pane.add(tempPellet, j, i);
+                } else if (arr[i][j] == 'C') {
+                    r.setFill(Color.BLACK);
+                    pane.add(r, j, i);
+                    Circle pellet = new Circle(CELL / 8, Color.RED);
                     pane.add(pellet, j, i);
+                    pane.setAlignment(Pos.CENTER);
                     GridPane.setHalignment(pellet, HPos.CENTER);
                     GridPane.setValignment(pellet, VPos.CENTER);
                 } else {
@@ -236,6 +248,16 @@ public class GameView extends Application {
                 break;
             }
          }
+    }
+
+    public static void removeImageView() {
+        ObservableList<Node> children = pane.getChildren();
+        for (Node node : children) {
+            if (node instanceof ImageView && pane.getRowIndex(node) == GameModel.getPacmanY() && pane.getColumnIndex(node) == GameModel.getPacmanX()) {
+                pane.getChildren().remove(node);
+                break;
+            }
+        }
     }
 
     /**

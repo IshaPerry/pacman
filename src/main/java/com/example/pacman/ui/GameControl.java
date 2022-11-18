@@ -2,7 +2,6 @@ package com.example.pacman.ui;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
-import javafx.geometry.Point2D;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
@@ -38,23 +37,26 @@ public class GameControl implements EventHandler<KeyEvent> {
         yellowReleased = false;
         delayTimer = 0;
 
+
         level = configurationControls.getLevel();
         maze m = new maze();
         this.gameModel = new GameModel();
 
         if (level.equals("Easy")) {
-            GameModel.setMaxScore(84);
+            GameModel.setMaxPellets(76);
             delayTime = 40;
             GameModel.setMaze(m.getEasyArray());
+
         } else if (level.equals("Medium")) {
-            GameModel.setMaxScore(91);
+            GameModel.setMaxPellets(80);
             delayTime = 30;
             GameModel.setMaze(m.getMedArray());
         } else {
-            GameModel.setMaxScore(182);
+            GameModel.setMaxPellets(166);
             delayTime = 10;
             GameModel.setMaze(m.getHardArray());
         }
+        GameModel.generateCherry(GameModel.getMaze().length, GameModel.getMaze()[0].length);
 
         String color = configurationControls.getPacman();
         gameModel.setPacmanColor(color);
@@ -77,7 +79,7 @@ public class GameControl implements EventHandler<KeyEvent> {
             public void run() {
                 Platform.runLater(new Runnable() {
                     public void run() {
-                        gameModel.setGameStatus(GameModel.GameState.PLAYING);
+                        GameModel.setGameStatus(GameModel.GameState.PLAYING);
                         gameModel.movePacman(GameModel.getCurrDirection());
                         delayTimer++;
                         if (GameModel.getSafeMode()) {
