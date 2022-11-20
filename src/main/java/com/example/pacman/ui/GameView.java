@@ -32,6 +32,7 @@ public class GameView extends Application {
     private static Image yPacmanDown;
     private static Image bPacmanRight, bPacmanLeft, bPacmanUp, bPacmanDown;
     private static Image pPacmanRight, pPacmanLeft, pPacmanUp, pPacmanDown;
+    private static Image armorRight, armorLeft, armorUp, armorDown;
 
     private static Image rGhostRight, rGhostLeft, rGhostUp, rGhostDown;
     private static Image pGhostRight, pGhostLeft, pGhostUp, pGhostDown;
@@ -39,6 +40,8 @@ public class GameView extends Application {
     private static Image yGhostRight, yGhostLeft, yGhostUp, yGhostDown;
 
     private static Image bigPellet;
+    private static Image shield;
+    private static Image cherry;
 
     private static Text scoreDisplay = new Text();
     private static Text livesDisplay = new Text();
@@ -89,6 +92,8 @@ public class GameView extends Application {
         this.yGhostDown = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/ydown.gif")));
 
         this.bigPellet = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/bigPellet.gif")));
+        this.cherry = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/cherry.gif")));
+//        this.shield = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/shield.gif")));
     }
 
     public void start(Stage primaryStage) {
@@ -135,11 +140,15 @@ public class GameView extends Application {
                 } else if (arr[i][j] == 'C') {
                     r.setFill(Color.BLACK);
                     pane.add(r, j, i);
-                    Circle pellet = new Circle(CELL / 8, Color.RED);
-                    pane.add(pellet, j, i);
-                    pane.setAlignment(Pos.CENTER);
-                    GridPane.setHalignment(pellet, HPos.CENTER);
-                    GridPane.setValignment(pellet, VPos.CENTER);
+                    ImageView tempCherry = new ImageView();
+                    tempCherry.setImage(cherry);
+                    tempCherry.setFitHeight(CELL);
+                    tempCherry.setFitWidth(CELL);
+//                    Circle pellet = new Circle(CELL / 8, Color.RED);
+                    pane.add(tempCherry, j, i);
+//                    pane.setAlignment(Pos.CENTER);
+//                    GridPane.setHalignment(pellet, HPos.CENTER);
+//                    GridPane.setValignment(pellet, VPos.CENTER);
                 } else {
                     pane.add(r, j, i);
                 }

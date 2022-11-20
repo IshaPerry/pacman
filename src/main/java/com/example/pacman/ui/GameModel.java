@@ -138,9 +138,9 @@ public class GameModel {
             maze[pacmanY][pacmanX] = 'S';
             GameView.removeImageView();
         } else if (currPos == 'C') {
-            lives += 1;
+            lives++;
             maze[pacmanY][pacmanX] = 'S';
-//            GameView.removeImageView();
+            GameView.removeImageView();
         }
     }
 
