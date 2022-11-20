@@ -43,16 +43,16 @@ public class GameControl implements EventHandler<KeyEvent> {
         this.gameModel = new GameModel();
 
         if (level.equals("Easy")) {
-            GameModel.setMaxPellets(76);
+            GameModel.setMaxPellets(75);
             delayTime = 40;
             GameModel.setMaze(m.getEasyArray());
 
         } else if (level.equals("Medium")) {
-            GameModel.setMaxPellets(80);
+            GameModel.setMaxPellets(79);
             delayTime = 30;
             GameModel.setMaze(m.getMedArray());
         } else {
-            GameModel.setMaxPellets(166);
+            GameModel.setMaxPellets(165);
             delayTime = 10;
             GameModel.setMaze(m.getHardArray());
         }
