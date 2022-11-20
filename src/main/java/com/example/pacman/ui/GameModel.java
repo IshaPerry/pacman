@@ -85,6 +85,16 @@ public class GameModel {
         maze[cherryX][cherryY] = 'C';
     }
 
+    public static void generateShield(int x, int y) {
+        int shieldX = randomDir.nextInt(x);
+        int shieldY = randomDir.nextInt(y);
+        while (maze[shieldX][shieldY] != 'P' || (shieldX == pacmanX && shieldY == pacmanY)) {
+            shieldX = randomDir.nextInt(x);
+            shieldY = randomDir.nextInt(y);
+        }
+        maze[shieldX][shieldY] = 'A';
+    }
+
     public void movePacman(Direction dir) {
         pacmanOldX = pacmanX;
         pacmanOldY = pacmanY;
@@ -134,11 +144,16 @@ public class GameModel {
             GameView.removePellets();
         } else if (currPos == 'B') {
             score += 1;
+            ghostEatingMode = true;
             pelletsEaten += 1;
             maze[pacmanY][pacmanX] = 'S';
             GameView.removeImageView();
         } else if (currPos == 'C') {
             lives++;
+            maze[pacmanY][pacmanX] = 'S';
+            GameView.removeImageView();
+        } else if (currPos == 'A') {
+            safeMode = true;
             maze[pacmanY][pacmanX] = 'S';
             GameView.removeImageView();
         }

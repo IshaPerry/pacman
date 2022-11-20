@@ -43,20 +43,21 @@ public class GameControl implements EventHandler<KeyEvent> {
         this.gameModel = new GameModel();
 
         if (level.equals("Easy")) {
-            GameModel.setMaxPellets(75);
+            GameModel.setMaxPellets(74);
             delayTime = 40;
             GameModel.setMaze(m.getEasyArray());
 
         } else if (level.equals("Medium")) {
-            GameModel.setMaxPellets(79);
+            GameModel.setMaxPellets(78);
             delayTime = 30;
             GameModel.setMaze(m.getMedArray());
         } else {
-            GameModel.setMaxPellets(165);
+            GameModel.setMaxPellets(164);
             delayTime = 10;
             GameModel.setMaze(m.getHardArray());
         }
         GameModel.generateCherry(GameModel.getMaze().length, GameModel.getMaze()[0].length);
+        GameModel.generateShield(GameModel.getMaze().length, GameModel.getMaze()[0].length);
 
         String color = configurationControls.getPacman();
         gameModel.setPacmanColor(color);
