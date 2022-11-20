@@ -100,7 +100,7 @@ public class GameView extends Application {
         stage = primaryStage;
         scoreDisplay.setText("Score: " + GameModel.getScore());
         livesDisplay.setText("Lives: " + GameModel.getLives());
-        roundDisplay.setText("Round: " + GameModel.getRound());
+        //roundDisplay.setText("Round: " + GameModel.getRound());
         BorderPane.setAlignment(livesDisplay, Pos.BOTTOM_LEFT);
         HBox top = new HBox(scoreDisplay, roundDisplay);
         top.setSpacing(700);
@@ -222,6 +222,38 @@ public class GameView extends Application {
         orientPacman(pacman, GameModel.getPacmanColor(), GameModel.Direction.RIGHT);
         pacman.getTransforms().addAll(t);
     }
+
+    //test
+    public static void resetGhostView(int originalX, int originalY, int currentPosX, int currentPosY, String ghost) {
+        Translate t = new Translate();
+        switch(ghost) {
+            case "blue":
+                t.setX((originalX - currentPosX) * CELL);
+                t.setY((originalY- currentPosY) * CELL);
+                blue.getTransforms().addAll(t);
+                break;
+            case "yellow":
+                t.setX((originalX - currentPosX) * CELL);
+                t.setY((originalY- currentPosY) * CELL);
+                yellow.getTransforms().addAll(t);
+                break;
+            case "pink":
+                t.setX((originalX - currentPosX) * CELL);
+                t.setY((originalY - currentPosY) * CELL);
+                pink.getTransforms().addAll(t);
+                break;
+            case "red":
+                t.setX((originalX - currentPosX) * CELL);
+                t.setY((originalY- currentPosY) * CELL);
+                red.getTransforms().addAll(t);
+                break;
+
+        }
+
+    }
+
+
+
 
     public static void updateGhost(int dx, int dy, String ghost) {
         Translate t = new Translate();
