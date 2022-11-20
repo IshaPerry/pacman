@@ -1,5 +1,4 @@
 package com.example.pacman.ui;
-import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.scene.input.KeyCode;
@@ -16,13 +15,19 @@ public class GameControl implements EventHandler<KeyEvent> {
     private GameView gameView;
     private static Timer timer;
     private static String level;
-    private static int delayTimer;
+    private static int gameTimer;
     private static int delayTime;
     private static int timeElapsed = 0;
+    private static int ghostEatingTimer = 0;
     private static boolean blueReleased;
     private static boolean pinkReleased;
     private static boolean redReleased;
     private static boolean yellowReleased;
+
+    private static int blueTimer;
+    private static int pinkTimer;
+    private static int redTimer;
+    private static int yellowTimer;
 
 
     public GameControl() {};
@@ -35,7 +40,13 @@ public class GameControl implements EventHandler<KeyEvent> {
         pinkReleased = false;
         redReleased = false;
         yellowReleased = false;
-        delayTimer = 0;
+
+        gameTimer = 0;
+
+        blueTimer = 0;
+        pinkTimer = 0;
+        redTimer = 0;
+        yellowTimer = 0;
 
 
         level = configurationControls.getLevel();
@@ -63,7 +74,9 @@ public class GameControl implements EventHandler<KeyEvent> {
         gameModel.setPacmanColor(color);
         gameModel.setScore(0);
         gameModel.setLives(3);
-        gameModel.setRound(1);
+        gameModel.setPelletsEaten(0);
+        gameModel.setGhostsEaten(0);
+
         GameModel.setCurrDirection(GameModel.Direction.NONE);
         this.gameView = new GameView();
         gameView.start(primaryStage);
@@ -82,31 +95,101 @@ public class GameControl implements EventHandler<KeyEvent> {
                     public void run() {
                         GameModel.setGameStatus(GameModel.GameState.PLAYING);
                         gameModel.movePacman(GameModel.getCurrDirection());
-                        delayTimer++;
+                        gameTimer++;
+                        blueTimer++;
+                        pinkTimer++;
+                        redTimer++;
+                        yellowTimer++;
                         if (GameModel.getSafeMode()) {
-                            if (timeElapsed < 10) {
+                            if (timeElapsed < 20) {
                                 timeElapsed++;
                             } else {
                                 GameModel.setSafeMode(false);
                                 timeElapsed = 0;
                             }
                         }
-                        if (delayTimer > 5 && !(blueReleased)) {
-                            blueReleased = true;
-                            gameModel.releaseGhost("Blue");
+                        if (GameModel.getGhostEatingMode()) {
+                            if (ghostEatingTimer < 25) {
+                                ghostEatingTimer++;
+                            } else {
+                                GameModel.setGhostEatingMode(false);
+
+                                ghostEatingTimer = 0;
+                            }
                         }
-                        else if (delayTimer > delayTime && !(pinkReleased)) {
-                            pinkReleased = true;
-                            GameModel.resetGhostPos("blue");
-                            gameModel.releaseGhost("Pink");
-                        } else if (delayTimer > delayTime * 2 && !(redReleased) && !level.equals("Easy")) {
-                            redReleased = true;
-                            gameModel.releaseGhost("Red");
-                        } else if (delayTimer > delayTime * 3 && !(yellowReleased) && level.equals("Hard")) {
-                            yellowReleased = true;
-                            GameModel.resetGhostPos("blue");
-                            gameModel.releaseGhost("Yellow");
+                        if (level.equals("Easy")) {
+                            if (blueTimer > 5 && !(blueReleased)  ) {
+                                blueReleased = true;
+                                gameModel.releaseGhost("Blue");
+                            } else {
+                                GameView.updateGhost(0, 0, "Blue");
+                            }
+                            if (pinkTimer > delayTime && !(pinkReleased)) {
+                                pinkReleased = true;
+                                gameModel.releaseGhost("Pink");
+                            } else {
+                                GameView.updateGhost(0, 0, "Pink");
+                            }
+
+                        } else if (level.equals("Medium")) {
+                            if (blueTimer > 5 && !(blueReleased)) {
+                                blueReleased = true;
+                                gameModel.releaseGhost("Blue");
+                            } else {
+                                GameView.updateGhost(0, 0, "Blue");
+                            }
+                            if (pinkTimer > delayTime && !(pinkReleased)) {
+                                pinkReleased = true;
+                                gameModel.releaseGhost("Pink");
+                            } else {
+                                GameView.updateGhost(0, 0, "Pink");
+                            }
+                            if (redTimer > delayTime * 2 && !(redReleased)) {
+                                redReleased = true;
+                                gameModel.releaseGhost("Red");
+                            } else {
+                                GameView.updateGhost(0, 0, "Red");
+                            }
+                        } else {
+                            if (blueTimer > 5 && !(blueReleased)) {
+                                blueReleased = true;
+                                gameModel.releaseGhost("Blue");
+                            } else {
+                                GameView.updateGhost(0, 0, "Blue");
+                            }
+                            if (pinkTimer > delayTime && !(pinkReleased)) {
+                                pinkReleased = true;
+                                gameModel.releaseGhost("Pink");
+                            } else {
+                                GameView.updateGhost(0, 0, "Pink");
+                            }
+                            if (redTimer > delayTime * 2 && !(redReleased)) {
+                                redReleased = true;
+                                gameModel.releaseGhost("Red");
+                            } else {
+                                GameView.updateGhost(0, 0, "Red");
+                            }
+                            if (yellowTimer > delayTime * 3 && !(yellowReleased)) {
+                                yellowReleased = true;
+                                gameModel.releaseGhost("Yellow");
+                            } else {
+                                GameView.updateGhost(0, 0, "Yellow");
+                            }
                         }
+//                        if (gameTimer > 5 && !(blueReleased)  ) {
+//                            blueReleased = true;
+//                            gameModel.releaseGhost("Blue");
+//                        }
+//                        else if (gameTimer > delayTime && !(pinkReleased)) {
+//                            pinkReleased = true;
+//                            gameModel.releaseGhost("Pink");
+//                        } else if (gameTimer > delayTime * 2 && !(redReleased) && !level.equals("Easy")) {
+//                            redReleased = true;
+//                            gameModel.releaseGhost("Red");
+//                        } else if (gameTimer > delayTime * 3 && !(yellowReleased) && level.equals("Hard")) {
+//                            yellowReleased = true;
+//                            gameModel.releaseGhost("Yellow");
+//                                }
                         if (blueReleased) {
                             gameModel.moveBlueGhost(GameModel.getBlueCurrDir());
                         }
@@ -117,6 +200,7 @@ public class GameControl implements EventHandler<KeyEvent> {
                             gameModel.moveRedGhost(GameModel.getRedCurrDir());
                         }
                         if (yellowReleased) {
+
                             gameModel.moveYellowGhost(GameModel.getYellowCurrDir());
                         }
 
@@ -126,10 +210,9 @@ public class GameControl implements EventHandler<KeyEvent> {
                             e.printStackTrace();
                         }
                     }
-                });
-            }
-        };
-
+                 });
+                }
+            };
         long frameTimeInMilliseconds = (long)(1000.0 / FRAMES_PER_SECOND);
         this.timer.schedule(timerTask, 0, frameTimeInMilliseconds);
     }
@@ -192,6 +275,28 @@ public class GameControl implements EventHandler<KeyEvent> {
         yellowReleased = x;
     }
 
-    public static void setDelayTimer(int x) {delayTimer = x; }
+    public static void setGameTimer(int x) {
+        gameTimer = x;
+    }
+
+    public static int getGhostEatingTimer() {
+        return ghostEatingTimer;
+    }
+
+    public static void setBlueTimer(int x) {
+        blueTimer = x;
+    }
+
+    public static void setPinkTimer(int x) {
+        pinkTimer = x;
+    }
+
+    public static void setRedTimer(int x) {
+        redTimer = x;
+    }
+
+    public static void setYellowTimer(int x) {
+        yellowTimer = x;
+    }
 
 }
