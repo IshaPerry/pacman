@@ -137,6 +137,10 @@ public class GameModel {
             pelletsEaten += 1;
             maze[pacmanY][pacmanX] = 'S';
             GameView.removeImageView();
+        } else if (currPos == 'C') {
+            lives++;
+            maze[pacmanY][pacmanX] = 'S';
+            GameView.removeImageView();
         }
     }
 
