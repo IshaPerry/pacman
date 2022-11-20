@@ -673,6 +673,7 @@ public class GameModel {
         return blueX;
     }
 
+
     public static int getBlueY() {
         return blueY;
     }
@@ -744,4 +745,146 @@ public class GameModel {
     public static void setGhostEatingMode(boolean x) {
         ghostEatingMode = x;
     }
+
+
+    public static void resetGhostPos(String ghost) {
+        int originalX = 0;
+        int originalY = 0;
+        int currX =  0;
+        int currY = 0;
+        if (GameControl.getLevel().equals("Easy")) {
+            switch(ghost) {
+                case "blue":
+                    originalX = 9;
+                    originalY = 1;
+                    currX = blueX;
+                    currY = blueY;
+                    blueX = 9;
+                    blueY = 1;
+                    blueDx = 0;
+                    blueDy = 0;
+                    blueCurrDir = Direction.NONE;
+                    GameControl.setBlueReleased(false);
+                    break;
+                case "pink":
+                    originalX = 12;
+                    originalY = 1;
+                    currX = pinkX;
+                    currY = pinkY;
+                    pinkX = 12;
+                    pinkY = 1;
+                    pinkDx = 0;
+                    pinkDy = 0;
+                    pinkCurrDir = Direction.NONE;
+                    GameControl.setPinkReleased(false);
+                    break;
+                case "red":
+                    originalX = 15;
+                    originalY = 1;
+                    currX = redX;
+                    currY = redY;
+                    redX = 15;
+                    redY = 1;
+                    redDx = 0;
+                    redDy = 0;
+                    GameControl.setRedReleased(false);
+                    break;
+            }
+
+        } else if (GameControl.getLevel().equals("Medium")) {
+            switch(ghost) {
+                case "blue":
+                    originalX = 8;
+                    originalY = 5;
+                    currX = blueX;
+                    currY = blueY;
+                    blueX = 8;
+                    blueY = 5;
+                    blueX = 8;
+                    blueY = 5;
+                    blueDx = 0;
+                    blueDy = 0;
+                    blueCurrDir = Direction.NONE;
+                    GameControl.setBlueReleased(false);
+                    break;
+                case "pink":
+                    originalX = 9;
+                    originalY = 5;
+                    currX = pinkX;
+                    currY = pinkY;
+                    pinkX = 9;
+                    pinkY = 5;
+                    pinkDx = 0;
+                    pinkDy = 0;
+                    pinkCurrDir = Direction.NONE;
+                    GameControl.setPinkReleased(false);
+                    break;
+                case "red":
+                    originalX = 11;
+                    originalY = 5;
+                    currX = redX;
+                    currY = redY;
+                    redX = 11;
+                    redY = 5;
+                    redDx = 0;
+                    redDy = 0;
+                    GameControl.setRedReleased(false);
+                    break;
+            }
+        } else {
+            switch(ghost) {
+                case "blue":
+                    originalX = 8;
+                    originalY = 9;
+                    currX = blueX;
+                    currY = blueY;
+                    blueX = 8;
+                    blueY = 9;
+                    blueDx = 0;
+                    blueDy = 0;
+                    blueCurrDir = Direction.NONE;
+                    GameControl.setBlueReleased(false);
+                    break;
+                case "pink":
+                    originalX = 9;
+                    originalY = 10;
+                    currX = pinkX;
+                    currY = pinkY;
+                    pinkX = 9;
+                    pinkY = 10;
+                    pinkDx = 0;
+                    pinkDy = 0;
+                    pinkCurrDir = Direction.NONE;
+                    GameControl.setPinkReleased(false);
+                    break;
+                case "red":
+                    originalX = 10;
+                    originalY = 9;
+                    currX = redX;
+                    currY = redY;
+                    redX = 10;
+                    redY = 9;
+                    redDx = 0;
+                    redDy = 0;
+                    GameControl.setRedReleased(false);
+                    break;
+                case "yellow":
+                    originalX = 10;
+                    originalY = 10;
+                    currX = yellowX;
+                    currY = yellowY;
+                    yellowX = 8;
+                    yellowY = 9;
+                    yellowDx = 0;
+                    yellowDy = 0;
+                    GameControl.setYellowReleased(false);
+                    break;
+            }
+
+        }
+        GameView.resetGhostView(originalX, originalY, currX, currY, ghost);
+
+    }
+
+
 }
