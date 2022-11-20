@@ -96,12 +96,14 @@ public class GameControl implements EventHandler<KeyEvent> {
                         }
                         else if (delayTimer > delayTime && !(pinkReleased)) {
                             pinkReleased = true;
+                            GameModel.resetGhostPos("blue");
                             gameModel.releaseGhost("Pink");
                         } else if (delayTimer > delayTime * 2 && !(redReleased) && !level.equals("Easy")) {
                             redReleased = true;
                             gameModel.releaseGhost("Red");
                         } else if (delayTimer > delayTime * 3 && !(yellowReleased) && level.equals("Hard")) {
                             yellowReleased = true;
+                            GameModel.resetGhostPos("blue");
                             gameModel.releaseGhost("Yellow");
                         }
                         if (blueReleased) {
@@ -183,6 +185,10 @@ public class GameControl implements EventHandler<KeyEvent> {
 
     public static void setRedReleased(boolean x) {
         redReleased = x;
+    }
+
+    public static void setYellowReleased(boolean x) {
+        yellowReleased = x;
     }
 
     public static void setDelayTimer(int x) {delayTimer = x; }
