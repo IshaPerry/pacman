@@ -40,7 +40,8 @@ public class GameModel {
 
     private static Integer score;
     private static Integer lives;
-    private static Integer round;
+    private static int ghostsEaten;
+
     private static String pacmanColor;
     private static char[][] maze;
     private static int pacmanX;
@@ -114,7 +115,6 @@ public class GameModel {
         }
         boolean collision = checkMaze(dx, dy);
         if (!collision) {
-            // Now check for wraparound
             checkPellet();
             pacmanY = pacmanY + dy;
             pacmanX = pacmanX + dx;
@@ -249,23 +249,19 @@ public class GameModel {
         char newPos = maze[blueY + blueDy][blueX + blueDx];
         char currPos = maze[blueY][blueX];
         if ((blueX == pacmanX && blueY == pacmanY) || (blueX == pacmanOldX && blueY == pacmanOldY)) {
-            if (!safeMode) {
-                safeMode = true;
-                System.out.println("Collided");
-                lives -= 1;
-                GameView.updateDisplay();
-                GameView.resetPacmanView();
-                pacmanX = 1;
-                pacmanY = maze.length - 2;
+            if (ghostEatingMode) {
+                resetGhostPos("Blue");
+            } else if (!safeMode) {
+                sendGhostsHome();
             }
         }
 
-        if (newPos != 'W') {
+        if (newPos != 'W' && newPos != 'G') {
             blueX += blueDx;
             blueY += blueDy;
             GameView.updateGhost(blueDx, blueDy, "Blue");
         }
-        if (newPos == 'W') {
+        if (newPos == 'W' || newPos == 'G') {
             newPos = currPos;
             blueOldDir = blueCurrDir;
             Direction tempDir = randomDirection(randomDir.nextInt(4), "Blue");
@@ -295,56 +291,72 @@ public class GameModel {
         if (pinkY == pacmanY) {
             // If pacman is to the left of ghost, move left
             if (pacmanX < pinkX) {
-                pinkCurrDir = Direction.LEFT;
-                pinkDx = -1;
-                pinkDy = 0;
+                if (!ghostEatingMode) {
+                    pinkCurrDir = Direction.LEFT;
+                    pinkDx = -1;
+                    pinkDy = 0;
+                } else {
+                    pinkCurrDir = Direction.RIGHT;
+                    pinkDx = 1;
+                    pinkDy = 0;
+                }
             // If pacman is to the right of ghost, move right
             } else {
-                pinkCurrDir = Direction.RIGHT;
-                pinkDx = 1;
-                pinkDy = 0;
+                if (!ghostEatingMode) {
+                    pinkCurrDir = Direction.RIGHT;
+                    pinkDx = 1;
+                    pinkDy = 0;
+                } else {
+                    pinkCurrDir = Direction.LEFT;
+                    pinkDx = -1;
+                    pinkDy = 0;
+                }
             }
-            System.out.println("Same row!");
-            System.out.println("Pink dir: " + pinkCurrDir + ", Pacman dir: " + currDirection);
         }
         // Pink ghost & pacman are in the same column
         else if (pinkX == pacmanX) {
             // If pacman is above the ghost, move up
             if (pacmanY < pinkY) {
-                pinkCurrDir =  Direction.UP;
-                pinkDy = -1;
-                pinkDx = 0;
+                if (!ghostEatingMode) {
+                    pinkCurrDir =  Direction.UP;
+                    pinkDy = -1;
+                    pinkDx = 0;
+                } else {
+                    pinkCurrDir =  Direction.DOWN;
+                    pinkDy = 1;
+                    pinkDx = 0;
+                }
             // If pacman is below the ghost, move down
             } else {
-                pinkCurrDir = Direction.DOWN;
-                pinkDy = 1;
-                pinkDx = 0;
+                if (!ghostEatingMode) {
+                    pinkCurrDir = Direction.DOWN;
+                    pinkDy = 1;
+                    pinkDx = 0;
+                } else {
+                    pinkCurrDir = Direction.UP;
+                    pinkDy = -1;
+                    pinkDx = 0;
+                }
             }
-            System.out.println("Same column!");
-            System.out.println("Pink dir: " + pinkCurrDir + ", Pacman dir: " + currDirection);
         }
 
         char currPos = maze[pinkY][pinkX];
         char newPos = maze[pinkY + pinkDy][pinkX + pinkDx];
 
         if ((pinkX == pacmanX && pinkY == pacmanY) || (pinkX == pacmanOldX && pinkY == pacmanOldY)) {
-            if (!safeMode) {
-                safeMode = true;
-                System.out.println("Collided");
-                lives -= 1;
-                GameView.updateDisplay();
-                GameView.resetPacmanView();
-                pacmanX = 1;
-                pacmanY = maze.length - 2;
+            if (ghostEatingMode) {
+                resetGhostPos("Pink");
+            } else if (!safeMode) {
+                sendGhostsHome();
             }
         }
 
-        if (newPos != 'W') {
+        if (newPos != 'W' && newPos != 'G') {
             pinkX += pinkDx;
             pinkY += pinkDy;
             GameView.updateGhost(pinkDx, pinkDy, "Pink");
         }
-        if (newPos == 'W') {
+        if (newPos == 'W' || newPos == 'G') {
             newPos = currPos;
             System.out.println("Hit a wall");
             pinkOldDir = pinkCurrDir;
@@ -375,23 +387,19 @@ public class GameModel {
 
         char newPos = maze[redY + redDy][redX + redDx];
         if ((redX == pacmanX && redY == pacmanY) || (redX == pacmanOldX && redY == pacmanOldY)) {
-            if (!safeMode) {
-                safeMode = true;
-                System.out.println("Collided");
-                lives -= 1;
-                GameView.updateDisplay();
-                GameView.resetPacmanView();
-                pacmanX = 1;
-                pacmanY = maze.length - 2;
+            if (ghostEatingMode) {
+                resetGhostPos("Red");
+            } else if (!safeMode) {
+                sendGhostsHome();
             }
         }
 
-        if (newPos != 'W') {
+        if (newPos != 'W' && newPos != 'G') {
             redX += redDx;
             redY += redDy;
             GameView.updateGhost(redDx, redDy, "Red");
         }
-        if (newPos == 'W') {
+        if (newPos == 'W' || newPos == 'G') {
             double epsilon = 0.40;
             Random rd = new Random();
             // The red ghost moves towards pacman {epsilon}% of the time
@@ -454,14 +462,10 @@ public class GameModel {
         char newPos = maze[yellowY + yellowDy][yellowX + yellowDx];
 
         if ((yellowX == pacmanX && yellowY == pacmanY) || (yellowX == pacmanOldX && yellowY == pacmanOldY)) {
-            if (!safeMode) {
-                safeMode = true;
-                System.out.println("Collided");
-                lives -= 1;
-                GameView.updateDisplay();
-                GameView.resetPacmanView();
-                pacmanX = 1;
-                pacmanY = maze.length - 2;
+            if (ghostEatingMode) {
+                resetGhostPos("Yellow");
+            } else if (!safeMode) {
+                sendGhostsHome();
             }
         }
 
@@ -636,6 +640,179 @@ public class GameModel {
         }
     }
 
+    public static void sendGhostsHome() {
+
+        if (ghostEatingMode) {
+            score += 10;
+            ghostsEaten += 1;
+        }
+        GameControl.setGameTimer(0);
+        resetGhostPos("Blue");
+        resetGhostPos("Pink");
+        if (!GameControl.getLevel().equals("Easy")) {
+            resetGhostPos("Red");
+        }
+        if (GameControl.getLevel().equals("Hard")) {
+            resetGhostPos("Yellow");
+        }
+        lives -= 1;
+        GameView.updateDisplay();
+        if (!ghostEatingMode) {
+            GameView.resetPacmanView();
+            pacmanX = 1;
+            pacmanY = maze.length - 2;
+        }
+    }
+
+    public static void resetGhostPos(String ghost) {
+        int originalX = 0;
+        int originalY = 0;
+        int currX =  0;
+        int currY = 0;
+        if (GameControl.getLevel().equals("Easy")) {
+            switch(ghost) {
+                case "Blue":
+                    originalX = 9;
+                    originalY = 1;
+                    currX = blueX;
+                    currY = blueY;
+                    blueX = 9;
+                    blueY = 1;
+                    blueDx = 0;
+                    blueDy = 0;
+                    blueCurrDir = Direction.NONE;
+                    GameControl.setBlueReleased(false);
+                    GameControl.setBlueTimer(0);
+                    break;
+                case "Pink":
+                    originalX = 12;
+                    originalY = 1;
+                    currX = pinkX;
+                    currY = pinkY;
+                    pinkX = 12;
+                    pinkY = 1;
+                    pinkDx = 0;
+                    pinkDy = 0;
+                    pinkCurrDir = Direction.NONE;
+                    GameControl.setPinkReleased(false);
+                    GameControl.setPinkTimer(0);
+                    break;
+                case "Red":
+                    originalX = 15;
+                    originalY = 1;
+                    currX = redX;
+                    currY = redY;
+                    redX = 15;
+                    redY = 1;
+                    redDx = 0;
+                    redDy = 0;
+                    GameControl.setRedReleased(false);
+                    GameControl.setRedTimer(0);
+                    break;
+            }
+
+        } else if (GameControl.getLevel().equals("Medium")) {
+            switch(ghost) {
+                case "Blue":
+                    originalX = 8;
+                    originalY = 5;
+                    currX = blueX;
+                    currY = blueY;
+                    blueX = 8;
+                    blueY = 5;
+                    blueX = 8;
+                    blueY = 5;
+                    blueDx = 0;
+                    blueDy = 0;
+                    blueCurrDir = Direction.NONE;
+                    GameControl.setBlueReleased(false);
+                    GameControl.setBlueTimer(0);
+                    break;
+                case "Pink":
+                    originalX = 9;
+                    originalY = 5;
+                    currX = pinkX;
+                    currY = pinkY;
+                    pinkX = 9;
+                    pinkY = 5;
+                    pinkDx = 0;
+                    pinkDy = 0;
+                    pinkCurrDir = Direction.NONE;
+                    GameControl.setPinkReleased(false);
+                    GameControl.setPinkTimer(0);
+                    break;
+                case "Red":
+                    originalX = 11;
+                    originalY = 5;
+                    currX = redX;
+                    currY = redY;
+                    redX = 11;
+                    redY = 5;
+                    redDx = 0;
+                    redDy = 0;
+                    GameControl.setRedReleased(false);
+                    GameControl.setRedTimer(0);
+                    break;
+            }
+        } else {
+            switch(ghost) {
+                case "Blue":
+                    originalX = 8;
+                    originalY = 9;
+                    currX = blueX;
+                    currY = blueY;
+                    blueX = 8;
+                    blueY = 9;
+                    blueDx = 0;
+                    blueDy = 0;
+                    blueCurrDir = Direction.NONE;
+                    GameControl.setBlueReleased(false);
+                    GameControl.setBlueTimer(0);
+                    break;
+                case "Pink":
+                    originalX = 9;
+                    originalY = 10;
+                    currX = pinkX;
+                    currY = pinkY;
+                    pinkX = 9;
+                    pinkY = 10;
+                    pinkDx = 0;
+                    pinkDy = 0;
+                    pinkCurrDir = Direction.NONE;
+                    GameControl.setPinkReleased(false);
+                    GameControl.setPinkTimer(0);
+                    break;
+                case "Red":
+                    originalX = 10;
+                    originalY = 9;
+                    currX = redX;
+                    currY = redY;
+                    redX = 10;
+                    redY = 9;
+                    redDx = 0;
+                    redDy = 0;
+                    GameControl.setRedReleased(false);
+                    GameControl.setRedTimer(0);
+                    break;
+                case "Yellow":
+                    originalX = 10;
+                    originalY = 10;
+                    currX = yellowX;
+                    currY = yellowY;
+                    yellowX = 10;
+                    yellowY = 10;
+                    yellowDx = 0;
+                    yellowDy = 0;
+                    GameControl.setYellowReleased(false);
+                    GameControl.setYellowTimer(0);
+                    break;
+            }
+
+        }
+        GameView.resetGhostView(originalX, originalY, currX, currY, ghost);
+
+    }
+
     public static String getPacmanColor() {
         return pacmanColor;
     }
@@ -648,10 +825,6 @@ public class GameModel {
         return score;
     }
 
-    public static Integer getRound() {
-        return round;
-    }
-
     public void setScore(Integer newScore) {
         score = newScore;
     }
@@ -662,10 +835,6 @@ public class GameModel {
 
     public void setLives(Integer newLives) {
         lives = newLives;
-    }
-
-    public void setRound(Integer newRound) {
-        round = newRound;
     }
 
     public static int getPacmanX() {
@@ -687,7 +856,6 @@ public class GameModel {
     public static int getBlueX() {
         return blueX;
     }
-
 
     public static int getBlueY() {
         return blueY;
@@ -760,146 +928,13 @@ public class GameModel {
     public static void setGhostEatingMode(boolean x) {
         ghostEatingMode = x;
     }
-
-
-    public static void resetGhostPos(String ghost) {
-        int originalX = 0;
-        int originalY = 0;
-        int currX =  0;
-        int currY = 0;
-        if (GameControl.getLevel().equals("Easy")) {
-            switch(ghost) {
-                case "blue":
-                    originalX = 9;
-                    originalY = 1;
-                    currX = blueX;
-                    currY = blueY;
-                    blueX = 9;
-                    blueY = 1;
-                    blueDx = 0;
-                    blueDy = 0;
-                    blueCurrDir = Direction.NONE;
-                    GameControl.setBlueReleased(false);
-                    break;
-                case "pink":
-                    originalX = 12;
-                    originalY = 1;
-                    currX = pinkX;
-                    currY = pinkY;
-                    pinkX = 12;
-                    pinkY = 1;
-                    pinkDx = 0;
-                    pinkDy = 0;
-                    pinkCurrDir = Direction.NONE;
-                    GameControl.setPinkReleased(false);
-                    break;
-                case "red":
-                    originalX = 15;
-                    originalY = 1;
-                    currX = redX;
-                    currY = redY;
-                    redX = 15;
-                    redY = 1;
-                    redDx = 0;
-                    redDy = 0;
-                    GameControl.setRedReleased(false);
-                    break;
-            }
-
-        } else if (GameControl.getLevel().equals("Medium")) {
-            switch(ghost) {
-                case "blue":
-                    originalX = 8;
-                    originalY = 5;
-                    currX = blueX;
-                    currY = blueY;
-                    blueX = 8;
-                    blueY = 5;
-                    blueX = 8;
-                    blueY = 5;
-                    blueDx = 0;
-                    blueDy = 0;
-                    blueCurrDir = Direction.NONE;
-                    GameControl.setBlueReleased(false);
-                    break;
-                case "pink":
-                    originalX = 9;
-                    originalY = 5;
-                    currX = pinkX;
-                    currY = pinkY;
-                    pinkX = 9;
-                    pinkY = 5;
-                    pinkDx = 0;
-                    pinkDy = 0;
-                    pinkCurrDir = Direction.NONE;
-                    GameControl.setPinkReleased(false);
-                    break;
-                case "red":
-                    originalX = 11;
-                    originalY = 5;
-                    currX = redX;
-                    currY = redY;
-                    redX = 11;
-                    redY = 5;
-                    redDx = 0;
-                    redDy = 0;
-                    GameControl.setRedReleased(false);
-                    break;
-            }
-        } else {
-            switch(ghost) {
-                case "blue":
-                    originalX = 8;
-                    originalY = 9;
-                    currX = blueX;
-                    currY = blueY;
-                    blueX = 8;
-                    blueY = 9;
-                    blueDx = 0;
-                    blueDy = 0;
-                    blueCurrDir = Direction.NONE;
-                    GameControl.setBlueReleased(false);
-                    break;
-                case "pink":
-                    originalX = 9;
-                    originalY = 10;
-                    currX = pinkX;
-                    currY = pinkY;
-                    pinkX = 9;
-                    pinkY = 10;
-                    pinkDx = 0;
-                    pinkDy = 0;
-                    pinkCurrDir = Direction.NONE;
-                    GameControl.setPinkReleased(false);
-                    break;
-                case "red":
-                    originalX = 10;
-                    originalY = 9;
-                    currX = redX;
-                    currY = redY;
-                    redX = 10;
-                    redY = 9;
-                    redDx = 0;
-                    redDy = 0;
-                    GameControl.setRedReleased(false);
-                    break;
-                case "yellow":
-                    originalX = 10;
-                    originalY = 10;
-                    currX = yellowX;
-                    currY = yellowY;
-                    yellowX = 8;
-                    yellowY = 9;
-                    yellowDx = 0;
-                    yellowDy = 0;
-                    GameControl.setYellowReleased(false);
-                    break;
-            }
-
-        }
-        GameView.resetGhostView(originalX, originalY, currX, currY, ghost);
-
+    public static void setPelletsEaten(int x) {
+        pelletsEaten = 0;
     }
-
-
+    public static void setGhostsEaten(int x) {
+        ghostsEaten = 0;
+    }
+    public static int getGhostsEaten() {
+        return ghostsEaten;
+    }
 }

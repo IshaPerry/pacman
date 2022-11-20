@@ -38,6 +38,7 @@ public class GameView extends Application {
     private static Image pGhostRight, pGhostLeft, pGhostUp, pGhostDown;
     private static Image bGhostRight, bGhostLeft, bGhostUp, bGhostDown;
     private static Image yGhostRight, yGhostLeft, yGhostUp, yGhostDown;
+    private static Image scaredGhost, flash;
 
     private static Image bigPellet;
     private static Image shield;
@@ -45,7 +46,7 @@ public class GameView extends Application {
 
     private static Text scoreDisplay = new Text();
     private static Text livesDisplay = new Text();
-    private static Text roundDisplay = new Text();
+
 
     private static ImageView pacman;
     private static ImageView blue;
@@ -93,6 +94,8 @@ public class GameView extends Application {
         this.yGhostLeft = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/yleft.gif")));
         this.yGhostUp = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/yup.gif")));
         this.yGhostDown = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/ydown.gif")));
+        this.scaredGhost = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/scared.gif")));
+        this.flash = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/flash.gif")));
 
         this.bigPellet = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/bigPellet.gif")));
         this.cherry = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/cherry.gif")));
@@ -103,9 +106,8 @@ public class GameView extends Application {
         stage = primaryStage;
         scoreDisplay.setText("Score: " + GameModel.getScore());
         livesDisplay.setText("Lives: " + GameModel.getLives());
-        //roundDisplay.setText("Round: " + GameModel.getRound());
         BorderPane.setAlignment(livesDisplay, Pos.BOTTOM_LEFT);
-        HBox top = new HBox(scoreDisplay, roundDisplay);
+        HBox top = new HBox(scoreDisplay);
         top.setSpacing(700);
         bp = new BorderPane();
         bp.setTop(top);
@@ -234,22 +236,22 @@ public class GameView extends Application {
     public static void resetGhostView(int originalX, int originalY, int currentPosX, int currentPosY, String ghost) {
         Translate t = new Translate();
         switch(ghost) {
-            case "blue":
+            case "Blue":
                 t.setX((originalX - currentPosX) * CELL);
                 t.setY((originalY- currentPosY) * CELL);
                 blue.getTransforms().addAll(t);
                 break;
-            case "yellow":
+            case "Yellow":
                 t.setX((originalX - currentPosX) * CELL);
                 t.setY((originalY- currentPosY) * CELL);
                 yellow.getTransforms().addAll(t);
                 break;
-            case "pink":
+            case "Pink":
                 t.setX((originalX - currentPosX) * CELL);
                 t.setY((originalY - currentPosY) * CELL);
                 pink.getTransforms().addAll(t);
                 break;
-            case "red":
+            case "Red":
                 t.setX((originalX - currentPosX) * CELL);
                 t.setY((originalY- currentPosY) * CELL);
                 red.getTransforms().addAll(t);
@@ -262,22 +264,49 @@ public class GameView extends Application {
 
 
 
+
+
+
     public static void updateGhost(int dx, int dy, String ghost) {
+        int timeElapsed = GameControl.getGhostEatingTimer();
         Translate t = new Translate();
         t.setX(dx * CELL);
         t.setY(dy * CELL);
-
         if(ghost.equals("Blue")) {
-            orientBlue(dx, dy);
+            if(!(GameModel.getGhostEatingMode())) {
+                orientBlue(dx, dy);
+            } else if (timeElapsed > 15){
+                blue.setImage(flash);
+            } else {
+                blue.setImage(scaredGhost);
+            }
             blue.getTransforms().addAll(t);
         } else if (ghost.equals("Pink")) {
-            orientPink(dx, dy);
+            if (!(GameModel.getGhostEatingMode())) {
+                orientPink(dx, dy);
+            } else if (timeElapsed > 15){
+                pink.setImage(flash);
+            } else {
+                pink.setImage(scaredGhost);
+            }
             pink.getTransforms().addAll(t);
         } else if (ghost.equals("Red")){
-            orientRed(dx, dy);
+            if (!(GameModel.getGhostEatingMode())) {
+                orientRed(dx, dy);
+            } else if (timeElapsed > 15){
+                red.setImage(flash);
+            } else {
+                red.setImage(scaredGhost);
+            }
             red.getTransforms().addAll(t);
         } else {
-            orientYellow(dx, dy);
+            if (!(GameModel.getGhostEatingMode())) {
+                orientYellow(dx, dy);
+            } else if (timeElapsed > 15){
+                yellow.setImage(flash);
+            } else {
+                yellow.setImage(scaredGhost);
+            }
             yellow.getTransforms().addAll(t);
         }
     }
