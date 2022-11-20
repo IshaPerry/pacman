@@ -78,7 +78,7 @@ public class GameModel {
     public static void generateCherry(int x, int y) {
         int cherryX = randomDir.nextInt(x);
         int cherryY = randomDir.nextInt(y);
-        while (maze[cherryX][cherryY] == 'W') {
+        while (maze[cherryX][cherryY] != 'P' || (cherryX == pacmanX && cherryY == pacmanY)) {
             cherryX = randomDir.nextInt(x);
             cherryY = randomDir.nextInt(y);
         }
