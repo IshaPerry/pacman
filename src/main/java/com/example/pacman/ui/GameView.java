@@ -72,7 +72,10 @@ public class GameView extends Application {
         this.pPacmanLeft = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/pmpl.gif")));
         this.pPacmanUp = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/pmpu.gif")));
         this.pPacmanDown = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/pmpd.gif")));
-
+        this.armorRight = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/sright.gif")));
+        this.armorUp = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/sup.gif")));
+        this.armorDown = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/sdown.gif")));
+        this.armorLeft = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/sleft.gif")));
 
         this.rGhostRight = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/rright.gif")));
         this.rGhostLeft = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/rleft.gif")));
@@ -144,12 +147,16 @@ public class GameView extends Application {
                     tempCherry.setImage(cherry);
                     tempCherry.setFitHeight(CELL);
                     tempCherry.setFitWidth(CELL);
-//                    Circle pellet = new Circle(CELL / 8, Color.RED);
                     pane.add(tempCherry, j, i);
-//                    pane.setAlignment(Pos.CENTER);
-//                    GridPane.setHalignment(pellet, HPos.CENTER);
-//                    GridPane.setValignment(pellet, VPos.CENTER);
-                } else {
+                } else if (arr[i][j] == 'A') {
+                    r.setFill(Color.BLACK);
+                    pane.add(r, j, i);
+                    ImageView tempShield = new ImageView();
+                    tempShield.setImage(shield);
+                    tempShield.setFitHeight(CELL);
+                    tempShield.setFitWidth(CELL);
+                    pane.add(tempShield, j, i);
+                }else {
                     pane.add(r, j, i);
                 }
             }
@@ -314,55 +321,72 @@ public class GameView extends Application {
     }
 
     public static void orientPacman(ImageView p, String color, GameModel.Direction dir) {
-        switch(color) {
-            case "Blue":
-                switch(dir){
-                    case LEFT:
-                        pacman.setImage(bPacmanLeft);
-                        break;
-                    case UP:
-                        pacman.setImage(bPacmanUp);
-                        break;
-                    case DOWN:
-                        pacman.setImage(bPacmanDown);
-                        break;
-                    case RIGHT:
-                        pacman.setImage(bPacmanRight);
-                        break;
-                }
-                break;
-            case "Yellow":
-                switch(dir){
-                    case LEFT:
-                        pacman.setImage(yPacmanLeft);
-                        break;
-                    case UP:
-                        pacman.setImage(yPacmanUp);
-                        break;
-                    case DOWN:
-                        pacman.setImage(yPacmanDown);
-                        break;
-                    case RIGHT:
-                        pacman.setImage(yPacmanRight);
-                        break;
-                }
-                break;
-            case "Purple":
-                switch(dir){
-                    case LEFT:
-                        pacman.setImage(pPacmanLeft);
-                        break;
-                    case UP:
-                        pacman.setImage(pPacmanUp);
-                        break;
-                    case DOWN:
-                        pacman.setImage(pPacmanDown);
-                        break;
-                    case RIGHT:
-                        pacman.setImage(pPacmanRight);
-                        break;
-                }
+        if (!GameModel.getSafeMode()) {
+            switch(color) {
+                case "Blue":
+                    switch(dir){
+                        case LEFT:
+                            pacman.setImage(bPacmanLeft);
+                            break;
+                        case UP:
+                            pacman.setImage(bPacmanUp);
+                            break;
+                        case DOWN:
+                            pacman.setImage(bPacmanDown);
+                            break;
+                        case RIGHT:
+                            pacman.setImage(bPacmanRight);
+                            break;
+                    }
+                    break;
+                case "Yellow":
+                    switch(dir){
+                        case LEFT:
+                            pacman.setImage(yPacmanLeft);
+                            break;
+                        case UP:
+                            pacman.setImage(yPacmanUp);
+                            break;
+                        case DOWN:
+                            pacman.setImage(yPacmanDown);
+                            break;
+                        case RIGHT:
+                            pacman.setImage(yPacmanRight);
+                            break;
+                    }
+                    break;
+                case "Purple":
+                    switch(dir){
+                        case LEFT:
+                            pacman.setImage(pPacmanLeft);
+                            break;
+                        case UP:
+                            pacman.setImage(pPacmanUp);
+                            break;
+                        case DOWN:
+                            pacman.setImage(pPacmanDown);
+                            break;
+                        case RIGHT:
+                            pacman.setImage(pPacmanRight);
+                            break;
+                    }
 
+            }
+        } else {
+            switch(dir) {
+                case LEFT:
+                    pacman.setImage(armorLeft);
+                    break;
+                case UP:
+                    pacman.setImage(armorUp);
+                    break;
+                case DOWN:
+                    pacman.setImage(armorDown);
+                    break;
+                case RIGHT:
+                    pacman.setImage(armorRight);
+                    break;
+            }
         }
     }
 
