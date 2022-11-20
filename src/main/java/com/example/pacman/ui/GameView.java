@@ -93,7 +93,7 @@ public class GameView extends Application {
 
         this.bigPellet = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/bigPellet.gif")));
         this.cherry = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/cherry.gif")));
-//        this.shield = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/shield.gif")));
+        this.shield = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/shield.png")));
     }
 
     public void start(Stage primaryStage) {

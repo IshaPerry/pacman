@@ -134,6 +134,7 @@ public class GameModel {
             GameView.removePellets();
         } else if (currPos == 'B') {
             score += 1;
+            ghostEatingMode = true;
             pelletsEaten += 1;
             maze[pacmanY][pacmanX] = 'S';
             GameView.removeImageView();
