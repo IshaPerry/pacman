@@ -54,6 +54,7 @@ public class welcomeControls {
             // Scene newScene = new Scene(fxmlLoader.load(), 600,400);
             AnchorPane page = (AnchorPane) fxmlLoader.load();
             Scene newScene = new Scene(page);
+            newScene.getStylesheets().add(this.getClass().getResource("/style.css").toExternalForm());
             this.stage.setScene(newScene);
         } catch (IOException e) {
 //            System.out.println("IO Error");

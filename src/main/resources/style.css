@@ -1,0 +1,13 @@
+.root{
+    -fx-font-size: 10pt;
+    -fx-font-family: "Retro Gaming";
+}
+
+.button{
+    -fx-position: absolute;
+    -fx-width: 96px;
+    -fx-height: 29px;
+    -fx-background-color: #FFFFFF;
+    -fx-border-radius: 3px;
+    -fx-border-color: #000000;
+}

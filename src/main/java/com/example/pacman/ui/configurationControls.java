@@ -2,8 +2,6 @@ package com.example.pacman.ui;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
@@ -75,6 +73,7 @@ public class configurationControls {
         if (events == 0) {
             if (isSetUpValid()) {
                 userLabel2.setText(name + " is ready to play level " + level + " with character: " + pacmanColor + "!");
+                userLabel2.setStyle("-fx-font-size: 10;");
                 setLevelParams(level);
                 submitButton.setText("Continue");
                 events += 1;

@@ -16,6 +16,7 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.transform.Translate;
 import javafx.stage.Stage;
@@ -104,9 +105,6 @@ public class GameView extends Application {
 
     public void start(Stage primaryStage) {
         stage = primaryStage;
-        String pacmanColor = GameModel.getPacmanColor();
-        scoreDisplay.setText("Score: " + GameModel.getScore());
-        scoreDisplay.setFill(Color.WHITE);
         bp = new BorderPane();
         bp.setStyle("-fx-background-color: black;");
         HBox top = new HBox();
@@ -123,6 +121,7 @@ public class GameView extends Application {
 
         Region region = new Region();
         HBox.setHgrow(region, Priority.ALWAYS);
+        String pacmanColor = GameModel.getPacmanColor();
         for (int i = 0; i < 3; i++) {
             ImageView lifeImage = new ImageView();
             lifeImage.setFitHeight(CELL);
@@ -136,9 +135,12 @@ public class GameView extends Application {
             }
             lifeBox.getChildren().add(lifeImage);
         }
+        scoreDisplay.setText("SCORE: " + GameModel.getScore());
+        scoreDisplay.setFill(Color.WHITE);
+        scoreDisplay.setStyle("-fx-font-size: 14;");
         HBox bottom = new HBox(lifeBox, region, scoreDisplay);
         bottom.setPadding(new Insets(0, CELL, 0, CELL));
-        bottom.setPrefHeight(CELL * 2);
+        bottom.setPrefHeight(CELL);
         bp.setBottom(bottom);
 
         // Get maze array
@@ -232,6 +234,7 @@ public class GameView extends Application {
 
         // Create a scene and place it in the stage
         scene = new Scene(bp);
+        scene.getStylesheets().add(this.getClass().getResource("/style.css").toExternalForm());
         primaryStage.setTitle(GameControl.getLevel() + " maze"); // Set the stage title
         primaryStage.setScene(scene); // Place in scene in the stage
         scene.setOnKeyPressed(configurationControls.getGameControl());
@@ -337,7 +340,7 @@ public class GameView extends Application {
 
 
     public static void updateDisplay(){
-        scoreDisplay.setText("Score: " + GameModel.getScore());
+        scoreDisplay.setText("SCORE: " + GameModel.getScore());
         lifeBox.getChildren().clear();
         String pacmanColor = GameModel.getPacmanColor();
         for (int i = 0; i < GameModel.getLives(); i++) {

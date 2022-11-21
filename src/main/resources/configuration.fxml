@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane fx:id="configScreen" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.pacman.ui.configurationControls">
+<AnchorPane fx:id="configScreen" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.pacman.ui.configurationControls">
    <children>
       <GridPane fx:id="infoGrid" alignment="BASELINE_CENTER" prefHeight="347.0" prefWidth="600.0" AnchorPane.bottomAnchor="53.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <columnConstraints>
@@ -16,22 +16,14 @@
           <RowConstraints maxHeight="117.0" minHeight="10.0" prefHeight="64.0" vgrow="SOMETIMES" />
           <RowConstraints maxHeight="185.0" minHeight="10.0" prefHeight="153.0" vgrow="SOMETIMES" />
           <RowConstraints maxHeight="176.0" minHeight="0.0" prefHeight="154.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="176.0" minHeight="10.0" prefHeight="154.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Text fx:id="namePrompt" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Enter your screen name here:" wrappingWidth="198.7158203125">
-               <font>
-                  <Font name="Inter Bold" size="18.0" />
-               </font>
+            <Text fx:id="namePrompt" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="ENTER YOUR NAME:" wrappingWidth="198.7158203125">
             </Text>
-            <Text fx:id="levelPrompt" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Choose your level of difficulty:" GridPane.rowIndex="1">
-               <font>
-                  <Font name="Inter Bold" size="18.0" />
-               </font>
+            <Text fx:id="levelPrompt" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="CHOOSE YOUR LEVEL:" GridPane.rowIndex="1">
             </Text>
-            <Text fx:id="charPrompt" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Choose a character:" GridPane.rowIndex="2">
-               <font>
-                  <Font name="Inter Bold" size="18.0" />
-               </font>
+            <Text fx:id="charPrompt" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="CHOOSE PLAYER:" GridPane.rowIndex="2">
             </Text>
             <TextField fx:id="enterName" GridPane.columnIndex="1" />
             <ChoiceBox fx:id="levelSelector" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
@@ -41,9 +33,9 @@
                </image>
             </ImageView>
             <Button fx:id="charButton" mnemonicParsing="false" onAction="#characterChanger" text="&gt;" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
+            <Button fx:id="submitButton" mnemonicParsing="false" onAction="#hitSubmit" text="Submit" GridPane.rowIndex="3" />
          </children>
       </GridPane>
-      <Button fx:id="submitButton" layoutX="57.0" layoutY="360.0" mnemonicParsing="false" onAction="#hitSubmit" text="Submit" />
       <Label fx:id="userLabel2" layoutX="143.0" layoutY="352.0" prefHeight="42.0" prefWidth="336.0" textFill="WHITE" />
    </children>
 </AnchorPane>
