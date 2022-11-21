@@ -5,15 +5,14 @@ import javafx.animation.TranslateTransition;
 import javafx.application.Application;
 import javafx.collections.ObservableList;
 import javafx.geometry.HPos;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.geometry.VPos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
@@ -28,10 +27,9 @@ public class GameView extends Application {
     static final int CELL = 30;
     private static GridPane pane = new GridPane();
     private ImageView[][] cellViews;
-    private static Image yPacmanRight, yPacmanLeft, yPacmanUp;
-    private static Image yPacmanDown;
-    private static Image bPacmanRight, bPacmanLeft, bPacmanUp, bPacmanDown;
-    private static Image pPacmanRight, pPacmanLeft, pPacmanUp, pPacmanDown;
+    private static Image yPacmanRight, yPacmanLeft, yPacmanUp, yPacmanDown, yLives;
+    private static Image bPacmanRight, bPacmanLeft, bPacmanUp, bPacmanDown, bLives;
+    private static Image pPacmanRight, pPacmanLeft, pPacmanUp, pPacmanDown, pLives;
     private static Image armorRight, armorLeft, armorUp, armorDown;
 
     private static Image rGhostRight, rGhostLeft, rGhostUp, rGhostDown;
@@ -45,8 +43,7 @@ public class GameView extends Application {
     private static Image cherry;
 
     private static Text scoreDisplay = new Text();
-    private static Text livesDisplay = new Text();
-
+    private static HBox lifeBox = new HBox();
 
     private static ImageView pacman;
     private static ImageView blue;
@@ -100,24 +97,52 @@ public class GameView extends Application {
         this.bigPellet = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/bigPellet.gif")));
         this.cherry = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/cherry.gif")));
         this.shield = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/shield.png")));
+        this.yLives = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/ylives.png")));
+        this.pLives = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/plives.png")));
+        this.bLives = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/blives.png")));
     }
 
     public void start(Stage primaryStage) {
         stage = primaryStage;
+        String pacmanColor = GameModel.getPacmanColor();
         scoreDisplay.setText("Score: " + GameModel.getScore());
-        livesDisplay.setText("Lives: " + GameModel.getLives());
-        BorderPane.setAlignment(livesDisplay, Pos.BOTTOM_LEFT);
-        HBox top = new HBox(scoreDisplay);
-        top.setSpacing(700);
+        scoreDisplay.setFill(Color.WHITE);
         bp = new BorderPane();
+        bp.setStyle("-fx-background-color: black;");
+        HBox top = new HBox();
+        top.setPrefHeight(CELL);
         bp.setTop(top);
-        bp.setBottom(livesDisplay);
 
+        VBox left = new VBox();
+        left.setPrefWidth(CELL);
+        bp.setLeft(left);
+
+        VBox right = new VBox();
+        right.setPrefWidth(CELL);
+        bp.setRight(right);
+
+        Region region = new Region();
+        HBox.setHgrow(region, Priority.ALWAYS);
+        for (int i = 0; i < 3; i++) {
+            ImageView lifeImage = new ImageView();
+            lifeImage.setFitHeight(CELL);
+            lifeImage.setFitWidth(CELL);
+            if (pacmanColor.equals("Yellow")) {
+                lifeImage.setImage(yLives);
+            } else if (pacmanColor.equals("Blue")) {
+                lifeImage.setImage(bLives);
+            } else {
+                lifeImage.setImage(pLives);
+            }
+            lifeBox.getChildren().add(lifeImage);
+        }
+        HBox bottom = new HBox(lifeBox, region, scoreDisplay);
+        bottom.setPadding(new Insets(0, CELL, 0, CELL));
+        bottom.setPrefHeight(CELL * 2);
+        bp.setBottom(bottom);
 
         // Get maze array
         char[][] arr = GameModel.getMaze();
-
-
         for (int i = 0; i < arr.length; i++) {
             for (int j = 0; j < arr[i].length; j++) {
                 Rectangle r = new Rectangle(CELL, CELL, CELL, CELL);
@@ -170,7 +195,6 @@ public class GameView extends Application {
         pink = new ImageView();
         yellow = new ImageView();
 
-        String pacmanColor = GameModel.getPacmanColor();
         if (pacmanColor.equals("Yellow")) {
             pacman.setImage(yPacmanRight);
         } else if (pacmanColor.equals("Blue")) {
@@ -314,7 +338,21 @@ public class GameView extends Application {
 
     public static void updateDisplay(){
         scoreDisplay.setText("Score: " + GameModel.getScore());
-        livesDisplay.setText("Lives: " + GameModel.getLives());
+        lifeBox.getChildren().clear();
+        String pacmanColor = GameModel.getPacmanColor();
+        for (int i = 0; i < GameModel.getLives(); i++) {
+            ImageView lifeImage = new ImageView();
+            lifeImage.setFitHeight(CELL);
+            lifeImage.setFitWidth(CELL);
+            if (pacmanColor.equals("Yellow")) {
+                lifeImage.setImage(yLives);
+            } else if (pacmanColor.equals("Blue")) {
+                lifeImage.setImage(bLives);
+            } else {
+                lifeImage.setImage(pLives);
+            }
+            lifeBox.getChildren().add(lifeImage);
+        }
     }
 
     public static void removePellets() {
