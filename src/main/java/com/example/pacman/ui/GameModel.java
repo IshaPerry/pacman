@@ -1,5 +1,7 @@
 package com.example.pacman.ui;
 import javafx.fxml.FXMLLoader;
+
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.*;
@@ -563,7 +565,7 @@ public class GameModel {
         }
     }
 
-    public void checkGameStatus() throws MalformedURLException {
+    public void checkGameStatus() throws IOException {
         URL location = getClass().getResource("/gameOver.fxml");
         if (pelletsEaten == maxPellets) {
             setGameStatus(GameState.WIN);
@@ -573,12 +575,12 @@ public class GameModel {
         if (gameStatus == GameState.WIN) {
             GameView.removeRemainingPellets();
             GameControl.getTimer().cancel();
-            gameOverControls.changeScene(GameView.getStage(), location, "Congrats, you won!");
+            gameOverControls.changeScene(GameView.getStage(),"Congrats, you won!", lives, score);
         } else if (gameStatus == GameState.LOSE) {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("gameOverControls.fxml"));
 
             GameControl.getTimer().cancel();
-            gameOverControls.changeScene(GameView.getStage(), location, "Sorry, you lost!");
+            gameOverControls.changeScene(GameView.getStage(),"Sorry, you lost!", lives, score);
             GameView.removeRemainingPellets();
         }
     }
