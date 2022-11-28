@@ -25,7 +25,7 @@ public class welcome extends Application {
         this.stage = primaryStage;
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/welcome.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 600, 400);
-        scene.getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
+        scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/style.css")).toExternalForm());
         primaryStage.setScene(scene);
         primaryStage.setTitle("Welcome");
         primaryStage.show();
