@@ -585,10 +585,6 @@ public class GameModel {
         }
     }
 
-    public void testGameOver() {
-        gameStatus = GameState.WIN;
-    }
-
 
     public static Direction getCurrDirection() {
         return currDirection;
