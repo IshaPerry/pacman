@@ -11,7 +11,7 @@
     <children>
         <ImageView fitHeight="400.0" fitWidth="600.0" pickOnBounds="true" preserveRatio="true">
             <image>
-                <Image url="@images/startScreen.png" />
+                <Image url="@startScreen.png" />
             </image>
         </ImageView>
         <ButtonBar layoutX="191.0" layoutY="309.0" prefHeight="40.0" prefWidth="200.0">
