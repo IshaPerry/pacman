@@ -251,6 +251,8 @@ public class GameModel {
         char currPos = maze[blueY][blueX];
         if ((blueX == pacmanX && blueY == pacmanY) || (blueX == pacmanOldX && blueY == pacmanOldY)) {
             if (ghostEatingMode) {
+                score += 10;
+                ghostsEaten += 1;
                 resetGhostPos("Blue");
                 System.out.println("eat");
                 score += 10;
@@ -349,6 +351,8 @@ public class GameModel {
 
         if ((pinkX == pacmanX && pinkY == pacmanY) || (pinkX == pacmanOldX && pinkY == pacmanOldY)) {
             if (ghostEatingMode) {
+                score += 10;
+                ghostsEaten += 1;
                 resetGhostPos("Pink");
                 System.out.println("eat");
                 score += 10;
@@ -395,6 +399,8 @@ public class GameModel {
         char newPos = maze[redY + redDy][redX + redDx];
         if ((redX == pacmanX && redY == pacmanY) || (redX == pacmanOldX && redY == pacmanOldY)) {
             if (ghostEatingMode) {
+                score += 10;
+                ghostsEaten += 1;
                 resetGhostPos("Red");
                 System.out.println("eat");
                 score += 10;
@@ -473,6 +479,8 @@ public class GameModel {
 
         if ((yellowX == pacmanX && yellowY == pacmanY) || (yellowX == pacmanOldX && yellowY == pacmanOldY)) {
             if (ghostEatingMode) {
+                score += 10;
+                ghostsEaten += 1;
                 resetGhostPos("Yellow");
                 System.out.println("eat");
                 score += 10;

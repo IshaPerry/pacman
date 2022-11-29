@@ -5,10 +5,10 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #10103d;" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.pacman.ui.gameOverControls">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #10103d;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.pacman.ui.gameOverControls">
 
     <children>
-      <ImageView fx:id="background" fitHeight="400.0" fitWidth="600.0" layoutX="-5.0" layoutY="-6.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="background" fitHeight="401.0" fitWidth="601.0" layoutX="-5.0" layoutY="-6.0" pickOnBounds="true" preserveRatio="true" />
         <ButtonBar layoutX="186.0" layoutY="305.0" prefHeight="40.0" prefWidth="200.0">
             <buttons>
                 <Button id="playAgain" alignment="CENTER" mnemonicParsing="false" onAction="#hitPlayAgain" prefHeight="17.0" prefWidth="89.0" text="Play Again" />
