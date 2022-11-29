@@ -130,7 +130,7 @@ public class GameModel {
 
     private boolean checkMaze(int dx, int dy) {
         char newPos = maze[pacmanY + dy][pacmanX + dx];
-        if (newPos == 'W') {
+        if (newPos == 'W' || newPos == 'G') {
             return true;
         }
         return false;

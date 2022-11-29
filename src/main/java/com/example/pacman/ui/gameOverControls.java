@@ -31,6 +31,7 @@ public class gameOverControls {
     private void hitPlayAgain(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/configuration.fxml"));
         Parent root = loader.load();
+        root.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/style.css")).toExternalForm());
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         Scene scene = new Scene(root);
 
@@ -51,6 +52,7 @@ public class gameOverControls {
         FXMLLoader fxmlLoader = new FXMLLoader(location);
         AnchorPane page = (AnchorPane) fxmlLoader.load();
         Scene newScene = new Scene(page);
+        newScene.getStylesheets().add(Objects.requireNonNull(gameOverControls.class.getResource("/style.css")).toExternalForm());
         ImageView background = (ImageView) newScene.lookup("#background");
         if (GameModel.getGameStatus() == GameModel.GameState.LOSE) {
             background.setImage(lose);
@@ -62,7 +64,6 @@ public class gameOverControls {
         page.getChildren().add(livesLabel);
         page.getChildren().add(scoreLabel);
         page.getChildren().add(ghostsLabel);
-
         livesLabel.setTranslateX(305);
         livesLabel.setTranslateY(211);
         livesLabel.setText(String.valueOf(GameModel.getLives()));
