@@ -34,7 +34,7 @@ public class gameOverControls {
         root.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/style.css")).toExternalForm());
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         Scene scene = new Scene(root);
-
+        stage.setTitle("Pacman");
         stage.setScene(scene);
 
         stage.show();
