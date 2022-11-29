@@ -7,7 +7,7 @@ import javafx.scene.Parent;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import javafx.fxml.FXMLLoader;
-
+import javafx.scene.text.Font;
 import java.io.IOException;
 import java.util.Objects;
 
@@ -25,10 +25,15 @@ public class welcome extends Application {
         this.stage = primaryStage;
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/welcome.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 600, 400);
+       // Font.loadFont("src/main/resources/RetroGaming.ttf", 10);
         scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/style.css")).toExternalForm());
         primaryStage.setScene(scene);
         primaryStage.setTitle("Welcome");
+
+
+
         primaryStage.show();
+
     }
 
 
