@@ -33,7 +33,7 @@
                </image>
             </ImageView>
             <Button fx:id="charButton" mnemonicParsing="false" onAction="#characterChanger" text="&gt;" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
-            <Button fx:id="submitButton" mnemonicParsing="false" onAction="#hitSubmit" text="Submit" GridPane.rowIndex="3" />
+            <Button fx:id="submitButton" mnemonicParsing="false" onAction="#hitSubmit" text="SUBMIT" GridPane.rowIndex="3" />
          </children>
       </GridPane>
       <Label fx:id="userLabel2" layoutX="143.0" layoutY="352.0" prefHeight="42.0" prefWidth="336.0" textFill="WHITE" />
