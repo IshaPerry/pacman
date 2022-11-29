@@ -254,7 +254,7 @@ public class GameModel {
                 score += 10;
                 ghostsEaten += 1;
                 resetGhostPos("Blue");
-                System.out.println("eat");
+                //System.out.println("eat");
                 score += 10;
                 ghostsEaten += 1;
             } else if (!safeMode) {
@@ -354,7 +354,7 @@ public class GameModel {
                 score += 10;
                 ghostsEaten += 1;
                 resetGhostPos("Pink");
-                System.out.println("eat");
+               // System.out.println("eat");
                 score += 10;
                 ghostsEaten += 1;
             } else if (!safeMode) {
@@ -402,7 +402,7 @@ public class GameModel {
                 score += 10;
                 ghostsEaten += 1;
                 resetGhostPos("Red");
-                System.out.println("eat");
+              //  System.out.println("eat");
                 score += 10;
                 ghostsEaten += 1;
             } else if (!safeMode) {
@@ -482,7 +482,7 @@ public class GameModel {
                 score += 10;
                 ghostsEaten += 1;
                 resetGhostPos("Yellow");
-                System.out.println("eat");
+              //  System.out.println("eat");
                 score += 10;
                 ghostsEaten += 1;
             } else if (!safeMode) {
@@ -497,7 +497,7 @@ public class GameModel {
         }
         if (newPos == 'W') {
             newPos = currPos;
-            System.out.println("Hit a wall");
+          //  System.out.println("Hit a wall");
             yellowOldDir = yellowCurrDir;
             Direction tempDir = randomDirection(randomDir.nextInt(4), "Yellow");
             if (yellowOldDir != tempDir) {
