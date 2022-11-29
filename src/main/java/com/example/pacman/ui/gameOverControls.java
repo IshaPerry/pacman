@@ -64,13 +64,13 @@ public class gameOverControls {
         page.getChildren().add(ghostsLabel);
 
         livesLabel.setTranslateX(305);
-        livesLabel.setTranslateY(178);
-        livesLabel.setText(String.valueOf(lives));
+        livesLabel.setTranslateY(211);
+        livesLabel.setText(String.valueOf(GameModel.getLives()));
         livesLabel.setFont(Font.font("Ayuthaya", 20));
         livesLabel.setTextFill(Color.BLACK);
         scoreLabel.setTranslateX(305);
-        scoreLabel.setTranslateY(211);
-        scoreLabel.setText(String.valueOf(score));
+        scoreLabel.setTranslateY(178);
+        scoreLabel.setText(String.valueOf(GameModel.getScore()));
         scoreLabel.setFont(Font.font("Ayuthaya", 20));
         scoreLabel.setTextFill(Color.BLACK);
         ghostsLabel.setTranslateX(305);

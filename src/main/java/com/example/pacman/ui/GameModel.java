@@ -638,7 +638,6 @@ public class GameModel {
     }
 
     public static void sendGhostsHome() {
-
         if (ghostEatingMode) {
             score += 10;
             ghostsEaten += 1;
@@ -925,9 +924,11 @@ public class GameModel {
     public static void setGhostEatingMode(boolean x) {
         ghostEatingMode = x;
     }
+
     public static void setPelletsEaten(int x) {
         pelletsEaten = 0;
     }
+
     public static void setGhostsEaten(int x) {
         ghostsEaten = 0;
     }
