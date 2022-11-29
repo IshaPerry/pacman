@@ -73,9 +73,9 @@ public class configurationControls {
         if (events == 0) {
             if (isSetUpValid()) {
                 userLabel2.setText(name + " is ready to play level " + level + " with character: " + pacmanColor + "!");
-                userLabel2.setStyle("-fx-font-size: 11;");
-                userLabel2.setTranslateY(-25);
-                userLabel2.setTranslateX(-49);
+                userLabel2.setStyle("-fx-font-size: 10;");
+                userLabel2.setMaxWidth(500);
+                userLabel2.setWrapText(true);
                 setLevelParams(level);
                 submitButton.setText("Continue");
                 enterName.setDisable(true);
