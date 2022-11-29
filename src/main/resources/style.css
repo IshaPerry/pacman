@@ -1,7 +1,12 @@
+@font-face {
+    src: url("RetroGaming.ttf");
+}
+
 .root{
     -fx-font-size: 10pt;
     -fx-font-family: "Retro Gaming";
 }
+
 
 .button{
     -fx-position: absolute;
