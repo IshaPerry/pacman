@@ -1,5 +1,6 @@
 @font-face {
-    src: url("RetroGaming.ttf");
+    font-family: Retro Gaming;
+    src: url('retroGaming.ttf');
 }
 
 .root{
@@ -16,3 +17,4 @@
     -fx-border-radius: 3px;
     -fx-border-color: #000000;
 }
+
