@@ -45,7 +45,7 @@ public class gameOverControls {
     }
 
     @FXML
-    public static void changeScene(Stage currentStage, int lives, int score, int ghostsEaten) throws NullPointerException, IOException {
+    public static void changeScene(Stage currentStage) throws NullPointerException, IOException {
         URL location = gameOverControls.class.getResource("/gameOver.fxml");
 
         FXMLLoader fxmlLoader = new FXMLLoader(location);
@@ -75,7 +75,7 @@ public class gameOverControls {
         scoreLabel.setTextFill(Color.BLACK);
         ghostsLabel.setTranslateX(305);
         ghostsLabel.setTranslateY(245);
-        ghostsLabel.setText(String.valueOf(ghostsEaten));
+        ghostsLabel.setText(String.valueOf(GameModel.getGhostsEaten()));
         ghostsLabel.setFont(Font.font("Ayuthaya", 20));
         ghostsLabel.setTextFill(Color.BLACK);
         currentStage.setScene(newScene);

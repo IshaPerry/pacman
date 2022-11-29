@@ -574,12 +574,12 @@ public class GameModel {
         if (gameStatus == GameState.WIN) {
             GameView.removeRemainingPellets();
             GameControl.getTimer().cancel();
-            gameOverControls.changeScene(GameView.getStage(), lives, score, ghostsEaten);
+            gameOverControls.changeScene(GameView.getStage());
         } else if (gameStatus == GameState.LOSE) {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("gameOverControls.fxml"));
 
             GameControl.getTimer().cancel();
-            gameOverControls.changeScene(GameView.getStage(), lives, score, ghostsEaten);
+            gameOverControls.changeScene(GameView.getStage());
             GameView.removeRemainingPellets();
         }
     }
@@ -932,9 +932,8 @@ public class GameModel {
     public static void setGhostsEaten(int x) {
         ghostsEaten = 0;
     }
+
     public static int getGhostsEaten() {
         return ghostsEaten;
     }
-
-
 }
