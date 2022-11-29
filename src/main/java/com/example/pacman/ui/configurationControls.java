@@ -79,6 +79,8 @@ public class configurationControls {
                 setLevelParams(level);
                 submitButton.setText("Continue");
                 enterName.setDisable(true);
+                levelSelector.setDisable(true);
+
                 events += 1;
 
             } else {
