@@ -44,6 +44,9 @@ public class configurationControls {
     private ImageView pacman;
 
     @FXML
+    private Button charButton;
+
+    @FXML
     public Image yellowPacman = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/pmright.gif")));
     @FXML
     public Image bluePacman = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/pmbr.gif")));
@@ -73,13 +76,15 @@ public class configurationControls {
         if (events == 0) {
             if (isSetUpValid()) {
                 userLabel2.setText(name + " is ready to play level " + level + " with character: " + pacmanColor + "!");
-                userLabel2.setStyle("-fx-font-size: 10;");
+                userLabel2.setStyle("-fx-font-size: 12;");
                 userLabel2.setMaxWidth(500);
+                userLabel2.setTranslateY(-30);
                 userLabel2.setWrapText(true);
                 setLevelParams(level);
                 submitButton.setText("Continue");
                 enterName.setDisable(true);
                 levelSelector.setDisable(true);
+                charButton.setDisable(true);
 
                 events += 1;
 
