@@ -252,6 +252,9 @@ public class GameModel {
         if ((blueX == pacmanX && blueY == pacmanY) || (blueX == pacmanOldX && blueY == pacmanOldY)) {
             if (ghostEatingMode) {
                 resetGhostPos("Blue");
+                System.out.println("eat");
+                score += 10;
+                ghostsEaten += 1;
             } else if (!safeMode) {
                 sendGhostsHome();
             }
@@ -347,6 +350,9 @@ public class GameModel {
         if ((pinkX == pacmanX && pinkY == pacmanY) || (pinkX == pacmanOldX && pinkY == pacmanOldY)) {
             if (ghostEatingMode) {
                 resetGhostPos("Pink");
+                System.out.println("eat");
+                score += 10;
+                ghostsEaten += 1;
             } else if (!safeMode) {
                 sendGhostsHome();
             }
@@ -390,6 +396,9 @@ public class GameModel {
         if ((redX == pacmanX && redY == pacmanY) || (redX == pacmanOldX && redY == pacmanOldY)) {
             if (ghostEatingMode) {
                 resetGhostPos("Red");
+                System.out.println("eat");
+                score += 10;
+                ghostsEaten += 1;
             } else if (!safeMode) {
                 sendGhostsHome();
             }
@@ -465,6 +474,9 @@ public class GameModel {
         if ((yellowX == pacmanX && yellowY == pacmanY) || (yellowX == pacmanOldX && yellowY == pacmanOldY)) {
             if (ghostEatingMode) {
                 resetGhostPos("Yellow");
+                System.out.println("eat");
+                score += 10;
+                ghostsEaten += 1;
             } else if (!safeMode) {
                 sendGhostsHome();
             }
@@ -661,9 +673,6 @@ public class GameModel {
         int originalY = 0;
         int currX =  0;
         int currY = 0;
-        System.out.println("eat");
-        score += 10;
-        ghostsEaten += 1;
         if (GameControl.getLevel().equals("Easy")) {
             switch(ghost) {
                 case "Blue":
