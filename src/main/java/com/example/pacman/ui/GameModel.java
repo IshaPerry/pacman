@@ -274,7 +274,7 @@ public class GameModel {
         }
 //        System.out.printf("BLUE X=%d, Y=%d \n", blueX, blueY);
 //        System.out.println("Blue Direction: " + GameModel.getBlueCurrDir());
-        System.out.println("PACMAN X=" + pacmanX + " Y=" + pacmanY);
+//        System.out.println("PACMAN X=" + pacmanX + " Y=" + pacmanY);
     }
 
     /**
@@ -359,7 +359,7 @@ public class GameModel {
         }
         if (newPos == 'W' || newPos == 'G') {
             newPos = currPos;
-            System.out.println("Hit a wall");
+//            System.out.println("Hit a wall");
             pinkOldDir = pinkCurrDir;
             Direction tempDir = randomDirection(randomDir.nextInt(4), "Pink");
             if (pinkOldDir != tempDir) {
@@ -638,10 +638,6 @@ public class GameModel {
     }
 
     public static void sendGhostsHome() {
-        if (ghostEatingMode) {
-            score += 10;
-            ghostsEaten += 1;
-        }
         GameControl.setGameTimer(0);
         resetGhostPos("Blue");
         resetGhostPos("Pink");
@@ -665,6 +661,9 @@ public class GameModel {
         int originalY = 0;
         int currX =  0;
         int currY = 0;
+        System.out.println("eat");
+        score += 10;
+        ghostsEaten += 1;
         if (GameControl.getLevel().equals("Easy")) {
             switch(ghost) {
                 case "Blue":
