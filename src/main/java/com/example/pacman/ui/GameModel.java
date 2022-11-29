@@ -254,6 +254,9 @@ public class GameModel {
                 score += 10;
                 ghostsEaten += 1;
                 resetGhostPos("Blue");
+                System.out.println("eat");
+                score += 10;
+                ghostsEaten += 1;
             } else if (!safeMode) {
                 sendGhostsHome();
             }
@@ -351,6 +354,9 @@ public class GameModel {
                 score += 10;
                 ghostsEaten += 1;
                 resetGhostPos("Pink");
+                System.out.println("eat");
+                score += 10;
+                ghostsEaten += 1;
             } else if (!safeMode) {
                 sendGhostsHome();
             }
@@ -396,6 +402,9 @@ public class GameModel {
                 score += 10;
                 ghostsEaten += 1;
                 resetGhostPos("Red");
+                System.out.println("eat");
+                score += 10;
+                ghostsEaten += 1;
             } else if (!safeMode) {
                 sendGhostsHome();
             }
@@ -473,6 +482,9 @@ public class GameModel {
                 score += 10;
                 ghostsEaten += 1;
                 resetGhostPos("Yellow");
+                System.out.println("eat");
+                score += 10;
+                ghostsEaten += 1;
             } else if (!safeMode) {
                 sendGhostsHome();
             }
