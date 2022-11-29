@@ -2,7 +2,6 @@ package com.example.pacman.ui;
 import javafx.fxml.FXMLLoader;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.*;
 
@@ -42,7 +41,7 @@ public class GameModel {
 
     private static Integer score;
     private static Integer lives;
-    private static int ghostsEaten;
+    private static int ghostsEaten = 0;
 
     private static String pacmanColor;
     private static char[][] maze;
@@ -575,12 +574,12 @@ public class GameModel {
         if (gameStatus == GameState.WIN) {
             GameView.removeRemainingPellets();
             GameControl.getTimer().cancel();
-            gameOverControls.changeScene(GameView.getStage(),"Congrats, you won!", lives, score);
+            gameOverControls.changeScene(GameView.getStage(), lives, score, ghostsEaten);
         } else if (gameStatus == GameState.LOSE) {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("gameOverControls.fxml"));
 
             GameControl.getTimer().cancel();
-            gameOverControls.changeScene(GameView.getStage(),"Sorry, you lost!", lives, score);
+            gameOverControls.changeScene(GameView.getStage(), lives, score, ghostsEaten);
             GameView.removeRemainingPellets();
         }
     }
@@ -887,7 +886,7 @@ public class GameModel {
         gameStatus = state;
     }
 
-    public GameState getGameStatus() {
+    public static GameState getGameStatus() {
         return gameStatus;
     }
 
@@ -935,4 +934,6 @@ public class GameModel {
     public static int getGhostsEaten() {
         return ghostsEaten;
     }
+
+
 }
