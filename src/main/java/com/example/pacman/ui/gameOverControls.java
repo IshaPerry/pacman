@@ -69,7 +69,7 @@ public class gameOverControls {
         livesLabel.setFont(Font.font("Ayuthaya", 20));
         livesLabel.setTextFill(Color.BLACK);
         scoreLabel.setTranslateX(305);
-        scoreLabel.setTranslateY(211);
+        scoreLabel.setTranslateY(178);
         scoreLabel.setText(String.valueOf(score));
         scoreLabel.setFont(Font.font("Ayuthaya", 20));
         scoreLabel.setTextFill(Color.BLACK);

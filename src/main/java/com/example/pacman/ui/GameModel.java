@@ -638,12 +638,6 @@ public class GameModel {
     }
 
     public static void sendGhostsHome() {
-
-        if (ghostEatingMode) {
-            System.out.println("eat");
-            score += 10;
-            ghostsEaten += 1;
-        }
         GameControl.setGameTimer(0);
         resetGhostPos("Blue");
         resetGhostPos("Pink");
@@ -667,6 +661,9 @@ public class GameModel {
         int originalY = 0;
         int currX =  0;
         int currY = 0;
+        System.out.println("eat");
+        score += 10;
+        ghostsEaten += 1;
         if (GameControl.getLevel().equals("Easy")) {
             switch(ghost) {
                 case "Blue":
