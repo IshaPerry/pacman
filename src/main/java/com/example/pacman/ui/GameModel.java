@@ -251,6 +251,8 @@ public class GameModel {
         char currPos = maze[blueY][blueX];
         if ((blueX == pacmanX && blueY == pacmanY) || (blueX == pacmanOldX && blueY == pacmanOldY)) {
             if (ghostEatingMode) {
+                score += 10;
+                ghostsEaten += 1;
                 resetGhostPos("Blue");
             } else if (!safeMode) {
                 sendGhostsHome();
@@ -346,6 +348,8 @@ public class GameModel {
 
         if ((pinkX == pacmanX && pinkY == pacmanY) || (pinkX == pacmanOldX && pinkY == pacmanOldY)) {
             if (ghostEatingMode) {
+                score += 10;
+                ghostsEaten += 1;
                 resetGhostPos("Pink");
             } else if (!safeMode) {
                 sendGhostsHome();
@@ -389,6 +393,8 @@ public class GameModel {
         char newPos = maze[redY + redDy][redX + redDx];
         if ((redX == pacmanX && redY == pacmanY) || (redX == pacmanOldX && redY == pacmanOldY)) {
             if (ghostEatingMode) {
+                score += 10;
+                ghostsEaten += 1;
                 resetGhostPos("Red");
             } else if (!safeMode) {
                 sendGhostsHome();
@@ -464,6 +470,8 @@ public class GameModel {
 
         if ((yellowX == pacmanX && yellowY == pacmanY) || (yellowX == pacmanOldX && yellowY == pacmanOldY)) {
             if (ghostEatingMode) {
+                score += 10;
+                ghostsEaten += 1;
                 resetGhostPos("Yellow");
             } else if (!safeMode) {
                 sendGhostsHome();
@@ -661,9 +669,6 @@ public class GameModel {
         int originalY = 0;
         int currX =  0;
         int currY = 0;
-        System.out.println("eat");
-        score += 10;
-        ghostsEaten += 1;
         if (GameControl.getLevel().equals("Easy")) {
             switch(ghost) {
                 case "Blue":
