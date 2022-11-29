@@ -73,7 +73,7 @@ public class configurationControls {
         if (events == 0) {
             if (isSetUpValid()) {
                 userLabel2.setText(name + " is ready to play level " + level + " with character: " + pacmanColor + "!");
-                userLabel2.setStyle("-fx-font-size: 10;");
+                userLabel2.setStyle("-fx-font-size: 8;");
                 setLevelParams(level);
                 submitButton.setText("Continue");
                 events += 1;
